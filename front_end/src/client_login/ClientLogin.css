@@ -1,0 +1,97 @@
+body {
+     background-color: #f3f3f3;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     font-family: 'Poppins', 'sans-serif';
+}
+
+.login-card {
+     width: 50rem;
+     height: 27rem;
+     display: flex;
+     border-radius: 5px;
+     box-shadow: 0px 2px 4px 4px rgba(0, 0, 0, 0.25);
+} 
+
+.left-section, .right-section {
+     width: 50%;
+     padding: 3.5rem 2rem;
+
+}
+
+.section-wrapper {
+     height: 19rem;
+     display: flex;
+     flex-direction: column;
+     justify-content: space-between;
+}
+
+.left-section {
+     background-color: #fffdfd;
+     border-bottom-left-radius: 5px;
+     border-top-left-radius: 5px;
+}
+
+.right-section {
+     background: #D0112B;
+     color: #fff;
+     text-align: center;
+     border-top-right-radius: 5px;
+     border-bottom-right-radius: 5px;
+}
+
+.login-h1 {
+     font-size: 3rem;
+}
+
+.input-labels {
+     font-size: 20px;
+}
+
+.input-text {
+     padding:5px;
+     font-size: 17px;
+}
+
+.button-login, .button-register {
+     padding: 10px;
+     width: 12rem;
+     border: none;
+     border-radius: 5px;
+     font-size: 17px;
+     align-self: center;
+}
+
+.button-login {
+     background-color: #98FE69;
+     color: #fff;
+}
+
+.button-register {
+     background-color: #fff;
+     color: #D0112B; 
+     
+}
+
+.input-grp {
+   height: 8.5rem;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+} 
+
+.form-control {
+     display: flex;
+     flex-direction: column;
+}
+
+.login-logo {
+     width: 350px;
+     height: auto;
+}
+
+.p-forgot-pw {
+     font-size: 12px;
+     text-align: center;
+}

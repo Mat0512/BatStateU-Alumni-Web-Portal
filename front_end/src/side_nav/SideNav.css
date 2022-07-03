@@ -1,0 +1,30 @@
+.side-nav {
+     width: 14rem;
+     height: 100%; /*set this in 100% when if this nav is in the grid layout */
+     padding-top: 4rem;
+     background:#f3f3f3;
+     display: flex;
+     flex-direction: column;
+     align-items: flex-start;
+     font-family: 'Poppins', 'sans-serif';
+     font-size: 14px;
+     position: fixed;
+     top: 0;
+}
+
+.side-nav-links {
+     padding: .5rem 1rem;
+     display: flex;
+     align-items: center;
+}
+
+.icons {
+     width: 1.25rem;
+     object-fit: cover;
+}
+
+.links {
+     text-decoration: none;
+     color: #424141;
+     margin-left: .5rem;
+}

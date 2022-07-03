@@ -1,0 +1,14 @@
+.status-wrapper {
+     width: 100%;
+     display: flex;
+     gap: 1rem;       
+}
+
+.status {
+     display: flex;
+     gap: 5px;
+}
+
+.status-logo {
+     height: 12px;
+}
