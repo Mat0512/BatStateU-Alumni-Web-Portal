@@ -1,4 +1,4 @@
-import "./Post.css";
+import "./Comment.css";
 import PostHeader from "../post_header/PostHeader";
 import PostStatus from "../post_status/PostStatus";
 
@@ -10,9 +10,9 @@ const Comments = ({ comment }) => {
     });
 
     return (
-        <div>
+        <div className="comment">
             <PostHeader username={comment.author} datePosted={"MM/DD/YYYY"} />
-            <div>{comment.text}</div>
+            <div className="comment-text">{comment.text}</div>
             <PostStatus
                 upvoteCount={comment.upvoteCount}
                 replyCount={comment.replyCount}

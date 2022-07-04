@@ -1,13 +1,14 @@
-import "./PostStatus.css";
+import "./PostHeader.css";
+import fakeAvatar from "../../assets/avatar_placeholder.svg";
 
 const PostHeader = (props) => {
     return (
-        <div>
-            <div className="user-profile">
-                <img className="user-avatar" src="" alt="avatar" />
-                <p className="username">{props.username}</p>
-            </div>
-            <p className="date">{props.datePosted || "no date"}</p>
+        <div className="post-header">
+            <img className="user-avatar" src={fakeAvatar} alt="avatar" />
+            <p>
+                <span className="username">{props.username}</span> &#183;{" "}
+                {props.datePosted || "no date"}
+            </p>
         </div>
     );
 };

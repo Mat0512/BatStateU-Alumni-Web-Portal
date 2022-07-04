@@ -1,7 +1,7 @@
-import "./Discussion.css";
+import "./Post.css";
 import PostHeader from "../post_header/PostHeader";
 import PostStatus from "../post_status/PostStatus";
-import Comments from "./Comments";
+import Comments from "../comment/Comments";
 
 const CommentInput = () => {
     return (
@@ -17,14 +17,18 @@ const CommentInput = () => {
 };
 
 const Post = ({ post }) => {
+    console.log(post);
+
     return (
         <div className="post-card">
-            <PostHeader username={post.author} datePosted={""} />
-            <div>{post.text}</div>
-            <PostStatus
-                upvoteCount={post.upvoteCount}
-                replyCount={post.replyCount}
-            />
+            <div className="post">
+                <PostHeader username={post.author} datePosted={""} />
+                <div className="post-body">{post.body}</div>
+                <PostStatus
+                    upvoteCount={post.upvoteCount}
+                    replyCount={post.replyCount}
+                />
+            </div>
 
             <CommentInput />
 
