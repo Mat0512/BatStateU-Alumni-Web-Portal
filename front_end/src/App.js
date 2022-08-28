@@ -9,7 +9,7 @@ import Discussion from "./forum/post/Post.js";
 import Profile from "./profile/Profile.js";
 import Post from "./forum/post/Post";
 import post from "./dummy_data/postData";
-
+import { Routes, Route } from "react-router-dom";
 function App() {
     return (
         <div className="app-wrapper">
@@ -17,7 +17,17 @@ function App() {
             <SideNav />
             <div className="content-wrapper">
                 <Main>
-                    <Post post={post[0]} />
+                    <Routes>
+                        <Route
+                            path="/announcements"
+                            element={<Announcements />}
+                        />
+                        <Route path="/profile" element={<Profile />} />
+                        <Route
+                            path="/forum"
+                            element={<Post post={post[0]} />}
+                        />
+                    </Routes>
                 </Main>
                 <Footer />
             </div>

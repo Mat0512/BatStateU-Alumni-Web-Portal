@@ -3,6 +3,7 @@ import iconAnnouncement from "../assets/icons/sidenav_announcement.svg";
 import iconSurvey from "../assets/icons/sidenav_survey.svg";
 import iconProfile from "../assets/icons/sidenav_profile.svg";
 import iconForum from "../assets/icons/sidenav_forum.svg";
+import { Link } from "react-router-dom";
 
 const SideNav = () => {
     return (
@@ -10,27 +11,27 @@ const SideNav = () => {
             <ul>
                 <li className="side-nav-links">
                     <img className="icons" src={iconAnnouncement} alt="" />
-                    <a className="links" href="#">
-                        Announcement
-                    </a>
+                    <Link to="/announcements    " className="links">
+                        Announcements
+                    </Link>
                 </li>
                 <li className="side-nav-links">
                     <img className="icons" src={iconSurvey} alt="" />
-                    <a className="links" href="#">
-                        Surveys
-                    </a>
+                    <Link to="/survey" className="links">
+                        Survey
+                    </Link>
                 </li>
                 <li className="side-nav-links">
                     <img className="icons" src={iconProfile} alt="" />
-                    <a className="links" href="#">
-                        Account
-                    </a>
+                    <Link to="/profile" className="links">
+                        Profile
+                    </Link>
                 </li>
                 <li className="side-nav-links">
                     <img className="icons" src={iconForum} alt="" />
-                    <a className="links" href="#">
+                    <Link to="/forum" className="links">
                         Forum
-                    </a>
+                    </Link>
                 </li>
             </ul>
         </nav>
