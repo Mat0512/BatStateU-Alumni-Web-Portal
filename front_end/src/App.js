@@ -1,4 +1,3 @@
-import "./App.css";
 import Nav from "./nav/Nav.js";
 import SideNav from "./side_nav/SideNav.js";
 import Main from "./main/Main.js";
@@ -10,27 +9,28 @@ import Profile from "./profile/Profile.js";
 import Post from "./forum/post/Post";
 import post from "./dummy_data/postData";
 import { Routes, Route } from "react-router-dom";
+import AlumniLayout from "./layout/AlumniLayout.js";
+
 function App() {
     return (
-        <div className="app-wrapper">
-            <Nav />
+        <div className="w-full h-screen">
+            {/* <Nav />
             <SideNav />
-            <div className="content-wrapper">
-                <Main>
-                    <Routes>
-                        <Route
-                            path="/announcements"
-                            element={<Announcements />}
-                        />
-                        <Route path="/profile" element={<Profile />} />
-                        <Route
-                            path="/forum"
-                            element={<Post post={post[0]} />}
-                        />
-                    </Routes>
-                </Main>
-                <Footer />
-            </div>
+            <Main>
+                <Routes>
+                    <Route path="/announcements" element={<Announcements />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/forum" element={<Post post={post[0]} />} />
+                </Routes>
+            </Main>
+            <Footer /> */}
+            <AlumniLayout>
+                <Routes>
+                    <Route path="/announcements" element={<Announcements />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/forum" element={<Post post={post[0]} />} />
+                </Routes>
+            </AlumniLayout>
         </div>
     );
 }
