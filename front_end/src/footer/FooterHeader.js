@@ -9,10 +9,10 @@ const FooterHeader = () => {
         <div className="w-full py-8 flex flex-wrap justify-between items-center">
             <img className="h-16" src={footerLogo} alt="logo" />
             <div className="flex gap-3.5">
-                <img className="h-14" src={linkedinLogo} alt="Linked In logo" />
-                <img className="h-14" src={fbLogo} alt="Facebook logo" />
-                <img className="h-14" src={twitterLogo} alt="Twitter Logo" />
-                <img className="h-14" src={ytLogo} alt="Youtube Logo" />
+                <img className="h-12" src={linkedinLogo} alt="Linked In logo" />
+                <img className="h-12" src={fbLogo} alt="Facebook logo" />
+                <img className="h-12" src={twitterLogo} alt="Twitter Logo" />
+                <img className="h-12" src={ytLogo} alt="Youtube Logo" />
             </div>
         </div>
     );

@@ -11,7 +11,7 @@ const Footer = () => {
             {/*try to change the width of each section to 33.33% and center the content*/}
             <div className="footer-container">
                 <FooterHeader />
-                <div className="section-wrapper">
+                <div className="section-wrapper text-sm">
                     <ContactSection />
                     <MissionSection />
                     <ProjectSection />

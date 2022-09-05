@@ -24,7 +24,7 @@ const AnnouncementCard = (props) => {
 
 const Announcements = () => {
     return (
-        <div>
+        <>
             <SearchBar />
             <ul className="announcement-list">
                 <li>
@@ -40,7 +40,7 @@ const Announcements = () => {
                     <AnnouncementCard />
                 </li>
             </ul>
-        </div>
+        </>
     );
 };
 
