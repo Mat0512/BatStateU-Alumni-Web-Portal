@@ -1,10 +1,9 @@
-//not decided if this component will be a stateful or not
-import "./SearchBar.css";
+//controlled component of announcement component
 
 const SearchBar = () => {
     return (
         <input
-            className="search-bar"
+            className="ml-4 w-full max-w-lg py-2 px-3 font-poppins text-sm text-grey-400 border border-grey-200 rounded"
             type="input"
             placeholder="Search announcement here"
         />

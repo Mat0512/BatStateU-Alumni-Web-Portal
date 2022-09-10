@@ -1,6 +1,7 @@
-const LoginForm = () => {
+const LoginForm = ({ admin }) => {
+    //import a 2 api for alumni and admin login and provide admin api login if admin props are present or do the otherwise
     return (
-        <form className="bg-FFFDFD w-1/2 px-6 py-6 font-poppins flex flex-col justify-center gap-5">
+        <form className="bg-white w-1/2 px-6 py-6 font-poppins flex flex-col justify-center gap-5">
             <h1 className="text-4xl">Log In</h1>
             <div className="flex flex-col gap-3">
                 <div className="flex flex-col gap-1">

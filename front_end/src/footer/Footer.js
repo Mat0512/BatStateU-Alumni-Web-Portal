@@ -1,4 +1,3 @@
-import "./Footer.css";
 import FooterHeader from "./FooterHeader";
 import ContactSection from "./ContactSection";
 import MissionSection from "./MissionSection";
@@ -7,11 +6,11 @@ import Copyright from "./Copyright";
 
 const Footer = () => {
     return (
-        <footer className="ml-56">
+        <footer className="ml-56 bg-red">
             {/*try to change the width of each section to 33.33% and center the content*/}
-            <div className="footer-container">
+            <div className="max-w-screen-xl mx-auto text-white pt-4 pb-8 px-16">
                 <FooterHeader />
-                <div className="section-wrapper text-sm">
+                <div className="flex flex-wrap gap-16">
                     <ContactSection />
                     <MissionSection />
                     <ProjectSection />

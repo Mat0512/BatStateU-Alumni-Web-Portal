@@ -1,8 +1,3 @@
-import "./SideNav.css";
-// import iconAnnouncement from "../assets/icons/sidenav_announcement.svg";
-// import iconSurvey from "../assets/icons/sidenav_survey.svg";
-// import iconProfile from "../assets/icons/sidenav_profile.svg";
-// import iconForum from "../assets/icons/sidenav_forum.svg";
 import { Link } from "react-router-dom";
 
 const SideNav = ({ links, admin }) => {
@@ -11,7 +6,7 @@ const SideNav = ({ links, admin }) => {
     const navLinks = links.map((link, i) => {
         let parentLink = admin ? "admin" : "alumni";
         return (
-            <li key={link} className="side-nav-links">
+            <li key={link} className="px-4 py-2 flex items-center">
                 <Link
                     to={`/${parentLink}/${i === 0 ? "" : link.toLowerCase()}`}
                     className="links"
@@ -23,7 +18,7 @@ const SideNav = ({ links, admin }) => {
     });
 
     return (
-        <nav className="side-nav">
+        <nav className="fixed top-0 w-52 h-full pt-16 bg-grey-200 flex flex-col gap-2 font-poppins sm:hidden lg:block">
             <ul>{navLinks}</ul>
         </nav>
     );

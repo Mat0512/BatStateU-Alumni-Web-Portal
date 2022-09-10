@@ -1,0 +1,82 @@
+{
+    "announcements": [
+        {
+            "id": 1,
+            "title": "Welcome to Batstateu Alumni Poral",
+            "imgRef": "../assets/placeholder-img.jpg"
+        },
+        {
+            "id": 2,
+            "title": "Hello world",
+            "imgRef": "../assets/placeholder-img.jpg"
+        },
+        {
+            "id": 3,
+            "title": "Wala namaisip na title",
+            "imgRef": "../assets/placeholder-img.jpg"
+        }
+    ],
+    "alumni": [
+        {
+            "id": "1",
+            "name": {
+                "first": "mathew",
+                "last": "mendoza"
+            },
+
+            "email": "notmyemail@email.com",
+            "phone": "09909099",
+
+            "address": "385 Sampaga Balayan Batangas",
+            "alumniInfo": {
+                "fullName": "Mathew L. Mendoza",
+                "srCode": "18-57307",
+                "degree": "Information Technology",
+                "batch": "202?",
+                "schoolEmail": "mathew.mendoza@g.batstate-u.edu.ph"
+            },
+            "username": "matmat",
+            "password": "1234567"
+        },
+        {
+            "id": "2",
+            "name": {
+                "first": "allysa kate",
+                "last": "maranan"
+            },
+
+            "email": "allysa@email.com",
+            "phone": "111111111",
+            "address": "alitagtag batangas",
+            "alumniInfo": {
+                "fullName": "Allysa Kate Maranan",
+                "srCode": "19-?????",
+                "degree": "Information Technology",
+                "batch": "2022",
+                "schoolEmail": "????.????@g.batstate-u.edu.ph"
+            },
+            "username": "ally",
+            "password": "1111111"
+        },
+        {
+            "id": "3",
+            "name": {
+                "first": "joseph daniel",
+                "last": "lansang"
+            },
+
+            "email": "joseph@email.com",
+            "phone": "222222222",
+            "address": "mataas na bayan batangas",
+            "alumniInfo": {
+                "fullName": "Joseph Daniel Lansang",
+                "srCode": "19-?????",
+                "degree": "Information Technology",
+                "batch": "2022",
+                "schoolEmail": "????.????@g.batstate-u.edu.ph"
+            },
+            "username": "jay",
+            "password": "2222222"
+        }
+    ]
+}
