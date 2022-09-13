@@ -30,6 +30,6 @@ const alumniSchema = new Schema({
     },
 });
 
-const Alumni = mongoose.Model("Alumni", alumniSchema);
+const Alumni = mongoose.model("Alumni", alumniSchema);
 
 module.exports = Alumni;

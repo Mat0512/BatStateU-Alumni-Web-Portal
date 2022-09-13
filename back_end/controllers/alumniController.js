@@ -1,19 +1,21 @@
 const bcrypt = require("bcrypt");
 const Alumni = require("../models/Alumni");
 const saltRounds = 10;
+const asyncHandler = require("express-async-handler");
 
 const reqBodyValidator = (keyArray, requestBody, res) => {
     keyArray.forEach((key) => {
         if (!(key in requestBody)) {
             console.log("Incomplete keys");
-            res.status(400).json({
-                message: "Incomplete Inputs",
-            });
+            res.statusCode(400);
+            throw new Error(
+                `Incomplete required keys in request body. Key: ${key}`
+            );
         }
     });
 };
 
-const createAlumni = async (req, res, next) => {
+const createAlumni = asyncHandler(async (req, res, next) => {
     try {
         const newAlumni = {};
         const requiredKeys = [
@@ -41,7 +43,7 @@ const createAlumni = async (req, res, next) => {
 
         const foundUser = await Alumni.findOne(props.body.username);
         if (foundUser) {
-            res.status(409).json({
+            res.statusCode(409).json({
                 message: "username is taken",
             });
         }
@@ -71,11 +73,11 @@ const createAlumni = async (req, res, next) => {
 
         res.status(200).json({ message: "account created" });
     } catch (err) {
-        next(err);
+        throw new Error(err.message);
     }
-};
+});
 
-const authenticateAlumni = async (req, res, next) => {
+const authenticateAlumni = asyncHandler(async (req, res, next) => {
     try {
         const requiredKeys = [username, password];
         reqBodyValidator(requiredKeys, req.body);
@@ -83,9 +85,8 @@ const authenticateAlumni = async (req, res, next) => {
         const foundUser = await Alumni.findOne({ username: req.body.username });
 
         if (!foundUser) {
-            res.status(400).json({
-                message: "user not found",
-            });
+            res.statusCode(400);
+            throw new Error("user not found at authenticateAlumni function");
         }
 
         const matchedPass = bcrypt.compare(
@@ -93,18 +94,17 @@ const authenticateAlumni = async (req, res, next) => {
             matchedUser.password
         );
         if (!matchedPass) {
-            res.status(400).json({
-                message: "wrong password",
-            });
+            res.statusCode(400);
+            throw new Error("Wrong Password");
         }
 
         res.status(200).json({
             username: foundUser.username,
         });
     } catch (err) {
-        next(err);
+        throw new Error(err.message);
     }
-};
+});
 
 module.exports = {
     createAlumni,

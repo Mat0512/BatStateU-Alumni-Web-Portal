@@ -8,13 +8,19 @@
 const express = require("express");
 const app = express();
 const connectMongoDb = require("./configs/databaseConnection");
-
+const errorHandler = require("./middleware/errorHandler");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 4000;
 
-app.use("/auth/alumni", (req, res) => {
+app.use(errorHandler);
+app.get("/", (req, res) => {
     res.send("hello world");
+});
+app.use("/auth", require("./routes/auth"));
+
+app.use("/*", (req, res) => {
+    res.status(404).send({ message: "endpoint not found" });
 });
 
 connectMongoDb();
