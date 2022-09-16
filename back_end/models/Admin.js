@@ -1,5 +1,5 @@
-const express = require("express");
-const { Schema } = express;
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const adminSchema = new Schema({
     name: {
@@ -10,7 +10,7 @@ const adminSchema = new Schema({
     password: String,
     gender: String,
     avatar: Buffer,
-    assignedCollege: String,
+    role: String,
     contact: {
         phone: String,
         cellphone: String,
@@ -24,3 +24,7 @@ const adminSchema = new Schema({
         country: String,
     },
 });
+
+const Admin = mongoose.model("Admin", adminSchema);
+
+module.exports = Admin;

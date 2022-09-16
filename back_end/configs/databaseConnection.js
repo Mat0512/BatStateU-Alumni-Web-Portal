@@ -13,7 +13,7 @@ const connectMongoDB = asyncHandler(async () => {
         //     })
         //     .then(() => console.log("database connected!"));
     } catch (err) {
-        throw new Error(err);
+        throw new Error(err.stack);
     }
 });
 

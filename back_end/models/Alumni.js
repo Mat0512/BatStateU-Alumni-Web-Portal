@@ -24,7 +24,7 @@ const alumniSchema = new Schema({
     alumniBackground: {
         fullName: String,
         srCode: String,
-        degree: String,
+        program: String,
         batch: Number,
         studentEmail: String,
     },

@@ -2,111 +2,187 @@ const bcrypt = require("bcrypt");
 const Alumni = require("../models/Alumni");
 const saltRounds = 10;
 const asyncHandler = require("express-async-handler");
+const controllersUtilities = require("../utilities/controllersUtilities");
 
-const reqBodyValidator = (keyArray, requestBody, res) => {
-    keyArray.forEach((key) => {
-        if (!(key in requestBody)) {
-            console.log("Incomplete keys");
-            res.statusCode(400);
-            throw new Error(
-                `Incomplete required keys in request body. Key: ${key}`
-            );
-        }
-    });
-};
+const createAlumni = asyncHandler(async (req, res) => {
+    const requiredKeys = [
+        "firstName",
+        "lastName",
+        "username",
+        "password",
+        "avatar",
+        "phone",
+        "cellphone",
+        "houseNumber",
+        "building",
+        "street",
+        "city",
+        "province",
+        "country",
+        "fullName",
+        "srCode",
+        "program",
+        "batch",
+        "studentEmail",
+    ];
 
-const createAlumni = asyncHandler(async (req, res, next) => {
-    try {
-        const newAlumni = {};
-        const requiredKeys = [
-            "firstName",
-            "lastName",
-            "username",
-            "password",
-            "avatar",
-            "phone",
-            "cellphone",
-            "houseNumber",
-            "houseName",
-            "street",
-            "city",
-            "province",
-            "country",
-            "fullName",
-            "srCode",
-            "degree",
-            "batch",
-            "studentEmail",
-        ];
+    let missingProperty = controllersUtilities.findMissingProp(
+        requiredKeys,
+        req.body
+    );
 
-        reqBodyValidator(requiredKeys, req.body);
-
-        const foundUser = await Alumni.findOne(props.body.username);
-        if (foundUser) {
-            res.statusCode(409).json({
-                message: "username is taken",
-            });
-        }
-
-        newAlumni.name.firstname = req.body.firstname;
-        newAlumni.name.lastname = req.body.lastname;
-        newAlumni.username = req.body.username;
-        newAlumni.password = req.body.password;
-        newAlumni.contact.phone = req.body.phone;
-        newAlumni.contact.cellphone = req.body.cellphone;
-        newAlumni.address.houseNumber = req.body.houseNumber;
-        newAlumni.address.buildingName = req.body.buildingName;
-        newAlumni.address.street = req.body.street;
-        newAlumni.address.city = req.body.city;
-        newAlumni.address.province = req.body.province;
-        newAlumni.alumniBackground.fullname = req.bfullname;
-        newAlumni.alumniBackground.srCode = req.body.srCode;
-        newAlumni.alumniBackground.degree = req.body.degree;
-        newAlumni.alumniBackground.batch = req.body.batch;
-        newAlumni.alumniBackground.studentEmail = req.body.studentEmail;
-
-        const hashedPass = bcrypt.hash(req.body.password, saltRounds);
-        newAlumni.password = hashedPass;
-
-        const alumni = await Alumni.create(req.body);
-        console.log("created alumni", alumni);
-
-        res.status(200).json({ message: "account created" });
-    } catch (err) {
-        throw new Error(err.message);
+    // checks if all required data are included
+    if (missingProperty.length !== 0) {
+        res.status(400);
+        throw new Error(
+            `missing property for creating alumni: ${missingProperty}`
+        );
     }
+
+    //checks if username is taken
+    const foundUser = await Alumni.findOne({
+        username: req.body.username,
+    }).exec();
+    if (foundUser) {
+        res.status(409);
+        throw new Error(`Username ${req.body.username} is taken.`);
+    }
+
+    // const newAlumni = {
+    //     ...req.body,
+    // };
+
+    const newAlumni = {
+        name: {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+        },
+        username: req.body.username,
+        password: req.body.password,
+        contact: {
+            phone: req.body.phone,
+            cellphone: req.body.cellphone,
+        },
+        address: {
+            houseNumber: req.body.houseNumber,
+            building: req.body.building,
+            street: req.body.street,
+            city: req.body.city,
+            province: req.body.province,
+            country: req.body.country,
+        },
+        alumniBackground: {
+            fullName: req.body.fullName,
+            srCode: req.body.srCode,
+            program: req.body.program,
+            batch: req.body.batch,
+            studentEmail: req.body.studentEmail,
+        },
+    };
+
+    //hashing password before adding in database
+    const hashedPass = await bcrypt.hash(req.body.password, saltRounds);
+    newAlumni.password = hashedPass;
+
+    const alumni = await Alumni.create(newAlumni).exec();
+    console.log("alumni: ", alumni);
+
+    res.status(200).json({ message: "account created" });
 });
 
-const authenticateAlumni = asyncHandler(async (req, res, next) => {
-    try {
-        const requiredKeys = [username, password];
-        reqBodyValidator(requiredKeys, req.body);
-
-        const foundUser = await Alumni.findOne({ username: req.body.username });
-
-        if (!foundUser) {
-            res.statusCode(400);
-            throw new Error("user not found at authenticateAlumni function");
-        }
-
-        const matchedPass = bcrypt.compare(
-            req.body.password,
-            matchedUser.password
+const authenticateAlumni = asyncHandler(async (req, res) => {
+    const requiredKeys = ["username", "password"];
+    console.log(controllersUtilities.findMissingProp);
+    const missingProp = controllersUtilities.findMissingProp(
+        requiredKeys,
+        req.body
+    );
+    //check if username and password are in request body
+    if (missingProp.length !== 0) {
+        res.status(400);
+        throw new Error(
+            `${missingProp.includes("Username") ? username : ""} ${
+                missingProp.includes("password") ? "and Password" : ""
+            } ${missingProp.length > 1 ? "are" : "is"} required.`
         );
-        if (!matchedPass) {
-            res.statusCode(400);
-            throw new Error("Wrong Password");
-        }
-
-        res.status(200).json({
-            username: foundUser.username,
-        });
-    } catch (err) {
-        throw new Error(err.message);
     }
+    const foundUser = await Alumni.findOne({
+        username: req.body.username,
+    }).exec();
+
+    //check if user exist
+    if (!foundUser) {
+        res.status(400);
+        throw new Error("user does no exist");
+    }
+
+    //decrypting pass and comparing to password input
+    const matchedPass = await bcrypt.compare(
+        req.body.password,
+        foundUser.password
+    );
+
+    if (!matchedPass) {
+        res.status(400);
+        throw new Error("Wrong Password");
+    }
+
+    res.status(200).json({
+        username: foundUser.username,
+        message: "user successfuly logged in",
+        //include avatar when image buffer are coded
+    });
+});
+
+const editAlumni = asyncHandler(async (req, res) => {
+    const requiredKeys = [
+        "alumniId",
+        "houseNumber",
+        "building",
+        "street",
+        "city",
+        "province",
+        "country",
+        "phone",
+        "cellphone",
+    ];
+
+    let missingProperty = controllersUtilities.findMissingProp(
+        requiredKeys,
+        req.body.props
+    );
+
+    // check if required properties are in request body
+    if (missingProperty.length !== 0) {
+        res.status(400);
+        throw new Error(
+            `Missing ${
+                missingProperty.length > 1 ? "properties" : "property"
+            }: ${missingProperty}`
+        );
+    }
+
+    //filtering out the properties with null values
+    // const updateData = { ...req.body };
+    // requiredKeys.forEach((key) => {
+    //     if (query[key] !== "") {
+    //         delete query[key];
+    //     }
+    // });
+
+    // const foundUser = await Alumni.findByIdAndUpdate({_id: alumniId}, updateData).exec()
+    // if (!foundUser) {
+    //     res.status(404);
+    //     throw new Error("User not found and not updated");
+    // }
+
+    res.status(200).json({
+        message: "account Updated",
+    });
 });
 
 module.exports = {
     createAlumni,
     authenticateAlumni,
+    editAlumni,
 };

@@ -1,5 +1,10 @@
+import { useState } from "react";
+//import a 2 api for alumni and admin login and provide admin api login if admin props are present or do the otherwise
+
 const LoginForm = ({ admin }) => {
-    //import a 2 api for alumni and admin login and provide admin api login if admin props are present or do the otherwise
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
     return (
         <form className="bg-white w-1/2 px-6 py-6 font-poppins flex flex-col justify-center gap-5">
             <h1 className="text-4xl">Log In</h1>
