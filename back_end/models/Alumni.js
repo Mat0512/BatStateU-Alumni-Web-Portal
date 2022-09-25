@@ -9,6 +9,10 @@ const alumniSchema = new Schema({
     username: String,
     password: String,
     avatar: Buffer,
+    refreshToken: {
+        type: String,
+        default: null,
+    },
     contact: {
         phone: String,
         cellphone: String,

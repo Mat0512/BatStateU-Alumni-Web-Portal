@@ -5,10 +5,11 @@ const verifyJWT = (req, res, next) => {
     if (!authHeader) return res.status(401);
     // splits the string "bearer [token string] into array ["bearer"m, [token string]] to get the token string"
     const token = authHeader.split(" ")[1];
-    jwt.verify(token, process.env.SECRET_KEY, (err, token) => {
+
+    jwt.verify(token, process.env.ACESS_TOKEN_SECRET, (err, token) => {
         if (err) {
             res.status(403);
-            throw new Error("Unauthorized User");
+            throw new Error("Invalid token");
         }
         console.log("token: ", token);
         req.user = token.username;
@@ -16,4 +17,4 @@ const verifyJWT = (req, res, next) => {
     });
 };
 
-module.exports = verifyJWT;
+module.exports = { verifyJWT };

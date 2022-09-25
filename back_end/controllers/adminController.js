@@ -4,6 +4,7 @@ const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 const controllersUtilities = require("../utilities/controllersUtilities");
+require("dotenv").config();
 
 const createAdmin = asyncHandler(async (req, res) => {
     const requiredKeys = [
@@ -51,6 +52,7 @@ const createAdmin = asyncHandler(async (req, res) => {
         username: req.body.username,
         password: req.body.password,
         role: req.body.role,
+        refreshToken: "",
         contact: {
             phone: req.body.phone,
             cellphone: req.body.cellphone,
@@ -122,18 +124,44 @@ const authenticateAdmin = asyncHandler(async (req, res) => {
         throw new Error("Wrong Password");
     }
 
-    const token = jwt.sign(
-        { user: foundUser.username },
-        process.env.SECRET_KEY,
+    //creates token
+    const accessToken = jwt.sign(
+        { username: foundUser.username },
+        process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: "6h",
+            expiresIn: "30s",
         }
     );
 
+    const refreshToken = jwt.sign(
+        { username: foundUser.username },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+            expiresIn: "1d",
+        }
+    );
+
+    //save refresh token in the databse for preventing refresh token reuse, a kind of exploiting resources with refresh token
+
+    foundUser.refreshToken = refreshToken;
+    const updatedUser = await foundUser.save();
+
+    if (!updatedUser) {
+        throw new Error("mongoose did not update refresh token");
+    }
+
+    console.log(updatedUser);
+
+    res.cookie("jwt", refreshToken, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+    });
+
     res.status(200).json({
         user: foundUser.username,
-        token: token,
-        avatar: "",
+        message: "user successfuly logged in",
+        token: accessToken,
+        //include avatar when image buffer are coded
     });
 });
 

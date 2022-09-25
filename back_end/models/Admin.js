@@ -11,6 +11,10 @@ const adminSchema = new Schema({
     gender: String,
     avatar: Buffer,
     role: String,
+    refreshToken: {
+        type: String,
+        default: null,
+    },
     contact: {
         phone: String,
         cellphone: String,
