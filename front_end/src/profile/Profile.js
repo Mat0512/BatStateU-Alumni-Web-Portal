@@ -31,7 +31,7 @@ const Profile = () => {
             console.log("alumni: ", auth.user);
             console.log("admin: ", authAdmin.user);
             console.log("auth: ", auth);
-            let res = await client.get(`http://localhost:4000${apiEndpoint}`, {
+            let res = await client.get(`${apiEndpoint}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
@@ -42,8 +42,10 @@ const Profile = () => {
                 setAdminUser(res.data);
             }
         };
+
         getUserData();
     }, []);
+
     return (
         <div className="mt-10">
             {/*Modals */}
