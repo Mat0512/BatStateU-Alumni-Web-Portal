@@ -12,6 +12,7 @@ const alumniSchema = new Schema({
     contact: {
         phone: String,
         cellphone: String,
+        email: String,
     },
     address: {
         houseNumber: String,

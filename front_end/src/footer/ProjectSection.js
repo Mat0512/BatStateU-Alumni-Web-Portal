@@ -1,6 +1,6 @@
 const ProjectSection = () => {
     return (
-        <div className="py-4 flex flex-col gap-4 font-poppins">
+        <div className="py-4 flex flex-col gap-4">
             <h1 className="text-2xl">Projects</h1>
             <ul>
                 <li className="p-0">Curriculum Enhancement Program 2022</li>

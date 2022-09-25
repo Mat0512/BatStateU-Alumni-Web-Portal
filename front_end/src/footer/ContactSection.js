@@ -1,6 +1,6 @@
 const ContactSection = () => {
     return (
-        <div className="py-4 flex flex-col gap-4 font-poppins">
+        <div className="py-4 flex flex-col gap-4">
             <h1 className="text-2xl">Contact Us</h1>
             <p>
                 Golden Country Homes,

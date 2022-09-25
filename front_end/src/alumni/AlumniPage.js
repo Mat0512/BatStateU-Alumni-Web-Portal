@@ -1,14 +1,22 @@
 import AlumniLayout from "../layout/AlumniLayout";
 // import Announcements from "../announcements/Announcements";
 // import Profile from "../profile/Profile.js";
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
 
 const AlumniPage = () => {
+    const { auth } = useContext(AuthContext);
+    console.log("auth: ", auth);
     return (
         <>
-            <AlumniLayout>
-                <Outlet />
-            </AlumniLayout>
+            {auth.user ? (
+                <AlumniLayout>
+                    <Outlet />
+                </AlumniLayout>
+            ) : (
+                <Navigate to="/" />
+            )}
         </>
     );
 };

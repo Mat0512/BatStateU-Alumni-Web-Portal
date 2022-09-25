@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const Alumni = require("../models/Alumni");
 const saltRounds = 10;
 const asyncHandler = require("express-async-handler");
+const jwt = require("jsonwebtoken");
 const controllersUtilities = require("../utilities/controllersUtilities");
 
 const createAlumni = asyncHandler(async (req, res) => {
@@ -13,6 +14,7 @@ const createAlumni = asyncHandler(async (req, res) => {
         "avatar",
         "phone",
         "cellphone",
+        "email",
         "houseNumber",
         "building",
         "street",
@@ -48,10 +50,6 @@ const createAlumni = asyncHandler(async (req, res) => {
         throw new Error(`Username ${req.body.username} is taken.`);
     }
 
-    // const newAlumni = {
-    //     ...req.body,
-    // };
-
     const newAlumni = {
         name: {
             firstName: req.body.firstName,
@@ -62,6 +60,7 @@ const createAlumni = asyncHandler(async (req, res) => {
         contact: {
             phone: req.body.phone,
             cellphone: req.body.cellphone,
+            email: req.body.email,
         },
         address: {
             houseNumber: req.body.houseNumber,
@@ -84,10 +83,22 @@ const createAlumni = asyncHandler(async (req, res) => {
     const hashedPass = await bcrypt.hash(req.body.password, saltRounds);
     newAlumni.password = hashedPass;
 
-    const alumni = await Alumni.create(newAlumni).exec();
+    const alumni = await Alumni.create(newAlumni);
     console.log("alumni: ", alumni);
 
-    res.status(200).json({ message: "account created" });
+    const token = jwt.sign(
+        { username: newAlumni.username },
+        process.env.SECRET_KEY,
+        {
+            expiresIn: "6h",
+        }
+    );
+
+    res.status(200).json({
+        username: newAlumni.username,
+        token: token,
+        avatar: "",
+    });
 });
 
 const authenticateAlumni = asyncHandler(async (req, res) => {
@@ -106,6 +117,8 @@ const authenticateAlumni = asyncHandler(async (req, res) => {
             } ${missingProp.length > 1 ? "are" : "is"} required.`
         );
     }
+
+    console.log("username: ", req.body.username);
     const foundUser = await Alumni.findOne({
         username: req.body.username,
     }).exec();
@@ -123,20 +136,31 @@ const authenticateAlumni = asyncHandler(async (req, res) => {
     );
 
     if (!matchedPass) {
-        res.status(400);
+        res.status(401);
         throw new Error("Wrong Password");
     }
 
+    const token = jwt.sign(
+        { username: foundUser.username },
+        process.env.SECRET_KEY,
+        {
+            expiresIn: "2h",
+        }
+    );
+
     res.status(200).json({
-        username: foundUser.username,
+        user: foundUser.username,
         message: "user successfuly logged in",
+        token: token,
         //include avatar when image buffer are coded
     });
 });
 
 const editAlumni = asyncHandler(async (req, res) => {
+    console.log("req body: ", req.body);
+    const updateCopy = { ...req.body };
     const requiredKeys = [
-        "alumniId",
+        "avatar",
         "houseNumber",
         "building",
         "street",
@@ -145,11 +169,12 @@ const editAlumni = asyncHandler(async (req, res) => {
         "country",
         "phone",
         "cellphone",
+        "email",
     ];
 
     let missingProperty = controllersUtilities.findMissingProp(
         requiredKeys,
-        req.body.props
+        req.body
     );
 
     // check if required properties are in request body
@@ -163,21 +188,58 @@ const editAlumni = asyncHandler(async (req, res) => {
     }
 
     //filtering out the properties with null values
-    // const updateData = { ...req.body };
-    // requiredKeys.forEach((key) => {
-    //     if (query[key] !== "") {
-    //         delete query[key];
-    //     }
-    // });
 
-    // const foundUser = await Alumni.findByIdAndUpdate({_id: alumniId}, updateData).exec()
-    // if (!foundUser) {
-    //     res.status(404);
-    //     throw new Error("User not found and not updated");
-    // }
+    console.log("update copy: ", updateCopy);
+
+    const filteredUpdateObj = controllersUtilities.removeEmptyProp(updateCopy);
+    console.log("filter : ", filteredUpdateObj);
+
+    //formatting the objects for $set operator
+    const formattedUpdateQuery =
+        controllersUtilities.formatUpdateData(filteredUpdateObj);
+
+    console.log("formated!!!!!!: ", formattedUpdateQuery);
+    console.log("user: ", req.user);
+
+    // use set operator to update certain property only
+    const foundUser = await Alumni.findOneAndUpdate(
+        { username: req.user },
+        formattedUpdateQuery,
+        { new: true }
+    ).exec();
+
+    console.log(foundUser);
+
+    if (!foundUser) {
+        res.status(404);
+        throw new Error("User not found and not updated");
+    }
 
     res.status(200).json({
         message: "account Updated",
+    });
+});
+
+const getAlumniUser = asyncHandler(async (req, res) => {
+    const { username } = req.params;
+    console.log("username: ", username);
+    const user = await Alumni.findOne({ username: username }).exec();
+
+    if (!user) {
+        res.status(400);
+        throw new Error("User not found.");
+    }
+
+    res.status(200).json({
+        firstname: user.name.firstName,
+        lastname: user.name.lastName,
+        username: user.username,
+        address: user.address,
+        phone: user.contact.phone,
+        cellphone: user.contact.cellphone,
+        email: user.contact.email,
+        batch: user.alumniBackground.batch,
+        program: user.alumniBackground.program,
     });
 });
 
@@ -185,4 +247,5 @@ module.exports = {
     createAlumni,
     authenticateAlumni,
     editAlumni,
+    getAlumniUser,
 };

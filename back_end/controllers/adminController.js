@@ -1,6 +1,7 @@
 const Admin = require("../models/Admin");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 const controllersUtilities = require("../utilities/controllersUtilities");
 
@@ -65,16 +66,29 @@ const createAdmin = asyncHandler(async (req, res) => {
     };
 
     const hashedPass = await bcrypt.hash(req.body.password, saltRounds);
-
     newAdmin.password = hashedPass;
 
     const alumni = await Admin.create(newAdmin);
     console.log("alumni: ", alumni);
 
-    res.status(200).json({ message: "account created" });
+    const token = jwt.sign(
+        { username: newAdmin.username },
+        process.env.SECRET_KEY,
+        {
+            expiresIn: "6h",
+        }
+    );
+
+    res.status(200).json({
+        username: newAdmin.username,
+        token: token,
+        avatar: "",
+    });
 });
 
 const authenticateAdmin = asyncHandler(async (req, res) => {
+    console.log("authenticateAdmin controller: ", req.body);
+
     const requiredKeys = ["username", "password"];
     const missingProp = controllersUtilities.findMissingProp(
         requiredKeys,
@@ -93,7 +107,7 @@ const authenticateAdmin = asyncHandler(async (req, res) => {
 
     //check if user exist
     if (!foundUser) {
-        res.status(400);
+        res.status(404);
         throw new Error("user does no exist");
     }
 
@@ -104,15 +118,104 @@ const authenticateAdmin = asyncHandler(async (req, res) => {
     );
 
     if (!matchedPass) {
-        res.status(400);
+        res.status(401);
         throw new Error("Wrong Password");
     }
 
+    const token = jwt.sign(
+        { user: foundUser.username },
+        process.env.SECRET_KEY,
+        {
+            expiresIn: "6h",
+        }
+    );
+
     res.status(200).json({
-        username: foundUser.username,
-        message: "user successfuly logged in",
-        //include avatar when image buffer are coded
+        user: foundUser.username,
+        token: token,
+        avatar: "",
     });
 });
 
-module.exports = { authenticateAdmin, createAdmin };
+const editAdmin = asyncHandler(async (req, res) => {
+    console.log("req body: ", req.body);
+    const requiredKeys = [
+        "avatar",
+        "houseNumber",
+        "building",
+        "street",
+        "city",
+        "province",
+        "country",
+        "phone",
+        "cellphone",
+        "email",
+    ];
+
+    let missingProperty = controllersUtilities.findMissingProp(
+        requiredKeys,
+        req.body
+    );
+
+    // check if required properties are in request body
+    if (missingProperty.length !== 0) {
+        res.status(400);
+        throw new Error(
+            `Missing ${
+                missingProperty.length > 1 ? "properties" : "property"
+            }: ${missingProperty}`
+        );
+    }
+
+    //filtering out the properties with null values
+    const filteredUpdateObj = controllersUtilities.removeEmptyProp(req.body);
+
+    console.log("updated: ", filteredUpdateObj);
+    console.log("user: ", req.user);
+
+    //formatting the objects for $set operator
+    const formattedUpdateQuery =
+        controllersUtilities.formatUpdateData(filteredUpdateObj);
+
+    console.log("formated!!!!!!: ", formattedUpdateQuery);
+    console.log("user: ", req.user);
+
+    const foundUser = await Admin.findOneAndUpdate(
+        { username: req.user },
+        formattedUpdateQuery,
+        { new: true }
+    ).exec();
+
+    if (!foundUser) {
+        res.status(404);
+        throw new Error("User not found and not updated");
+    }
+
+    res.status(200).json({
+        message: "account Updated",
+    });
+});
+
+const getAdminUser = asyncHandler(async (req, res) => {
+    const { username } = req.params;
+    const user = await Admin.findOne({ username: username }).exec();
+
+    if (!user) {
+        res.status(400);
+        throw new Error("User not found.");
+    }
+
+    res.status(200).json({
+        avatar: user.avatar,
+        firstname: user.name.firstName,
+        lastname: user.name.lastName,
+        username: user.username,
+        role: user.role,
+        address: user.address,
+        phone: user.contact.phone,
+        cellphone: user.contact.cellphone,
+        email: user.contact.email,
+    });
+});
+
+module.exports = { authenticateAdmin, createAdmin, getAdminUser, editAdmin };

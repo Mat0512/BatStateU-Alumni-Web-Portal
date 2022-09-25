@@ -1,6 +1,7 @@
 import Nav from "../nav/Nav";
-import SideNav from "../side_nav/SideNav";
-
+import Sidenav from "../side_nav/SideNav";
+import Main from "../main/Main";
+import { Helmet } from "react-helmet";
 const adminNavLinks = [
     "DashBoard",
     "Survey",
@@ -10,15 +11,18 @@ const adminNavLinks = [
     "Account",
 ];
 
-const AdminLayout = () => {
+const AdminLayout = ({ children }) => {
     return (
         <>
-            <Nav backgroundColor={"bg-grey"} />
-            <SideNav links={adminNavLinks} admin />
+            <Helmet>
+                <title>Admin Portal</title>
+            </Helmet>
+            <Nav backgroundColor={"bg-grey-300"} admin />
+            <Sidenav links={adminNavLinks} admin />
             {/*make this a nav that accepts list of links and img */}
             <Main>{children}</Main>
         </>
     );
 };
 
-export default AdminLayout;
+export { AdminLayout };

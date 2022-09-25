@@ -1,6 +1,6 @@
 const MissionSection = () => {
     return (
-        <div className="py-4 flex flex-col gap-4 font-poppins">
+        <div className="py-4 flex flex-col gap-4">
             <h1 className="text-2xl">Mission</h1>
             <p className="w-72">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla

@@ -6,7 +6,7 @@ const SideNav = ({ links, admin }) => {
     const navLinks = links.map((link, i) => {
         let parentLink = admin ? "admin" : "alumni";
         return (
-            <li key={link} className="px-4 py-2 flex items-center">
+            <li key={link} className="pl-5 pb-1.5 flex items-center">
                 <Link
                     to={`/${parentLink}/${i === 0 ? "" : link.toLowerCase()}`}
                     className="links"
@@ -18,7 +18,7 @@ const SideNav = ({ links, admin }) => {
     });
 
     return (
-        <nav className="fixed top-0 w-52 h-full pt-16 bg-grey-200 flex flex-col gap-2 font-poppins sm:hidden lg:block">
+        <nav className="fixed top-0 w-48 h-full pt-20 bg-grey-100 flex flex-col gap-2 font-poppins sm:hidden lg:block border border-grey-200  shadow-sm">
             <ul>{navLinks}</ul>
         </nav>
     );
