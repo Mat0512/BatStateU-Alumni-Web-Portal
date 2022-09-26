@@ -129,7 +129,7 @@ const authenticateAdmin = asyncHandler(async (req, res) => {
         { username: foundUser.username },
         process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: "30s",
+            expiresIn: "2h",
         }
     );
 
@@ -142,6 +142,9 @@ const authenticateAdmin = asyncHandler(async (req, res) => {
     );
 
     //save refresh token in the databse for preventing refresh token reuse, a kind of exploiting resources with refresh token
+
+    console.log("foundUser: ", foundUser);
+    console.log("refresh token: ", refreshToken);
 
     foundUser.refreshToken = refreshToken;
     const updatedUser = await foundUser.save();

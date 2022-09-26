@@ -147,7 +147,7 @@ const authenticateAlumni = asyncHandler(async (req, res) => {
         { username: foundUser.username },
         process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: "30s",
+            expiresIn: "2h",
         }
     );
 
@@ -161,6 +161,9 @@ const authenticateAlumni = asyncHandler(async (req, res) => {
 
     //save refresh token in the databse for preventing refresh token reuse, a kind of exploiting resources with refresh token
 
+    console.log("refresh token: ", refreshToken);
+    console.log("refresh token prop: ", foundUser.refreshToken);
+
     foundUser.refreshToken = refreshToken;
     const updatedUser = await foundUser.save();
 
@@ -168,7 +171,7 @@ const authenticateAlumni = asyncHandler(async (req, res) => {
         throw new Error("mongoose did not update refresh token");
     }
 
-    console.log(updatedUser);
+    console.log("updated user ", updatedUser);
 
     res.cookie("jwt", refreshToken, {
         httpOnly: true,

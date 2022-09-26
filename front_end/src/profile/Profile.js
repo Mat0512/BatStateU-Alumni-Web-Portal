@@ -66,22 +66,23 @@ const Profile = () => {
                     <EditPassword />
                 )}
             </div>
-            <h1>ACCOUNT PAGE</h1>
             {/*Modals */}
 
-            {/* <div className="bg-grey-100 flex flex-col text-454545 font-notoSans border border-grey-200 shadow-lg md:w-196 md:flex-row">
-                <UserImage /> */}
-            {/* <DataSection
+            <div className="bg-grey-100 flex flex-col text-454545 font-notoSans border border-grey-200 shadow-lg md:w-196 md:flex-row">
+                <UserImage />
+                {/* <DataSection
                         alumniUser={alumniUser}
                         setEditProfile={setEditProfile}
                         setEditPass={setEditPass}
-                    /> */}
-            {/* {alumniUser ? (
-                    <AlumniData alumniUser={alumniUser} />
+                    />  */}
+                {alumniUser ? (
+                    <h1>alumni profile</h1>
                 ) : (
-                    <AdminData adminUser={adminUser} />
-                )} */}
-            {/* </div> */}
+                    // <AlumniData alumniUser={alumniUser} />
+                    <h1>admin profile</h1>
+                    // <AdminData adminUser={adminUser} />
+                )}
+            </div>
         </div>
     );
 };

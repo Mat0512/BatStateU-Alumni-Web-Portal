@@ -3,6 +3,7 @@ const router = express.Router();
 const adminController = require("../controllers/adminController");
 const refreshTokenController = require("../controllers/refreshTokenController");
 const authMiddleware = require("../middleware/authMiddleware");
+const logoutController = require("../controllers/logoutController");
 
 router.post("/auth", adminController.authenticateAdmin);
 router.post("/signup", adminController.createAdmin);
@@ -17,5 +18,6 @@ router.put(
     adminController.editAdmin
 );
 router.get("/refresh", refreshTokenController.handleAdminRefreshToken);
+router.get("/logout", logoutController.handleAdminLogout);
 
 module.exports = router;

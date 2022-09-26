@@ -40,13 +40,6 @@ const handleAlumniRefreshToken = asyncHandler(async (req, res) => {
         }
     );
 
-    //     const newRefreshToken = jwt.sign(
-    //      { username: decoded.username },
-    //      process.env.REFRESH_TOKEN_SECRET,
-    //      {
-    //          expiresIn: "30s",
-    //      })
-
     res.status(200).json({
         username: foundUser.username,
         token: accessToken,
