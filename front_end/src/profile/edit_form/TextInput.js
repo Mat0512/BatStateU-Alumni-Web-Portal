@@ -19,6 +19,7 @@ const TextInput = ({ value, handleChange, label, type }) => {
     }
 
     const handleEditInput = () => {
+        //set the focus always, from edit input click to another edit click
         setReadOnlyInput(!readOnlyInput);
         setInputActive(!inputActive);
         textInputRef.current.focus();

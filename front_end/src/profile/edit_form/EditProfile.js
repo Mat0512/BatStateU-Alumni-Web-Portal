@@ -2,6 +2,7 @@ import { TextInput } from "./TextInput";
 import { useState, useContext } from "react";
 import { client } from "../../api/api";
 import AuthContext from "../../context/AuthContext";
+import AdminAuthContext from "../../context/AdminAuthContext";
 
 const EditProfile = ({ user }) => {
     const [email, setEmail] = useState(user.email);
@@ -14,6 +15,10 @@ const EditProfile = ({ user }) => {
     const [province, setProvince] = useState(user.address.province);
     const [country, setCountry] = useState(user.address.country);
     const { auth } = useContext(AuthContext);
+    const { authAdmin } = useContext(AdminAuthContext);
+
+    const endpoint = `/${auth.user ? "alumni/edit" : "admin/edit"}`;
+    const token = auth.token ? auth.token : authAdmin.token;
 
     const submit = (e) => {
         e.preventDefault();
@@ -34,7 +39,7 @@ const EditProfile = ({ user }) => {
         const postEditData = async () => {
             console.log("api called");
             const res = await client.put(
-                "/alumni/edit",
+                `${endpoint}`,
                 {
                     avatar: "",
                     houseNumber: houseNumber,
@@ -48,7 +53,7 @@ const EditProfile = ({ user }) => {
                     email: email,
                 },
                 {
-                    headers: { Authorization: `Bearer ${auth.token}` },
+                    headers: { Authorization: `Bearer ${token}` },
                 }
             );
             console.log("response: ", res);

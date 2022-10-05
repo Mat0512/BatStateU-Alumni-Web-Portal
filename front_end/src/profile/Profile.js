@@ -2,7 +2,6 @@ import { UserImage } from "./UserImage";
 import { ModalBackground } from "../layout/ModalBackground";
 import { EditProfile } from "./edit_form/EditProfile";
 import { EditPassword } from "./edit_form/EditPassword";
-import { DataSection } from "./DataSection";
 import { AlumniData } from "./AlumniData";
 import { AdminData } from "./AdminData";
 import { useState, useEffect, useContext } from "react";
@@ -21,30 +20,33 @@ const Profile = () => {
     const { auth } = useContext(AuthContext);
     const { authAdmin } = useContext(AdminAuthContext);
 
+    console.log("auth user: ", auth.user);
     const apiEndpoint = auth.user
         ? `/alumni/account/${auth.user}`
         : `/admin/account/${authAdmin.user}`;
     const token = auth.user ? auth.token : authAdmin.token;
+    // console.log("token: ", token);
 
     useEffect(() => {
         const getUserData = async () => {
-            console.log("alumni: ", auth.user);
-            console.log("admin: ", authAdmin.user);
-            console.log("auth: ", auth);
-            let res = await client.get(`${apiEndpoint}`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
+            try {
+                console.log("alumni: ", auth.user);
+                console.log("admin: ", authAdmin.user);
+                console.log("auth: ", auth);
+                let res = await client.get(`${apiEndpoint}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
 
-            console.log("Account Data: ", res.data);
-            if (auth.user) {
-                setAlumniUser(res.data);
-            } else {
-                setAdminUser(res.data);
-            }
+                if (auth.user) {
+                    setAlumniUser(res.data);
+                } else {
+                    setAdminUser(res.data);
+                }
+            } catch (err) {}
         };
 
         getUserData();
-    }, []);
+    }, [editProfile]);
 
     return (
         <div className="mt-10">
@@ -61,27 +63,40 @@ const Profile = () => {
                     }
                 />
                 {editProfile ? (
-                    <EditProfile user={alumniUser} />
+                    <EditProfile user={alumniUser ? alumniUser : adminUser} />
                 ) : (
-                    <EditPassword />
+                    <EditPassword userAdm={auth ? auth : authAdmin} />
                 )}
             </div>
             {/*Modals */}
 
-            <div className="bg-grey-100 flex flex-col text-454545 font-notoSans border border-grey-200 shadow-lg md:w-196 md:flex-row">
+            <div className="bg-grey-100 flex text-454545 font-notoSans border border-grey-200 shadow-lg md:w-196 md:flex-row">
                 <UserImage />
-                {/* <DataSection
-                        alumniUser={alumniUser}
-                        setEditProfile={setEditProfile}
-                        setEditPass={setEditPass}
-                    />  */}
-                {alumniUser ? (
-                    <h1>alumni profile</h1>
-                ) : (
-                    // <AlumniData alumniUser={alumniUser} />
-                    <h1>admin profile</h1>
-                    // <AdminData adminUser={adminUser} />
-                )}
+                <div className="w-full px-7 py-6 flex flex-col justify-center gap-4 ">
+                    {alumniUser ? (
+                        <AlumniData alumniUser={alumniUser} />
+                    ) : adminUser ? (
+                        <AdminData adminUser={adminUser} />
+                    ) : (
+                        // <AdminData alumniUser={adminUser} />
+                        <h1>Loading</h1>
+                    )}
+                    {/*buttons for triggering modals*/}
+                    <div className="self-start flex gap-3">
+                        <button
+                            className="bg-blue py-1.5 px-3 text-white font-poppins rounded text-xs"
+                            onClick={() => setEditPass(true)}
+                        >
+                            Change Password
+                        </button>
+                        <button
+                            className="bg-blue py-1.5 px-3 text-white font-poppins rounded text-xs"
+                            onClick={() => setEditProfile(true)}
+                        >
+                            Edit Profile
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );

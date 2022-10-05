@@ -249,4 +249,9 @@ const getAdminUser = asyncHandler(async (req, res) => {
     });
 });
 
-module.exports = { authenticateAdmin, createAdmin, getAdminUser, editAdmin };
+module.exports = {
+    authenticateAdmin,
+    createAdmin,
+    getAdminUser,
+    editAdmin,
+};

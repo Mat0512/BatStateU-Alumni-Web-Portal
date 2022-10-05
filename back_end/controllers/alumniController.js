@@ -217,8 +217,7 @@ const editAlumni = asyncHandler(async (req, res) => {
         );
     }
 
-    //filtering out the properties with null values
-
+    //filtering out the properties with null values before passing in query formatter
     console.log("update copy: ", updateCopy);
 
     const filteredUpdateObj = controllersUtilities.removeEmptyProp(updateCopy);

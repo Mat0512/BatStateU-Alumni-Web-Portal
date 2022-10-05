@@ -14,6 +14,10 @@ router.get(
 );
 router.put("/edit", authMiddleware.verifyJWT, alumniController.editAlumni);
 router.get("/refresh", refreshTokenController.handleAlumniRefreshToken);
-router.get("/logout", logoutController.handleAlumniLogout);
+router.get(
+    "/logout",
+    authMiddleware.verifyJWT,
+    logoutController.handleAlumniLogout
+);
 
 module.exports = router;

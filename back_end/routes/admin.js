@@ -8,15 +8,11 @@ const logoutController = require("../controllers/logoutController");
 router.post("/auth", adminController.authenticateAdmin);
 router.post("/signup", adminController.createAdmin);
 router.get(
-    "/profile/:username",
+    "/account/:username",
     authMiddleware.verifyJWT,
     adminController.getAdminUser
 );
-router.put(
-    "/profile/edit",
-    authMiddleware.verifyJWT,
-    adminController.editAdmin
-);
+router.put("/edit", authMiddleware.verifyJWT, adminController.editAdmin);
 router.get("/refresh", refreshTokenController.handleAdminRefreshToken);
 router.get("/logout", logoutController.handleAdminLogout);
 

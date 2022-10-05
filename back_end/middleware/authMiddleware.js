@@ -6,7 +6,7 @@ const verifyJWT = (req, res, next) => {
     // splits the string "bearer [token string] into array ["bearer"m, [token string]] to get the token string"
     const token = authHeader.split(" ")[1];
 
-    jwt.verify(token, process.env.ACESS_TOKEN_SECRET, (err, token) => {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, token) => {
         if (err) {
             res.status(403);
             throw new Error("Invalid token");
