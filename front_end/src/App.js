@@ -7,6 +7,7 @@ import { Login } from "./login/Login";
 import { Signup } from "./signup/Signup";
 import { EditProfile } from "./profile/edit_form/EditProfile";
 import { Playgorund } from "./Playground";
+import { PersistLogin } from "./PersistsLogin";
 
 function App() {
     //add a state that indicates either the user is log in or not to protect routes
@@ -21,14 +22,18 @@ function App() {
                     <Route path="*" element={<h1>Not Found</h1>} />
                     <Route path="playground" element={<Playgorund />} />
                 </Route>
-                {/*the authorization of routes are located on AlumniPage and AdminPage component*/}
-                <Route path="alumni" element={<AlumniPage />}>
-                    <Route index element={<Announcements />} />
-                    <Route path="account" element={<Profile />} />
-                    <Route path="edit-profile" element={<EditProfile />} />
+                <Route path="alumni" element={<PersistLogin />}>
+                    {/*the authorization of routes are located on AlumniPage and AdminPage component*/}
+                    <Route element={<AlumniPage />}>
+                        <Route index element={<Announcements />} />
+                        <Route path="account" element={<Profile />} />
+                        <Route path="edit-profile" element={<EditProfile />} />
+                    </Route>
                 </Route>
-                <Route path="admin" element={<AdminPage />}>
-                    <Route index path="account" element={<Profile />} />
+                <Route path="admin" element={<PersistLogin admin={true} />}>
+                    <Route element={<AdminPage />}>
+                        <Route index path="account" element={<Profile />} />
+                    </Route>
                 </Route>
             </Routes>
         </div>

@@ -3,11 +3,11 @@ import { useContext } from "react";
 import AdminAuthContext from "../context/AdminAuthContext";
 
 const useLogoutAdmin = () => {
-    const { setAuth } = useContext(AdminAuthContext);
+    const { setAuthAdmin } = useContext(AdminAuthContext);
     const logout = async () => {
-        setAuth({});
+        setAuthAdmin({});
         try {
-            const res = await client.get(`\alumni\logout`);
+            const res = await client.get(`\admin\logout`);
         } catch (err) {
             console.error(err);
         }

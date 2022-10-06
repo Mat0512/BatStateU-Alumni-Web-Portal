@@ -3,11 +3,14 @@ import { UserData } from "./UserData";
 const AdminData = ({ adminUser }) => {
     const { houseNumber, building, street, city, province } = adminUser.address;
     console.log(adminUser);
+
+    //PASRING ADDRESS DATA IN ADDRESS FORMAT
     const address = `${houseNumber ? houseNumber + ", " : ""}${
         building ? building + ", " : ""
     }${street ? street + ", " : ""}${city ? city + ", " : ""}${
         province ? province : ""
     }`;
+
     return (
         <>
             <div className="text-3xl font-openSans font-bold">

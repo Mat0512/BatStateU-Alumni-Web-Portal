@@ -103,6 +103,8 @@ const createAlumni = asyncHandler(async (req, res) => {
 });
 
 const authenticateAlumni = asyncHandler(async (req, res) => {
+    console.log("authenticating alumni: ", req.body);
+
     const requiredKeys = ["username", "password"];
     console.log(controllersUtilities.findMissingProp);
     const missingProp = controllersUtilities.findMissingProp(

@@ -9,7 +9,7 @@ const AdminPage = () => {
 
     return (
         <>
-            {authAdmin.user ? (
+            {authAdmin.token ? (
                 <AdminLayout>
                     <Outlet />
                 </AdminLayout>

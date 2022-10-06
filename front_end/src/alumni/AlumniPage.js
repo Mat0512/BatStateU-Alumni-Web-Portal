@@ -10,7 +10,7 @@ const AlumniPage = () => {
     console.log("auth: ", auth);
     return (
         <>
-            {auth.user ? (
+            {auth.token ? (
                 <AlumniLayout>
                     <Outlet />
                 </AlumniLayout>

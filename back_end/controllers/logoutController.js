@@ -33,6 +33,8 @@ const handleAdminLogout = asyncHandler(async (req, res) => {
 });
 
 const handleAlumniLogout = asyncHandler(async (req, res) => {
+    console.log("\n \n Handle logout alumni logs");
+
     const cookies = req.cookies;
     if (!cookies) {
         res.sendStatus(204);

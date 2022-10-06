@@ -4,9 +4,10 @@ const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 
 const handleAlumniRefreshToken = asyncHandler(async (req, res) => {
-    //checks if username is taken
     console.log("cookies: ", req.cookies);
     const cookies = req.cookies;
+    console.log("req on refresh token route: ", req.cookies);
+
     if (!cookies?.jwt) {
         res.status(401);
         throw new Error("missing cookies");
@@ -18,8 +19,10 @@ const handleAlumniRefreshToken = asyncHandler(async (req, res) => {
         refreshToken: refreshToken,
     }).exec();
 
+    console.log("found user: ", foundUser);
+
     if (!foundUser) {
-        res.statusCode(403);
+        res.statusCode = 403;
         throw new Error("invalid token");
     }
 
@@ -28,9 +31,12 @@ const handleAlumniRefreshToken = asyncHandler(async (req, res) => {
         process.env.REFRESH_TOKEN_SECRET
     );
     if (!decoded || decoded.username !== foundUser.username) {
+        console.log("!decoded: ", decoded);
         res.statusCode(403);
         throw new Error("invalid token");
     }
+
+    console.log("decoded: ", decoded);
 
     const accessToken = jwt.sign(
         { username: decoded.username },
@@ -50,6 +56,7 @@ const handleAlumniRefreshToken = asyncHandler(async (req, res) => {
 const handleAdminRefreshToken = asyncHandler(async (req, res) => {
     //checks if username is taken
     const cookies = req.cookies;
+    console.log("req on refresh token route: ", req);
     if (!cookies?.jwt) {
         res.status(401);
         throw new Error("missing cookies");

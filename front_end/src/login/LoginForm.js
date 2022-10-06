@@ -23,10 +23,16 @@ const LoginForm = ({ adminLogin }) => {
 
         const postCredentials = async () => {
             try {
-                const res = await client.post(endpoint, {
-                    username: username,
-                    password: password,
-                });
+                const res = await client.post(
+                    endpoint,
+                    {
+                        username: username,
+                        password: password,
+                    },
+                    {
+                        withCredentials: true,
+                    }
+                );
 
                 if (adminLogin) {
                     //Update the context payload to redirect the page
@@ -49,7 +55,7 @@ const LoginForm = ({ adminLogin }) => {
                 } else if (err.response?.status === 401) {
                     alert("Unauthorized");
                 } else {
-                    alert("Login Failed");
+                    alert(`Login Failed ${err}`);
                 }
             }
         };

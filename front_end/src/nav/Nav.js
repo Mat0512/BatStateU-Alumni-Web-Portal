@@ -10,7 +10,7 @@ const Nav = ({ backgroundColor, admin }) => {
     const logoutAdmin = useLogoutAdmin();
 
     const handleLogout = async () => {
-        if (auth.user) {
+        if (auth.token) {
             await logout();
         } else {
             await logoutAdmin();

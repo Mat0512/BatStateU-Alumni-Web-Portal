@@ -19,13 +19,13 @@ const Profile = () => {
     const [editPass, setEditPass] = useState(false);
     const { auth } = useContext(AuthContext);
     const { authAdmin } = useContext(AdminAuthContext);
+    let isUserALumni = auth.user;
 
     console.log("auth user: ", auth.user);
-    const apiEndpoint = auth.user
+    const apiEndpoint = isUserALumni
         ? `/alumni/account/${auth.user}`
         : `/admin/account/${authAdmin.user}`;
-    const token = auth.user ? auth.token : authAdmin.token;
-    // console.log("token: ", token);
+    const token = isUserALumni ? auth.token : authAdmin.token;
 
     useEffect(() => {
         const getUserData = async () => {
@@ -37,7 +37,7 @@ const Profile = () => {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
-                if (auth.user) {
+                if (isUserALumni) {
                     setAlumniUser(res.data);
                 } else {
                     setAdminUser(res.data);
