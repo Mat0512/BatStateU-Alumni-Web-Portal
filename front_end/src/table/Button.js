@@ -4,6 +4,7 @@ const Button = ({ label, color, handleClick }) => {
             className={`w-18 py-1 bg-${
                 color || "blue"
             } text-white text-xs font-poppins rounded`}
+            onClick={handleClick}
         >
             {label || "no name"}
         </button>

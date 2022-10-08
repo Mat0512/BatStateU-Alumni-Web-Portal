@@ -4,16 +4,19 @@ import { Row } from "../table/Row";
 import { Columns } from "../table/Columns";
 import { Button } from "../table/Button";
 import { client } from "../api/api";
+import { ModalHandler } from "../modals/ModalHandler";
 
 //Table that contains added announcement with title,
 
 const AnnouncementPostsTable = () => {
     //value from rowValues state are filtered response as indicated in announcementKeyUsed array
-    const [rowValues, setRowValues] = useState({});
+    const [rowValues, setRowValues] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [displayModal, setDisplayModal] = useState(false);
+
     //the empty string in cols array are for action column which makes the rows and column align
     const cols = ["Title", "Posted By", "Date Added", ""];
-    const announcementKeyUsed = ["_id", "author", "title", "createdAt"];
+    const announcementKeyUsed = ["_id", "title", "author", "createdAt"];
 
     useEffect(() => {
         const fetchAnnouncement = async () => {
@@ -42,16 +45,17 @@ const AnnouncementPostsTable = () => {
     }, []);
 
     // event handler functions action for column buttons
-    const handleEditAnnouncement = (e) => {
-        console.log("edit announcment");
+    const handleEditAnnouncement = (event) => {
+        const announcementId = event.target.parentNode.parentNode.id;
+        setDisplayModal(true);
+        // client.put(`/announcement/edit`, )
     };
 
-    const handleDeleteAnnouncement = (e) => {
-        console.log("delete announcement");
+    const handleDeleteAnnouncement = (event) => {
+        const announcementId = event.target.parentNode.parentNode.id;
+        setDisplayModal(true);
     };
 
-    //actionColumn will be the last column in the table that contains edit and delete buttons,
-    //id will be get on event object and passed as parameter in api calls
     const actionColumn = (
         <div className="flex gap-2 items-center">
             <Button
@@ -66,19 +70,23 @@ const AnnouncementPostsTable = () => {
             ></Button>
         </div>
     );
+    //actionColumn will be the last column in the table that contains edit and delete buttons,
+    //id will be get on event object and passed as parameter in api calls
+
     return (
         <>
+            <ModalHandler
+                displayModal={displayModal}
+                setDisplayModal={setDisplayModal}
+            >
+                <div className="w-16 h-16 bg-red z-50"></div>
+            </ModalHandler>
             {isLoading ? (
                 <p>loading</p>
             ) : (
                 <Table name="Posted Announcement">
                     <Columns columns={cols} />
-                    <Row
-                        data={rowValues}
-                        actionColumn={actionColumn}
-                        columns={cols}
-                        keys={announcementKeyUsed}
-                    />
+                    <Row data={rowValues} actionColumn={actionColumn} />
                 </Table>
             )}
         </>

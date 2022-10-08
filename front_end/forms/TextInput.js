@@ -1,0 +1,3 @@
+const TextInput = () => {};
+
+export { TextInput };
