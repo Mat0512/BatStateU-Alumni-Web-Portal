@@ -21,7 +21,6 @@ const Profile = () => {
     const { authAdmin } = useContext(AdminAuthContext);
     let isUserALumni = auth.user;
 
-    console.log("auth user: ", auth.user);
     const apiEndpoint = isUserALumni
         ? `/alumni/account/${auth.user}`
         : `/admin/account/${authAdmin.user}`;
@@ -30,9 +29,6 @@ const Profile = () => {
     useEffect(() => {
         const getUserData = async () => {
             try {
-                console.log("alumni: ", auth.user);
-                console.log("admin: ", authAdmin.user);
-                console.log("auth: ", auth);
                 let res = await client.get(`${apiEndpoint}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });

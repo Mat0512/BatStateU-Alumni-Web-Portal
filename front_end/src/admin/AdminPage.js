@@ -5,7 +5,6 @@ import { useContext } from "react";
 
 const AdminPage = () => {
     const { authAdmin } = useContext(AdminAuthContext);
-    console.log("Auth admin context: ", authAdmin);
 
     return (
         <>

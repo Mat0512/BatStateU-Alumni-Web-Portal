@@ -8,6 +8,7 @@ import { Signup } from "./signup/Signup";
 import { EditProfile } from "./profile/edit_form/EditProfile";
 import { Playgorund } from "./Playground";
 import { PersistLogin } from "./PersistsLogin";
+import { Post } from "./post/Post";
 
 function App() {
     //add a state that indicates either the user is log in or not to protect routes
@@ -33,6 +34,7 @@ function App() {
                 <Route path="admin" element={<PersistLogin admin={true} />}>
                     <Route element={<AdminPage />}>
                         <Route index path="account" element={<Profile />} />
+                        <Route index path="post" element={<Post />} />
                     </Route>
                 </Route>
             </Routes>
