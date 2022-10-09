@@ -9,7 +9,7 @@ const announcementSchema = new Schema(
             type: String,
             required: true,
         },
-        image: Buffer,
+        image: String,
         body: String,
         author: String,
     },
@@ -19,8 +19,10 @@ const announcementSchema = new Schema(
 //creates a record on activity log after the announcement is created
 announcementSchema.statics.updateAndRecordOnLog = async (
     id,
-    announcemenData
+    announcemenData,
+    image
 ) => {
+    announcemenData.image = image;
     const filteredAnnouncementData =
         controllersUtilities.removeEmptyProp(announcemenData);
     const formattedAnnouncementQuery = controllersUtilities.formatUpdateData(

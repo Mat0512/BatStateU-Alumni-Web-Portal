@@ -6,7 +6,7 @@ const ModalHandler = ({ children, displayModal, setDisplayModal }) => {
             }`}
         >
             <div
-                className={`w-screen h-screen bg-grey-transparent `}
+                className={`w-screen h-screen bg-grey-transparent`}
                 onClick={() => {
                     setDisplayModal(false);
                 }}

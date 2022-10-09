@@ -8,7 +8,7 @@ const alumniSchema = new Schema({
     },
     username: String,
     password: String,
-    avatar: Buffer,
+    avatar: String,
     refreshToken: {
         type: String,
         default: null,

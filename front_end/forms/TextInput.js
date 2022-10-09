@@ -1,3 +1,0 @@
-const TextInput = () => {};
-
-export { TextInput };

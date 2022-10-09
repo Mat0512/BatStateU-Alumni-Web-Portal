@@ -9,7 +9,7 @@ const adminSchema = new Schema({
     username: String,
     password: String,
     gender: String,
-    avatar: Buffer,
+    avatar: String,
     role: String,
     refreshToken: {
         type: String,

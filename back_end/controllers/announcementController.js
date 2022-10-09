@@ -9,12 +9,11 @@ const handlePostAnnouncement = asyncHandler(async (req, res) => {
         throw new Error("Incomplete anouncement parameter");
     }
 
+    announcement.image = req.file.originalname;
+
     const newAnnouncement = await Announcement.createAndRecordOnLog(
         announcement
     );
-    // const newAnnouncement = await Announcement.create({
-    //     ...announcement,
-    // });
 
     if (!newAnnouncement) {
         res.sendStatus(500);
@@ -28,6 +27,7 @@ const handleEditAnnouncement = asyncHandler(async (req, res) => {
         res.statusCode(400);
         throw new Error("ID is missing.");
     }
+
     const announcement = req.body;
     console.log("announcement data: ", announcement);
     if (
@@ -42,7 +42,8 @@ const handleEditAnnouncement = asyncHandler(async (req, res) => {
 
     const updatedAnnouncement = await Announcement.updateAndRecordOnLog(
         req.params.id,
-        req.body
+        req.body,
+        req.file.originalname
     );
 
     if (!updatedAnnouncement) {
