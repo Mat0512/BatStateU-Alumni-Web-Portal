@@ -6,6 +6,8 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { AuthContextProvider } from "./context/AuthContext";
 import { AdminAuthContextProvider } from "./context/AdminAuthContext";
+import { AnnouncementContextProvider } from "./context/AnnouncementInputContext";
+import { DeleteDataContextProvider } from "./context/DeleteDataContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -13,7 +15,11 @@ root.render(
         <BrowserRouter>
             <AdminAuthContextProvider>
                 <AuthContextProvider>
-                    <App />
+                    <AnnouncementContextProvider>
+                        <DeleteDataContextProvider>
+                            <App />
+                        </DeleteDataContextProvider>
+                    </AnnouncementContextProvider>
                 </AuthContextProvider>
             </AdminAuthContextProvider>
         </BrowserRouter>

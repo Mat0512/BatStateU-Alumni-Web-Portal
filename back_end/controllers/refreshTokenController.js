@@ -56,7 +56,6 @@ const handleAlumniRefreshToken = asyncHandler(async (req, res) => {
 const handleAdminRefreshToken = asyncHandler(async (req, res) => {
     //checks if username is taken
     const cookies = req.cookies;
-    console.log("req on refresh token route: ", req);
     if (!cookies?.jwt) {
         res.status(401);
         throw new Error("missing cookies");

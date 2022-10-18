@@ -30,6 +30,7 @@ app.get("/", (req, res) => {
 app.use("/alumni", require("./routes/alumni"));
 app.use("/admin", require("./routes/admin"));
 app.use("/announcement", require("./routes/announcement"));
+app.use("/survey", require("./routes/survey"));
 
 app.use("*", (req, res) => {
     res.status(404).send({ message: "endpoint not found" });

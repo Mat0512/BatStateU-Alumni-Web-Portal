@@ -1,19 +1,21 @@
 const Announcement = require("../models/Announcement");
 const asyncHandler = require("express-async-handler");
+const path = require("path");
 const { body } = require("express-validator/check");
 
 const handlePostAnnouncement = asyncHandler(async (req, res) => {
     const announcement = req.body;
-    if (!(announcement.title && announcement.body && announcement.author)) {
+    console.log("user: ", req.user);
+
+    if (!(announcement.title && announcement.body)) {
         res.status(400);
         throw new Error("Incomplete anouncement parameter");
     }
 
-    announcement.image = req.file.originalname;
-
-    const newAnnouncement = await Announcement.createAndRecordOnLog(
-        announcement
-    );
+    const newAnnouncement = await Announcement.createAndRecordOnLog({
+        ...announcement,
+        author: user,
+    });
 
     if (!newAnnouncement) {
         res.sendStatus(500);
@@ -77,6 +79,8 @@ const handleGetAllAnnouncement = asyncHandler(async (req, res) => {
 });
 
 const handleGetOneAnnounncement = asyncHandler(async (req, res) => {
+    console.log("get one announcement invoked!");
+
     if (!req.params.id) {
         res.sendStatus(400);
     }
@@ -86,7 +90,27 @@ const handleGetOneAnnounncement = asyncHandler(async (req, res) => {
         res.sendStatus(404);
     }
 
+    console.log("Announcement: ", announcement);
     res.status(200).json(announcement);
+});
+
+const handleGetAnnouncementImage = asyncHandler(async (req, res) => {
+    console.log("image route");
+    if (!req.params.filename) {
+        res.sendStatus(400);
+        return;
+    }
+
+    console.log("query: ", req.params.filename);
+
+    const root = path.dirname(require.main.filename);
+    const imageDirectory = path.join(
+        root,
+        "/uploads/images/announcements",
+        req.params.filename
+    );
+
+    res.status(200).sendFile(imageDirectory);
 });
 
 //not done
@@ -116,5 +140,6 @@ module.exports = {
     handleDeleteAnnouncement,
     handleGetAllAnnouncement,
     handleGetOneAnnounncement,
+    handleGetAnnouncementImage,
     validate,
 };

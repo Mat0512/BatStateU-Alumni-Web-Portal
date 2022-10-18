@@ -1,6 +1,11 @@
 const Button = ({ name, handleClick, color }) => {
     return (
-        <button className={`w-12 bg-${color || blue} `} onClick={handleClick}>
+        <button
+            className={`bg-${
+                color || "blue"
+            } w-18 py-1 text-white text-sm rounded`}
+            onClick={handleClick}
+        >
             {name}
         </button>
     );

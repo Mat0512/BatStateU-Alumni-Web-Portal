@@ -1,55 +1,51 @@
-import { PostButton } from "./PostButton";
 import { AnnouncementPostsTable } from "./AnnouncementPostsTable";
-import { AnnouncementForm } from "./modal/AnnouncementForm";
+import { useState, useContext } from "react";
+import { PostButtons } from "./PostButtons";
 import { ModalHandler } from "../modals/ModalHandler";
-import { useState } from "react";
+import { AnnouncementForm } from "./modal/AnnouncementForm";
+import { DeleteConfirmation } from "./modal/DeleteConfirmation";
+import { SurveyFormInputContextProvider } from "../context/SurveyFormInputContext";
+import { SurveyForm } from "./modal/SurveyForm";
 
 const Post = () => {
     const [displayModalAddAnnouncement, setDisplayModalAddAnnouncement] =
         useState(false);
+    const [displayModalAddSurvey, setDisplayModalAddSurvey] = useState(true);
+    const [displayModalEditSurvey, setDisplayModalEditSurvey] = useState(false);
+
     const [displayModalEditAnnouncement, setDisplayModalEditAnnouncement] =
         useState(false);
-
-    const handleAddSurvey = () => {
-        console.log("click add survey");
-        setDisplayModalAddAnnouncement(true);
-    };
-
-    const handleAddAnnouncement = (e) => {
-        console.log("click add announcement");
-        setDisplayModalAddAnnouncement(true);
-    };
+    const [displayModalDeleteNotice, setDisplayModalDeleteNotice] =
+        useState(false);
 
     return (
-        <>
+        <SurveyFormInputContextProvider>
             <div className="flex flex-col gap-6">
-                <div className="flex gap-6">
-                    <PostButton
-                        label="Add Announcement"
-                        handleClick={handleAddAnnouncement}
-                    />
-                    <PostButton
-                        label="Add Survey"
-                        handleClick={handleAddSurvey}
-                    />
-                </div>
+                <PostButtons
+                    setDisplayModalAddAnnouncement={
+                        setDisplayModalAddAnnouncement
+                    }
+                    setDisplayModalAddSurvey={setDisplayModalAddSurvey}
+                />
                 <AnnouncementPostsTable
-                    setDisplayModal={setDisplayModalEditAnnouncement}
+                    setDisplayModalEditAnnouncement={
+                        setDisplayModalEditAnnouncement
+                    }
+                    setDisplayModalDeleteNotice={setDisplayModalDeleteNotice}
                 />
             </div>
-
-            {/* {displayModalAddAnnouncement ? (
-                // <ModalHandler
-                //     displayModal={displayModalAddAnnouncement}
-                //     setDisplayModal={setDisplayModalAddAnnouncement}
-                // >
-                //     <AnnouncementForm
-                //         name="Add Announcement"
-                //         endpoint="/announcement/add"
-                //     />
-                <p>ADD Announcement</p>
-            ) : // </ModalHandler>
-            displayModalEditAnnouncement ? (
+            {/*Modals */}
+            {displayModalAddAnnouncement ? (
+                <ModalHandler
+                    displayModal={displayModalAddAnnouncement}
+                    setDisplayModal={setDisplayModalAddAnnouncement}
+                >
+                    <AnnouncementForm
+                        name="Add Announcement"
+                        endpoint="/announcement/add"
+                    />
+                </ModalHandler>
+            ) : displayModalEditAnnouncement ? (
                 <ModalHandler
                     displayModal={displayModalEditAnnouncement}
                     setDisplayModal={setDisplayModalEditAnnouncement}
@@ -59,10 +55,31 @@ const Post = () => {
                         endpoint="/announcement/edit"
                     />
                 </ModalHandler>
-            ) : (
-                <p>HEllO</p>
-            )} */}
-        </>
+            ) : displayModalAddSurvey ? (
+                <ModalHandler
+                    displayModal={displayModalAddSurvey}
+                    setDisplayModal={setDisplayModalAddSurvey}
+                >
+                    <SurveyForm title="Add Survey" endpoint="endpoint" />
+                </ModalHandler>
+            ) : displayModalEditSurvey ? (
+                <ModalHandler
+                    displayModal={displayModalAddSurvey}
+                    setDisplayModal={setDisplayModalAddSurvey}
+                >
+                    <SurveyForm title="Edit Survey" endpoint="endpoint" />
+                </ModalHandler>
+            ) : displayModalDeleteNotice ? (
+                <ModalHandler
+                    displayModal={displayModalDeleteNotice}
+                    setDisplayModal={setDisplayModalDeleteNotice}
+                >
+                    <DeleteConfirmation
+                        setDisplayModal={setDisplayModalDeleteNotice}
+                    />
+                </ModalHandler>
+            ) : null}
+        </SurveyFormInputContextProvider>
     );
 };
 

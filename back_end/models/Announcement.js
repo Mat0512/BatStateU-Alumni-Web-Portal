@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const ActivityLog = require("./ActivityLog");
+const Admin = require("../models/Admin");
 const controllersUtilities = require("../utilities/controllersUtilities");
 
 const announcementSchema = new Schema(
@@ -60,7 +61,16 @@ announcementSchema.statics.updateAndRecordOnLog = async (
 };
 
 announcementSchema.statics.createAndRecordOnLog = async (announcemenData) => {
-    const announcement = await Announcement.create(announcemenData);
+    const admin = await Admin.findOne({ username: announcemenData.author });
+    if (!admin) {
+        throw new Error("Author not found");
+    }
+
+    const announcement = await Announcement.create({
+        announcemenData,
+        author: `${admin.name.firstName} ${admin.name.lastName}`,
+    });
+
     if (!announcement) {
         throw new Error("Announcement not found");
     }
@@ -85,7 +95,7 @@ announcementSchema.pre("remove", async function (next) {
     const announcement = this;
     const activityLog = await ActivityLog.create({
         dateCreated: announcement.dateCreated,
-        user: announcement.authorName,
+        user: announcement.author,
         activity: "Delete",
         entry: "Announcement",
         description: `Remove Announcement: ${announcement.title}`,

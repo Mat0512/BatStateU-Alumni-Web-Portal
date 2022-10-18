@@ -1,23 +1,28 @@
 import { useState } from "react";
 import { client } from "../../api/api";
+import { useContext } from "react";
+import AnnouncementInputContext from "../../context/AnnouncementInputContext";
 
 const AnnouncementForm = ({ name, endpoint }) => {
-    const [announcementData, setAnnouncementData] = useState({
-        title: "",
-        body: "",
-        author: "",
-        image: "",
-    });
+    const { announcementInput, setAnnouncementInput } = useContext(
+        AnnouncementInputContext
+    );
+
     const [isLoading, setIsLoading] = useState(false);
+    // const [announcementData, setAnnouncementData] = useState({
+    //     title: "",
+    //     body: "",
+    //     image: "",
+    // });
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsLoading(true);
 
         const formData = new FormData();
-        formData.append("title", announcementData.title);
-        formData.append("body", announcementData.title);
-        formData.append("image", announcementData.title);
+        formData.append("title", announcementInput.title);
+        formData.append("body", announcementInput.body);
+        formData.append("announcementImage", announcementInput.image);
 
         const postAnnouncement = async () => {
             try {
@@ -27,6 +32,7 @@ const AnnouncementForm = ({ name, endpoint }) => {
                 console.log(err);
             } finally {
                 setIsLoading(false);
+                setAnnouncementInput({});
             }
         };
 
@@ -34,15 +40,19 @@ const AnnouncementForm = ({ name, endpoint }) => {
     };
 
     const handleOnChangeTitle = (e) => {
-        setAnnouncementData({ ...announcementData, title: e.target.value });
+        setAnnouncementInput({ ...announcementInput, title: e.target.value });
     };
 
     const handleOnChangeDescription = (e) => {
-        setAnnouncementData({ ...announcementData, body: e.target.value });
+        setAnnouncementInput({ ...announcementInput, body: e.target.value });
     };
 
     const handleOnChangeFile = (e) => {
-        setAnnouncementData({ ...announcementData, image: e.target.file[0] });
+        console.log("file: ", e.target.files);
+        setAnnouncementInput({
+            ...announcementInput,
+            image: e.target.files[0],
+        });
     };
 
     return (
@@ -55,10 +65,11 @@ const AnnouncementForm = ({ name, endpoint }) => {
                 <label htmlFor="title">Title</label>
                 <input
                     id="title"
+                    name="title"
                     className="p-2 rounded border border-grey-300"
                     type="text"
                     placeholder="Enter announcement title here."
-                    value={announcementData.title}
+                    value={announcementInput.title}
                     onChange={handleOnChangeTitle}
                 />
             </div>
@@ -68,17 +79,21 @@ const AnnouncementForm = ({ name, endpoint }) => {
                 <textarea
                     className="h-64 p-2 rounded border border-grey-300"
                     id="description"
+                    name="description"
                     type="text"
                     placeholder="Enter announcement details here."
-                    value={announcementData.description}
+                    value={announcementInput.body}
                     onChange={handleOnChangeDescription}
                 />
             </div>
             <div className="mt-3">
-                <label htmlFor="image">Choose an announcement image</label>
+                <label htmlFor="announcementImage">
+                    Choose an announcement image
+                </label>
                 <input
                     className="text-sm"
-                    id="image"
+                    id="announcementImage"
+                    name="announcementImage"
                     type="file"
                     accept=".png, .jpg, .svg"
                     onChange={handleOnChangeFile}
@@ -91,6 +106,7 @@ const AnnouncementForm = ({ name, endpoint }) => {
             >
                 Add Announcement
             </button>
+            {isLoading ? "Loading..." : null}
         </form>
     );
 };

@@ -6,7 +6,7 @@ const multer = require("multer");
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, "../uploads/uploads/images");
+        callback(null, "./uploads/images/announcements");
     },
     filename: (req, file, callback) => {
         callback(null, file.originalname);
@@ -18,34 +18,42 @@ const upload = multer({ storage: storage });
 console.log("controller", announcementController);
 
 router.get(
-    "/", //announcementController.validate('handleEditAnnouncement'),
+    "/",
+    announcementController.validate("handleEditAnnouncement"),
     announcementController.handleGetAllAnnouncement
 );
 
 router.get(
     "/:id",
-    // authMiddleware.verifyJWT,
+    authMiddleware.verifyJWT,
     announcementController.handleGetOneAnnounncement
 );
 
 router.post(
     "/add",
-    // authMiddleware.verifyJWT,
+    authMiddleware.verifyJWT,
     upload.single("announcementImage"),
     announcementController.handlePostAnnouncement
 );
 
 router.put(
     "/edit/:id",
-    // authMiddleware.verifyJWT,
+    authMiddleware.verifyJWT,
     //     announcementController.validate('handleEditAnnouncement'),
     upload.single("announcementImage"),
     announcementController.handleEditAnnouncement
 );
 
 router.delete(
-    "/delete/:id", //announcementController.validate('handleEditAnnouncement'),
+    "/delete/:id",
+    announcementController.validate("handleEditAnnouncement"),
     announcementController.handleDeleteAnnouncement
+);
+
+router.get(
+    "/image/:filename",
+    authMiddleware.verifyJWT,
+    announcementController.handleGetAnnouncementImage
 );
 
 module.exports = router;
