@@ -5,15 +5,16 @@ import { client } from "../api/api";
 import { Button } from "../table/Button";
 
 const ButtonTableColumn = ({
-    setDisplayModalEditAnnouncement,
+    setDisplayModalEdit,
     setDisplayModalDeleteNotice,
 }) => {
     const { announcementInput, setAnnouncementInput } = useContext(
         AnnouncementInputContext
     );
-    const { dataToDelete, setDataToDelete } = useContext(DeleteDataContext);
+    const { setDataToDelete } = useContext(DeleteDataContext);
     const handleEditAnnouncement = (event) => {
         const announcementId = event.target.parentNode.parentNode.id;
+
         const getAnnouncementData = async () => {
             try {
                 const res = await client.get(`/announcement/${announcementId}`);
@@ -22,24 +23,25 @@ const ButtonTableColumn = ({
                     body: res.data.body,
                     image: res.data.image,
                 });
+
                 if (!res) {
                     alert("Can't get announcement data");
                 }
 
                 console.log("announcement input: ", announcementInput);
 
-                setDisplayModalEditAnnouncement(true);
+                setDisplayModalEdit(true);
             } catch (error) {
                 alert("Error");
                 console.log("Error: ", error);
             }
         };
+
         getAnnouncementData();
     };
 
     const handleDeleteAnnouncement = (event) => {
         const announcementId = event.target.parentNode.parentNode.id;
-        alert(announcementId);
         setDataToDelete({
             endpoint: `/announcement/delete/${announcementId}`,
         });

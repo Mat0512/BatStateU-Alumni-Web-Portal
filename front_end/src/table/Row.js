@@ -1,11 +1,12 @@
-const Row = ({ data, actionColumn }) => {
+const Row = ({ data, actionColumn, selectedKeys }) => {
     console.log("data: ", data);
     console.log("action column: ", actionColumn);
     const hasActionColumn = actionColumn !== undefined;
 
     const reducer = (accumulatedRows, element) => {
         console.log("element: ", element._id);
-        const noIdKeys = Object.keys(element).filter((key) => key !== "_id");
+        const noIdKeys =
+            selectedKeys || Object.keys(element).filter((key) => key !== "_id");
         console.log("noIdKeys: ", noIdKeys);
 
         const cols = noIdKeys.map((key, index) => {
@@ -41,7 +42,7 @@ const Row = ({ data, actionColumn }) => {
     };
 
     const rows = data.length != 0 ? data.reduce(reducer, []) : "No Annoucement";
-    return <>{rows}</>;
+    return <div className="overflow-y-auto">{rows}</div>;
 };
 
 export { Row };

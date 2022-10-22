@@ -88,7 +88,9 @@ const createAlumni = asyncHandler(async (req, res) => {
     console.log("alumni: ", alumni);
 
     const token = jwt.sign(
-        { username: newAlumni.username },
+        {
+            username: newAlumni.username,
+        },
         process.env.SECRET_KEY,
         {
             expiresIn: "6h",
@@ -97,6 +99,8 @@ const createAlumni = asyncHandler(async (req, res) => {
 
     res.status(200).json({
         username: newAlumni.username,
+        firstName: newAlumni.name.firstName,
+        lastName: newAlumni.name.lastName,
         token: token,
         avatar: "",
     });

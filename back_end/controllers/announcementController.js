@@ -4,8 +4,8 @@ const path = require("path");
 const { body } = require("express-validator/check");
 
 const handlePostAnnouncement = asyncHandler(async (req, res) => {
-    const announcement = req.body;
-    console.log("user: ", req.user);
+    const announcement = { ...req.body };
+    console.log("announcement!!!!! : ", announcement);
 
     if (!(announcement.title && announcement.body)) {
         res.status(400);
@@ -14,7 +14,6 @@ const handlePostAnnouncement = asyncHandler(async (req, res) => {
 
     const newAnnouncement = await Announcement.createAndRecordOnLog({
         ...announcement,
-        author: user,
     });
 
     if (!newAnnouncement) {

@@ -1,5 +1,6 @@
 import { AnnouncementPostsTable } from "./AnnouncementPostsTable";
-import { useState, useContext } from "react";
+import { SurveyPostsTable } from "./SurveyPostsTable";
+import { useState } from "react";
 import { PostButtons } from "./PostButtons";
 import { ModalHandler } from "../modals/ModalHandler";
 import { AnnouncementForm } from "./modal/AnnouncementForm";
@@ -10,7 +11,7 @@ import { SurveyForm } from "./modal/SurveyForm";
 const Post = () => {
     const [displayModalAddAnnouncement, setDisplayModalAddAnnouncement] =
         useState(false);
-    const [displayModalAddSurvey, setDisplayModalAddSurvey] = useState(true);
+    const [displayModalAddSurvey, setDisplayModalAddSurvey] = useState(false);
     const [displayModalEditSurvey, setDisplayModalEditSurvey] = useState(false);
 
     const [displayModalEditAnnouncement, setDisplayModalEditAnnouncement] =
@@ -31,6 +32,10 @@ const Post = () => {
                     setDisplayModalEditAnnouncement={
                         setDisplayModalEditAnnouncement
                     }
+                    setDisplayModalDeleteNotice={setDisplayModalDeleteNotice}
+                />
+                <SurveyPostsTable
+                    setDisplayModalEditSurvey={setDisplayModalEditSurvey}
                     setDisplayModalDeleteNotice={setDisplayModalDeleteNotice}
                 />
             </div>

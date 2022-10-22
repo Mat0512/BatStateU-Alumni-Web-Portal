@@ -18,6 +18,28 @@ const announcementSchema = new Schema(
 );
 
 //creates a record on activity log after the announcement is created
+announcementSchema.statics.createAndRecordOnLog = async (announcemenData) => {
+    const announcement = await Announcement.create(announcemenData);
+
+    if (!announcement) {
+        throw new Error("Announcement not found");
+    }
+
+    const activityLog = await ActivityLog.create({
+        dateCreated: announcement.dateCreated,
+        user: announcement.authorName,
+        activity: "Create",
+        entry: "Announcement",
+        description: `Title: ${announcement.title}`,
+    });
+
+    if (!activityLog) {
+        throw new Error("error on activity log document");
+    }
+
+    return announcement;
+};
+
 announcementSchema.statics.updateAndRecordOnLog = async (
     id,
     announcemenData,
@@ -56,36 +78,6 @@ announcementSchema.statics.updateAndRecordOnLog = async (
     }
 
     console.log("Activity Log: ", activityLog);
-
-    return announcement;
-};
-
-announcementSchema.statics.createAndRecordOnLog = async (announcemenData) => {
-    const admin = await Admin.findOne({ username: announcemenData.author });
-    if (!admin) {
-        throw new Error("Author not found");
-    }
-
-    const announcement = await Announcement.create({
-        announcemenData,
-        author: `${admin.name.firstName} ${admin.name.lastName}`,
-    });
-
-    if (!announcement) {
-        throw new Error("Announcement not found");
-    }
-
-    const activityLog = await ActivityLog.create({
-        dateCreated: announcement.dateCreated,
-        user: announcement.authorName,
-        activity: "Create",
-        entry: "Announcement",
-        description: `Title: ${announcement.title}`,
-    });
-
-    if (!activityLog) {
-        throw new Error("error on activity log document");
-    }
 
     return announcement;
 };

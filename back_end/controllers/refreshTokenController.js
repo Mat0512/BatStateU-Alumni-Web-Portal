@@ -30,24 +30,30 @@ const handleAlumniRefreshToken = asyncHandler(async (req, res) => {
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET
     );
+
+    console.log("decoded: ", decoded);
+    console.log("username: ", foundUser.username);
+
     if (!decoded || decoded.username !== foundUser.username) {
         console.log("!decoded: ", decoded);
         res.statusCode(403);
         throw new Error("invalid token");
     }
 
-    console.log("decoded: ", decoded);
-
     const accessToken = jwt.sign(
-        { username: decoded.username },
+        { username: foundUser.username },
         process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: "30s",
+            expiresIn: "2h",
         }
     );
 
+    console.log("AT in ref token: ", accessToken);
+
     res.status(200).json({
         username: foundUser.username,
+        firstName: foundUser.name.firstName,
+        lastName: foundUser.name.lastName,
         token: accessToken,
         avatar: "",
     });
@@ -68,29 +74,37 @@ const handleAdminRefreshToken = asyncHandler(async (req, res) => {
     }).exec();
 
     if (!foundUser) {
-        res.statusCode(403);
-        throw new Error("invalid token");
+        res.statusCode = 403;
+        throw new Error("no user");
     }
 
     const decoded = await jwt.verify(
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET
     );
+
+    console.log("decoded: ", decoded);
+    console.log("username: ", foundUser.username);
+
     if (!decoded || decoded.username !== foundUser.username) {
         res.statusCode(403);
         throw new Error("invalid token");
     }
 
+    console.log("decoded username as payload: ", decoded.username);
+
     const accessToken = jwt.sign(
         { username: decoded.username },
-        process.env.SECRET_KEY,
+        process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: "30s",
+            expiresIn: "2h",
         }
     );
 
     res.status(200).json({
         username: foundUser.username,
+        firstName: foundUser.name.firstName,
+        lastName: foundUser.name.lastName,
         token: accessToken,
         avatar: "",
     });

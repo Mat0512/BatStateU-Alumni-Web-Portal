@@ -10,7 +10,6 @@ const app = express();
 const cors = require("cors");
 const connectMongoDb = require("./configs/databaseConnection");
 const errorHandler = require("./middleware/errorHandler");
-const verifyJWT = require("./middleware/authMiddleware");
 const cookieParser = require("cookie-parser");
 // const expressValidator = require("express-validator");
 require("dotenv").config();

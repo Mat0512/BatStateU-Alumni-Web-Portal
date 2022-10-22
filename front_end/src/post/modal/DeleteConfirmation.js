@@ -12,6 +12,8 @@ const DeleteConfirmation = ({ title, setDisplayModal }) => {
             alert("deleted!");
         } catch (err) {
             console.log(err);
+        } finally {
+            setDisplayModal(false);
         }
     };
 

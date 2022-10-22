@@ -44,7 +44,7 @@ const createAdmin = asyncHandler(async (req, res) => {
     }
     console.log(foundUser);
 
-    const newAdmin = {
+    const adminRegistrationData = {
         name: {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -68,10 +68,10 @@ const createAdmin = asyncHandler(async (req, res) => {
     };
 
     const hashedPass = await bcrypt.hash(req.body.password, saltRounds);
-    newAdmin.password = hashedPass;
+    adminRegistrationData.password = hashedPass;
 
-    const alumni = await Admin.create(newAdmin);
-    console.log("alumni: ", alumni);
+    const newAdmin = await Admin.create(adminRegistrationData);
+    console.log("newAdmin: ", newAdmin);
 
     const token = jwt.sign(
         { username: newAdmin.username },
@@ -83,6 +83,8 @@ const createAdmin = asyncHandler(async (req, res) => {
 
     res.status(200).json({
         username: newAdmin.username,
+        firstName: newAdmin.name.firstName,
+        lastName: newAdmin.name.lastName,
         token: token,
         avatar: "",
     });
@@ -161,7 +163,9 @@ const authenticateAdmin = asyncHandler(async (req, res) => {
     });
 
     res.status(200).json({
-        user: foundUser.username,
+        username: foundUser.username,
+        firstName: foundUser.name.firstName,
+        lastName: foundUser.name.lastName,
         message: "user successfuly logged in",
         token: accessToken,
         //include avatar when image buffer are coded

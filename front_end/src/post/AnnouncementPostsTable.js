@@ -26,7 +26,7 @@ const AnnouncementPostsTable = ({
                         data={announcements}
                         actionColumn={
                             <ButtonTableColumn
-                                setDisplayModalEditAnnouncement={
+                                setDisplayModalEdit={
                                     setDisplayModalEditAnnouncement
                                 }
                                 setDisplayModalDeleteNotice={

@@ -2,11 +2,13 @@ import { useState } from "react";
 import { client } from "../../api/api";
 import { useContext } from "react";
 import AnnouncementInputContext from "../../context/AnnouncementInputContext";
+import AdminAuthContext from "../../context/AdminAuthContext";
 
 const AnnouncementForm = ({ name, endpoint }) => {
     const { announcementInput, setAnnouncementInput } = useContext(
         AnnouncementInputContext
     );
+    const { authAdmin } = useContext(AdminAuthContext);
 
     const [isLoading, setIsLoading] = useState(false);
     // const [announcementData, setAnnouncementData] = useState({
@@ -23,10 +25,20 @@ const AnnouncementForm = ({ name, endpoint }) => {
         formData.append("title", announcementInput.title);
         formData.append("body", announcementInput.body);
         formData.append("announcementImage", announcementInput.image);
+        formData.append(
+            "author",
+            `${authAdmin.firstName} ${authAdmin.lastName}`
+        );
 
         const postAnnouncement = async () => {
             try {
-                await client.post(endpoint, formData);
+                await client.post(endpoint, formData, {
+                    // withCredentials: true,
+                    headers: {
+                        authorization: `Bearer ${authAdmin.token}`,
+                    },
+                });
+                alert("announcement successfully added");
             } catch (err) {
                 alert("Adding announcement failed.");
                 console.log(err);
