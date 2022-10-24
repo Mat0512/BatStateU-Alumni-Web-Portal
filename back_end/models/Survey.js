@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const Admin = require("../models/Admin");
 const ActivityLog = require("../models/ActivityLog");
+const controllersUtilities = require("../utilities/controllersUtilities");
 
 const surveySchema = new Schema(
     {
-        name: {
+        title: {
             type: String,
         },
         link: {
@@ -25,23 +25,17 @@ const surveySchema = new Schema(
 );
 
 surveySchema.statics.createAndRecordOnLog = async (surveyData) => {
-    const admin = await Admin.findOne({ username: surveyData.author });
-    if (!admin) {
-        throw new Error("Author not found");
-    }
+    console.log("survey data: ", surveyData);
+    const survey = await Survey.create(surveyData);
 
-    const survey = await Survey.create({
-        surveyData,
-        postedBy: `${admin.name.firstName} ${admin.name.lastName}`,
-    });
+    // console.log("Survey: ", survey);
 
     if (!survey) {
         throw new Error("Survey not found");
     }
 
     const activityLog = await ActivityLog.create({
-        dateCreated: survey.dateCreated,
-        user: survey.authorName,
+        user: survey.postedBy,
         activity: "Create",
         entry: "Survey",
         description: `Title: ${survey.title}`,
@@ -51,13 +45,12 @@ surveySchema.statics.createAndRecordOnLog = async (surveyData) => {
         throw new Error("error on activity log document");
     }
 
+    console.log("Survey: ", survey);
     return survey;
 };
 
 surveySchema.statics.updateAndRecordOnLog = async (id, surveyData) => {
-    const filteredSurveyData =
-        controllersUtilities.removeEmptyProp(announcemenData);
-
+    const filteredSurveyData = controllersUtilities.removeEmptyProp(surveyData);
     const formattedSurveyQuery =
         controllersUtilities.formatUpdateData(filteredSurveyData);
 
@@ -75,11 +68,10 @@ surveySchema.statics.updateAndRecordOnLog = async (id, surveyData) => {
     }
 
     const activityLog = await ActivityLog.create({
-        dateCreated: survey.dateCreated,
-        user: survey.c,
+        user: survey.postedBy,
         activity: "Edit",
         entry: "Survey",
-        description: surveyData.description,
+        description: `Edited Survey: ${survey.title}`,
     });
 
     if (!activityLog) {
@@ -95,7 +87,6 @@ surveySchema.pre("remove", async function (next) {
     console.log("REMOVE MIDDLEWARE INVOKED!!!");
     const survey = this;
     const activityLog = await ActivityLog.create({
-        dateCreated: survey.dateCreated,
         user: survey.postedBy,
         activity: "Delete",
         entry: "Survey",
@@ -106,9 +97,11 @@ surveySchema.pre("remove", async function (next) {
         throw new Error("error on activity log document");
     }
 
+    console.log("Activity log: ", activityLog);
+
     next();
 });
 
-const Survey = mongoose.Model("Survey", surveySchema);
+const Survey = mongoose.model("Survey", surveySchema);
 
 module.exports = Survey;

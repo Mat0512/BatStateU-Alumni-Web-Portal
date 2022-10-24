@@ -26,7 +26,6 @@ announcementSchema.statics.createAndRecordOnLog = async (announcemenData) => {
     }
 
     const activityLog = await ActivityLog.create({
-        dateCreated: announcement.dateCreated,
         user: announcement.authorName,
         activity: "Create",
         entry: "Announcement",
@@ -42,12 +41,10 @@ announcementSchema.statics.createAndRecordOnLog = async (announcemenData) => {
 
 announcementSchema.statics.updateAndRecordOnLog = async (
     id,
-    announcemenData,
-    image
+    announcementData
 ) => {
-    announcemenData.image = image;
     const filteredAnnouncementData =
-        controllersUtilities.removeEmptyProp(announcemenData);
+        controllersUtilities.removeEmptyProp(announcementData);
     const formattedAnnouncementQuery = controllersUtilities.formatUpdateData(
         filteredAnnouncementData
     );

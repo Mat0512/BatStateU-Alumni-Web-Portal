@@ -7,6 +7,7 @@ export const AnnouncementContextProvider = ({ children }) => {
         title: "",
         body: "",
         image: "",
+        endpoint: "",
     });
 
     return (

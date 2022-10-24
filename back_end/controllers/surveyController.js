@@ -11,7 +11,7 @@ const handleGetSurvey = asyncHandler(async (req, res) => {
         res.status(400);
     }
 
-    const survey = await Survey.findOne({ __id: req.params.id });
+    const survey = await Survey.findById(req.params.id);
     if (!survey) {
         res.status(404);
     }
@@ -19,7 +19,7 @@ const handleGetSurvey = asyncHandler(async (req, res) => {
     res.status(200).json(survey);
 });
 
-const handlePostSurvey = asyncHandler((req, res) => {
+const handlePostSurvey = asyncHandler(async (req, res) => {
     if (
         !(
             req.body.title &&
@@ -31,31 +31,57 @@ const handlePostSurvey = asyncHandler((req, res) => {
         res.status(400);
     }
 
-    const survey = Survey.createAndRecordOnLog({
+    const survey = await Survey.createAndRecordOnLog({
         ...req.body,
-        author: req.user,
     });
 
     if (!survey) {
         res.sendStatus(400);
     }
 
-    res.status(200).json(announcement);
+    console.log("survet at controller: ", survey);
+    res.status(200).json(survey);
 });
 
-const handleEditSurvey = asyncHandler((req, res) => {
+const handleEditSurvey = asyncHandler(async (req, res) => {
     if (!req.params.id) {
-        res.status(400);
-    }
-
-    const survey = Survey.updateAndRecordOnLog({
-        ...req.body,
-        author: req.user,
-    });
-
-    if (!survey) {
         res.sendStatus(400);
     }
 
-    res.status(200).json(announcement);
+    const updatedSurvey = await Survey.updateAndRecordOnLog(req.params.id, {
+        ...req.body,
+    });
+
+    if (!updatedSurvey) {
+        res.sendStatus(400);
+    }
+
+    console.log("updated survey: ", updatedSurvey);
+
+    res.status(200).json(updatedSurvey);
 });
+
+const handleDeleteSurvey = asyncHandler(async (req, res) => {
+    if (!req.params.id) {
+        res.sendStatus(400);
+    }
+
+    const foundSurvey = await Survey.findById({ _id: req.params.id });
+    if (!foundSurvey) {
+        res.sendStatus(404);
+    }
+
+    console.log("found survey: ", foundSurvey);
+
+    await foundSurvey.remove();
+
+    res.sendStatus(200);
+});
+
+module.exports = {
+    handleGetSurvey,
+    handleGetAllSurvey,
+    handleEditSurvey,
+    handlePostSurvey,
+    handleDeleteSurvey,
+};

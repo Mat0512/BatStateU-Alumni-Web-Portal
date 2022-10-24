@@ -4,10 +4,12 @@ const SurveyFormInputContext = createContext({});
 
 export const SurveyFormInputContextProvider = ({ children }) => {
     const [surveyFormInput, setSurveyFormInput] = useState({
+        id: "",
         title: "",
         url: "",
         description: "",
         college: "",
+        endpoint: "",
     });
     return (
         <SurveyFormInputContext.Provider

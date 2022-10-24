@@ -4,7 +4,7 @@ import { useContext } from "react";
 import AnnouncementInputContext from "../../context/AnnouncementInputContext";
 import AdminAuthContext from "../../context/AdminAuthContext";
 
-const AnnouncementForm = ({ name, endpoint }) => {
+const AnnouncementForm = ({ name }) => {
     const { announcementInput, setAnnouncementInput } = useContext(
         AnnouncementInputContext
     );
@@ -17,9 +17,16 @@ const AnnouncementForm = ({ name, endpoint }) => {
     //     image: "",
     // });
 
+    console.log("Annonucement input value at first load: ", announcementInput);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsLoading(true);
+
+        console.log(
+            "announcment input from handle submit: ",
+            announcementInput
+        );
 
         const formData = new FormData();
         formData.append("title", announcementInput.title);
@@ -32,8 +39,8 @@ const AnnouncementForm = ({ name, endpoint }) => {
 
         const postAnnouncement = async () => {
             try {
-                await client.post(endpoint, formData, {
-                    // withCredentials: true,
+                await client.post(announcementInput.endpoint, formData, {
+                    withCredentials: true,
                     headers: {
                         authorization: `Bearer ${authAdmin.token}`,
                     },

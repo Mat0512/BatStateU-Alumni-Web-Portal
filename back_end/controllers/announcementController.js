@@ -5,7 +5,7 @@ const { body } = require("express-validator/check");
 
 const handlePostAnnouncement = asyncHandler(async (req, res) => {
     const announcement = { ...req.body };
-    console.log("announcement!!!!! : ", announcement);
+    console.log("announcement from controller : ", announcement);
 
     if (!(announcement.title && announcement.body)) {
         res.status(400);
@@ -30,7 +30,7 @@ const handleEditAnnouncement = asyncHandler(async (req, res) => {
     }
 
     const announcement = req.body;
-    console.log("announcement data: ", announcement);
+    console.log("announcement data from edit controller: ", announcement);
     if (
         !announcement.title &&
         !announcement.body &&
@@ -43,8 +43,7 @@ const handleEditAnnouncement = asyncHandler(async (req, res) => {
 
     const updatedAnnouncement = await Announcement.updateAndRecordOnLog(
         req.params.id,
-        req.body,
-        req.file.originalname
+        req.body
     );
 
     if (!updatedAnnouncement) {

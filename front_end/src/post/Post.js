@@ -45,34 +45,28 @@ const Post = () => {
                     displayModal={displayModalAddAnnouncement}
                     setDisplayModal={setDisplayModalAddAnnouncement}
                 >
-                    <AnnouncementForm
-                        name="Add Announcement"
-                        endpoint="/announcement/add"
-                    />
+                    <AnnouncementForm name="Add Announcement" />
                 </ModalHandler>
             ) : displayModalEditAnnouncement ? (
                 <ModalHandler
                     displayModal={displayModalEditAnnouncement}
                     setDisplayModal={setDisplayModalEditAnnouncement}
                 >
-                    <AnnouncementForm
-                        name="Edit Announcement"
-                        endpoint="/announcement/edit"
-                    />
+                    <AnnouncementForm name="Edit Announcement" />
                 </ModalHandler>
             ) : displayModalAddSurvey ? (
                 <ModalHandler
                     displayModal={displayModalAddSurvey}
                     setDisplayModal={setDisplayModalAddSurvey}
                 >
-                    <SurveyForm title="Add Survey" endpoint="endpoint" />
+                    <SurveyForm title="Add Survey" endpoint="/survey/post" />
                 </ModalHandler>
             ) : displayModalEditSurvey ? (
                 <ModalHandler
-                    displayModal={displayModalAddSurvey}
-                    setDisplayModal={setDisplayModalAddSurvey}
+                    displayModal={displayModalEditSurvey}
+                    setDisplayModal={setDisplayModalEditSurvey}
                 >
-                    <SurveyForm title="Edit Survey" endpoint="endpoint" />
+                    <SurveyForm title="Edit Survey" endpoint="/survey/edit" />
                 </ModalHandler>
             ) : displayModalDeleteNotice ? (
                 <ModalHandler

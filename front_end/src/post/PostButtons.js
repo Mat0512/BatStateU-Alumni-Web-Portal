@@ -1,4 +1,5 @@
 import AnnouncementInputContext from "../context/AnnouncementInputContext";
+import SurveyFormInputContext from "../context/SurveyFormInputContext";
 import plusIcon from "../assets/icons/plus.svg";
 import { useState, useContext } from "react";
 
@@ -7,9 +8,16 @@ const PostButtons = ({
     setDisplayModalAddSurvey,
 }) => {
     const { setAnnouncementInput } = useContext(AnnouncementInputContext);
+    const { setSurveyInput } = useContext(SurveyFormInputContext);
 
     const handleAddSurvey = () => {
         console.log("click add survey");
+        setSurveyInput({
+            title: "",
+            body: "",
+            image: "",
+            endpoint: "/survey/post",
+        });
         setDisplayModalAddSurvey(true);
     };
 
@@ -20,6 +28,7 @@ const PostButtons = ({
             title: "",
             body: "",
             image: "",
+            endpoint: "/announcement/add",
         });
 
         setDisplayModalAddAnnouncement(true);

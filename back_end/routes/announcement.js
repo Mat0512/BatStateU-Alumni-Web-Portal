@@ -36,7 +36,7 @@ router.post(
     announcementController.handlePostAnnouncement
 );
 
-router.put(
+router.post(
     "/edit/:id",
     authMiddleware.verifyJWT,
     //     announcementController.validate('handleEditAnnouncement'),

@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { client } from "../api/api";
+import AdminAuthContext from "../context/AdminAuthContext";
 
 const useFetchAnnouncement = () => {
     const [announcements, setAnnouncements] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const { authAdmin } = useContext(AdminAuthContext);
 
     const announcementKeyUsed = ["_id", "title", "author", "createdAt"];
 
@@ -11,7 +13,11 @@ const useFetchAnnouncement = () => {
         const fetchAnnouncement = async () => {
             try {
                 setIsLoading(true);
-                const res = await client.get("/announcement");
+                const res = await client.get("/announcement", {
+                    headers: {
+                        authorization: `Bearer ${authAdmin.token}`,
+                    },
+                });
                 //filtering data before saving into state
 
                 const filteredAnnouncement = res.data.map((data) => {

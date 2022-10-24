@@ -166,9 +166,9 @@ const authenticateAdmin = asyncHandler(async (req, res) => {
         username: foundUser.username,
         firstName: foundUser.name.firstName,
         lastName: foundUser.name.lastName,
-        message: "user successfuly logged in",
         token: accessToken,
-        //include avatar when image buffer are coded
+        //include avatar when image buffer are coded\
+        avatar: "",
     });
 });
 
