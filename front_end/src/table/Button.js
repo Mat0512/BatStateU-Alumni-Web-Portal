@@ -1,7 +1,7 @@
-const Button = ({ label, color, handleClick }) => {
+const Button = ({ label, color, handleClick, contentSize }) => {
     return (
         <button
-            className={`w-18 py-1 bg-${
+            className={`${!contentSize && "w-20"} px-4 py-1 bg-${
                 color || "blue"
             } text-white text-xs font-poppins rounded`}
             onClick={handleClick}

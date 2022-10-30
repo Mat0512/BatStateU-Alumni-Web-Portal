@@ -7,7 +7,7 @@ const useLogout = () => {
     const logout = async () => {
         setAuth({});
         try {
-            const res = await client.get(`\alumni\logout`);
+            const res = await client.get(`/alumni/logout`);
         } catch (err) {
             console.error(err);
         }

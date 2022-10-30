@@ -1,5 +1,6 @@
 const Row = ({ data, actionColumn, selectedKeys }) => {
     const hasActionColumn = actionColumn !== undefined;
+    console.log("has action column: ", hasActionColumn);
 
     const reducer = (accumulatedRows, element) => {
         const noIdKeys =

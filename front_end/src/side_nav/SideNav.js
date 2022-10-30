@@ -8,7 +8,9 @@ const SideNav = ({ links, admin }) => {
         return (
             <li key={link} className="pl-5 pb-1.5 flex items-center">
                 <Link
-                    to={`/${parentLink}/${i === 0 ? "" : link.toLowerCase()}`}
+                    to={`/${parentLink}/${
+                        i === 0 ? "" : link.toLowerCase().split(" ").join("")
+                    }`}
                     className="links"
                 >
                     {link}

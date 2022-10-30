@@ -17,9 +17,19 @@ const surveySchema = new Schema(
         college: {
             type: String,
         },
+        glink: {
+            type: String,
+        },
         postedBy: {
             type: String,
         },
+        questions: [
+            {
+                text: String,
+                questionType: String,
+                options: [String],
+            },
+        ],
     },
     { timestamps: true }
 );

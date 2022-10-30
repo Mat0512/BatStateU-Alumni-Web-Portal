@@ -3,8 +3,8 @@
 const SearchBar = () => {
     return (
         <input
-            className="ml-4 w-full max-w-lg py-2 px-3 font-poppins text-sm text-grey-400 border border-grey-200 rounded"
-            type="input"
+            className="w-full max-w-2xl h-10 grow py-2 px-3 font-poppins text-sm text-grey-400 border border-grey-200 rounded"
+            type="text"
             placeholder="Search announcement here"
         />
     );

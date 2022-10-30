@@ -9,6 +9,8 @@ import { EditProfile } from "./profile/edit_form/EditProfile";
 import { Playgorund } from "./Playground";
 import { PersistLogin } from "./PersistsLogin";
 import { Post } from "./post/Post";
+import { ActivityLog } from "./activitylog/ActivityLog";
+import { AlumniRecords } from "./alumniRecords/AlumniRecords";
 
 function App() {
     //add a state that indicates either the user is log in or not to protect routes
@@ -35,6 +37,16 @@ function App() {
                     <Route element={<AdminPage />}>
                         <Route index path="account" element={<Profile />} />
                         <Route index path="post" element={<Post />} />
+                        <Route
+                            index
+                            path="activitylog"
+                            element={<ActivityLog />}
+                        />
+                        <Route
+                            index
+                            path="alumniRecords"
+                            element={<AlumniRecords />}
+                        />
                     </Route>
                 </Route>
             </Routes>
