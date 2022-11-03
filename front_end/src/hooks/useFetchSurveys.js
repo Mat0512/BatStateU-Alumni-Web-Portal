@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { client } from "../api/api";
 import AdminAuthContext from "../context/AdminAuthContext";
+import { format, parseISO } from "date-fns";
 
 const useFetchSurvey = () => {
     const [surveyList, setSurveyList] = useState([]);
@@ -18,7 +19,17 @@ const useFetchSurvey = () => {
                     },
                 });
 
-                setSurveyList(res.data);
+                const formattedData = res.data.map((data) => {
+                    return {
+                        ...data,
+                        updatedAt: format(
+                            parseISO(data.updatedAt),
+                            "MMMM dd, yyyy"
+                        ),
+                    };
+                });
+
+                setSurveyList(formattedData);
             } catch (err) {
                 alert(err);
                 console.log(err);

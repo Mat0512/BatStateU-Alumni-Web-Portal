@@ -53,7 +53,7 @@ const dummy = [
     },
 ];
 
-const ActivitylogTable = () => {
+const ActivitylogTable = ({ data }) => {
     const columns = [
         "Date",
         "Time",
@@ -62,10 +62,18 @@ const ActivitylogTable = () => {
         "Entry",
         "Description",
     ];
+    const selectedKeys = [
+        "updatedAt",
+        "time",
+        "user",
+        "activity",
+        "entry",
+        "description",
+    ];
     return (
         <Table name="Activity Log">
             <Columns columns={columns} />
-            <Row data={dummy} />
+            <Row data={data} selectedKeys={selectedKeys} />
         </Table>
     );
 };

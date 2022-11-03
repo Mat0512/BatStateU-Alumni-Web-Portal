@@ -8,11 +8,11 @@ const PostButtons = ({
     setDisplayModalAddSurvey,
 }) => {
     const { setAnnouncementInput } = useContext(AnnouncementInputContext);
-    const { setSurveyInput } = useContext(SurveyFormInputContext);
+    const { setSurveyFormInput } = useContext(SurveyFormInputContext);
 
     const handleAddSurvey = () => {
         console.log("click add survey");
-        setSurveyInput({
+        setSurveyFormInput({
             title: "",
             body: "",
             image: "",

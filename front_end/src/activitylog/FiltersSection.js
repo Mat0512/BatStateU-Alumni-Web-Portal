@@ -11,7 +11,7 @@ const dummy = [
     {
         testKey1: "sheesh",
         testKey2: "hello",
-        testKey3: "all",
+        testKey3: "_",
     },
     {
         testKey1: "sheesh",
@@ -45,51 +45,49 @@ const dummy = [
     },
 ];
 
-const FiltersSection = () => {
-    const [state, dispatch] = useReducer(activityLogReducer, INITIAL_STATE);
+const FiltersSection = ({ data, state, dispatch }) => {
+    const userOptions = ["all"].concat(getUniqueVal(data, "user"));
+    const activityOptions = ["all"].concat(getUniqueVal(data, "activity"));
+    const entryOptions = ["all"].concat(getUniqueVal(data, "entry"));
 
-    const userOptions = getUniqueVal(dummy, "testKey1");
-    const activityOptions = getUniqueVal(dummy, "testKey2");
-    const entryOptions = getUniqueVal(dummy, "testKey3");
-
-    console.log("state: ", state);
+    console.log("state at filter: ", state);
 
     return (
-        <form className="w-full py-3 flex justify-between">
-            <div className="flex gap-4">
+        <form className="w-full py-3 flex justify-between items-end gap-2">
+            <div className="flex gap-3">
                 <SelectInput
                     label={"User"}
                     options={userOptions}
-                    value={state.userFilter}
+                    value={state.user}
                     setValue={(e) => {
                         dispatch({
                             type: "field",
                             value: e.target.value,
-                            field: "userFilter",
+                            field: "user",
                         });
                     }}
                 />
                 <SelectInput
                     label={"Activity"}
                     options={activityOptions}
-                    value={state.activityFilter}
+                    value={state.activity}
                     setValue={(e) => {
                         dispatch({
                             type: "field",
                             value: e.target.value,
-                            field: "activityFilter",
+                            field: "activity",
                         });
                     }}
                 />
                 <SelectInput
                     label={"Entry"}
                     options={entryOptions}
-                    value={state.entryFilter}
+                    value={state.entry}
                     setValue={(e) => {
                         dispatch({
                             type: "field",
                             value: e.target.value,
-                            field: "entryFilter",
+                            field: "entry",
                         });
                     }}
                 />
@@ -100,24 +98,26 @@ const FiltersSection = () => {
                         dispatch({
                             type: "field",
                             value: e.target.value,
-                            field: "startDateFilter",
+                            field: "startDate",
                         });
                     }}
                 />
                 <DateInput
                     label="End Date"
-                    value={state.startDate}
+                    value={state.endDate}
                     setValue={(e) => {
                         dispatch({
                             type: "field",
                             value: e.target.value,
-                            field: "endDateFilter",
+                            field: "endDate",
                         });
                     }}
                     min={state.startDate}
                 />
-                <SearchBar />
             </div>
+            {/* <div className="w-80 h-10">
+                <SearchBar />
+            </div> */}
         </form>
     );
 };

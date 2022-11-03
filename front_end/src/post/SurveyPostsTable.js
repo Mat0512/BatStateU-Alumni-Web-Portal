@@ -12,8 +12,8 @@ const SurveyPostsTable = ({
     setDisplayModalEditSurvey,
     setDisplayModalDeleteNotice,
 }) => {
-    const cols = ["Title", "Posted By", "Timestamp", ""];
-    const selectedKeys = ["title", "postedBy", "createdAt"];
+    const cols = ["Title", "Posted By", "Date Added", ""];
+    const selectedKeys = ["title", "postedBy", "updatedAt"];
     const { surveyList, isLoading } = useFetchSurvey();
     const { setSurveyFormInput } = useContext(SurveyFormInputContext);
     const { setDataToDelete } = useContext(DeleteDataContext);

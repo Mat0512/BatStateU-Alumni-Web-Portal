@@ -13,13 +13,9 @@ const useRefreshToken = () => {
 
         let res = await client.get(endpoint, { withCredentials: true });
         if (isAdmin) {
-            setAuthAdmin((prev) => {
-                return { ...prev, token: res.data.token };
-            });
+            setAuthAdmin(res.data);
         } else {
-            setAuth((prev) => {
-                return { ...prev, token: res.data.token };
-            });
+            setAuth(res.data);
         }
     };
 

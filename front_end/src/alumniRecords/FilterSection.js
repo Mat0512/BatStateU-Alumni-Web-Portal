@@ -1,4 +1,5 @@
 import { SelectInput } from "../table/InputTypes";
+import SearchBar from "../search_bar/SearchBar";
 import { useReducer } from "react";
 import {
     INITIAL_STATE,
@@ -71,7 +72,7 @@ const FilterSection = () => {
     const programOptions = getUniqueVal(dummy, "program");
 
     return (
-        <form className="flex justify-between">
+        <form className="flex justify-between items-end">
             <div className="flex gap-3">
                 <SelectInput
                     label={"Batch"}
@@ -97,6 +98,9 @@ const FilterSection = () => {
                         });
                     }}
                 />
+            </div>
+            <div className="w-80 h-10">
+                <SearchBar />
             </div>
         </form>
     );

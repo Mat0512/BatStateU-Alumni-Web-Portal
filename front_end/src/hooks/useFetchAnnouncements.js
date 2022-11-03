@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { client } from "../api/api";
+import { format, parseISO } from "date-fns";
 import AdminAuthContext from "../context/AdminAuthContext";
 
 const useFetchAnnouncement = () => {
@@ -7,7 +8,7 @@ const useFetchAnnouncement = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { authAdmin } = useContext(AdminAuthContext);
 
-    const announcementKeyUsed = ["_id", "title", "author", "createdAt"];
+    const announcementKeyUsed = ["_id", "title", "author", "updatedAt"];
 
     useEffect(() => {
         const fetchAnnouncement = async () => {
@@ -26,7 +27,13 @@ const useFetchAnnouncement = () => {
                         filteredData[key] = data[key];
                     });
 
-                    return filteredData;
+                    return {
+                        ...filteredData,
+                        updatedAt: format(
+                            parseISO(filteredData.updatedAt),
+                            "MMMM dd, yyyy"
+                        ),
+                    };
                 });
 
                 setAnnouncements(filteredAnnouncement);

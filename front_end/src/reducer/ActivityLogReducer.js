@@ -1,9 +1,11 @@
+import { format } from "date-fns";
+
 const INITIAL_STATE = {
-    userFilter: "",
-    activityFilter: "",
-    entryFilter: "",
-    startDateFilter: "",
-    endDateFilter: "",
+    user: "",
+    activity: "",
+    entry: "",
+    startDate: "",
+    endDate: "",
     isLoading: false,
     error: "",
 };

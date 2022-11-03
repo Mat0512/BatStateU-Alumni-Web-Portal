@@ -22,9 +22,12 @@ const Profile = () => {
     let isUserALumni = auth.user;
 
     const apiEndpoint = isUserALumni
-        ? `/alumni/account/${auth.user}`
-        : `/admin/account/${authAdmin.user}`;
+        ? `/alumni/account/${auth.username}`
+        : `/admin/account/${authAdmin.username}`;
     const token = isUserALumni ? auth.token : authAdmin.token;
+
+    console.log("admin: ", authAdmin);
+    console.log("alumni: ", auth);
 
     useEffect(() => {
         const getUserData = async () => {
