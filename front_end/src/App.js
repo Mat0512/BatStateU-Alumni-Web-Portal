@@ -11,6 +11,7 @@ import { PersistLogin } from "./PersistsLogin";
 import { Post } from "./post/Post";
 import { ActivityLog } from "./activitylog/ActivityLog";
 import { AlumniRecords } from "./alumniRecords/AlumniRecords";
+import { Dashboard } from "./dasboard/Dashboard";
 
 function App() {
     //add a state that indicates either the user is log in or not to protect routes
@@ -35,6 +36,8 @@ function App() {
                 </Route>
                 <Route path="admin" element={<PersistLogin admin={true} />}>
                     <Route element={<AdminPage />}>
+                        <Route index element={<Dashboard />} />
+
                         <Route index path="account" element={<Profile />} />
                         <Route index path="post" element={<Post />} />
                         <Route
