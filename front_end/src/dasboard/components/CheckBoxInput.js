@@ -1,18 +1,21 @@
-const CheckboxInput = ({ label, inputs, state, dispatch }) => {
+const CheckboxInput = ({ label, inputs, selectionState, handleChange }) => {
     return (
-        <div className="flex flex-col gap-1">
-            <p>{label.toUpperCase}</p>
-            {inputs.map((input) => (
-                <div>
-                    <input
-                        type="checkbox"
-                        id={label}
-                        value={input}
-                        name={label}
-                    />
-                    <label htmlFor={input}>{label.toUpperCase()}</label>
-                </div>
-            ))}
+        <div className="">
+            <p>{label.toUpperCase()}</p>
+            <div className="text-sm">
+                {inputs.map((input) => (
+                    <div key={input} className="flex justify-baseline gap-1">
+                        <input
+                            type="checkbox"
+                            id={input}
+                            checked={selectionState && selectionState[input]}
+                            onChange={handleChange && handleChange}
+                            name={label}
+                        />
+                        <label htmlFor={input}>{input}</label>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

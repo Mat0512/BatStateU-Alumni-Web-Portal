@@ -1,49 +1,5 @@
 import { getUniqueVal } from "../table/utils/tableUtils";
-import {
-    activityLogReducer,
-    INITIAL_STATE,
-} from "../reducer/ActivityLogReducer";
-import { useReducer } from "react";
 import { DateInput, SelectInput } from "../table/InputTypes";
-import SearchBar from "../search_bar/SearchBar";
-
-const dummy = [
-    {
-        testKey1: "sheesh",
-        testKey2: "hello",
-        testKey3: "_",
-    },
-    {
-        testKey1: "sheesh",
-        testKey2: "hi",
-        testKey3: "values",
-    },
-    {
-        testKey1: "sheesh",
-        testKey2: "whatsUp",
-        testKey3: "are",
-    },
-    {
-        testKey1: "sheesh",
-        testKey2: "konichiwa",
-        testKey3: "not",
-    },
-    {
-        testKey1: "sheesh",
-        testKey2: "hello",
-        testKey3: "same",
-    },
-    {
-        testKey1: "notSheesh",
-        testKey2: "hi",
-        testKey3: "!!!",
-    },
-    {
-        testKey1: "notSheesh",
-        testKey2: "hi",
-        testKey3: "!!!",
-    },
-];
 
 const FiltersSection = ({ data, state, dispatch }) => {
     const userOptions = ["all"].concat(getUniqueVal(data, "user"));

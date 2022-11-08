@@ -4,7 +4,7 @@
 const employmentStatus = [
     {
         batch: 2017,
-        program: ["Computer Science, Information Technology"],
+        program: ["Computer Science", "Information Technology"],
         "Computer Science": {
             employed: 123,
             unemployed: 1,
@@ -31,7 +31,7 @@ const employmentStatus = [
     },
     {
         batch: 2018,
-        program: ["Computer Science, Information Technology"],
+        program: ["Computer Science", "Information Technology"],
         "Computer Science": {
             employed: 123,
             unemployed: 1,
@@ -58,7 +58,7 @@ const employmentStatus = [
     },
     {
         batch: 2019,
-        program: ["Computer Science, Information Technology"],
+        program: ["Computer Science", "Information Technology"],
 
         "Computer Science": {
             employed: 123,
@@ -86,7 +86,7 @@ const employmentStatus = [
     },
     {
         batch: 2020,
-        program: ["Computer Science, Information Technology"],
+        program: ["Computer Science", "Information Technology"],
 
         "Computer Science": {
             employed: 123,
@@ -114,7 +114,7 @@ const employmentStatus = [
     },
     {
         batch: 2021,
-        program: ["Computer Science, Information Technology"],
+        program: ["Computer Science", "Information Technology"],
 
         "Computer Science": {
             employed: 123,
@@ -145,7 +145,7 @@ const employmentStatus = [
 const careerFields = [
     {
         batch: 2017,
-        program: ["Computer Science, Information Technology"],
+        program: ["Computer Science", "Information Technology"],
 
         "Computer Science": {
             fields: {
@@ -184,7 +184,7 @@ const careerFields = [
     },
     {
         batch: 2018,
-        program: ["Computer Science, Information Technology"],
+        program: ["Computer Science", "Information Technology"],
 
         "Computer Science": {
             fields: {
@@ -223,7 +223,7 @@ const careerFields = [
     },
     {
         batch: 2019,
-        program: ["Computer Science, Information Technology"],
+        program: ["Computer Science", "Information Technology"],
 
         "Computer Science": {
             fields: {
@@ -262,7 +262,7 @@ const careerFields = [
     },
     {
         batch: 2020,
-        program: ["Computer Science, Information Technology"],
+        program: ["Computer Science", "Information Technology"],
 
         "Computer Science": {
             fields: {
@@ -301,7 +301,7 @@ const careerFields = [
     },
     {
         batch: 2021,
-        program: ["Computer Science, Information Technology"],
+        program: ["Computer Science", "Information Technology"],
 
         "Computer Science": {
             fields: {
@@ -343,7 +343,7 @@ const careerFields = [
 const degreeRelevance = [
     {
         batch: 2017,
-        program: ["Computer Science, Information Technology"],
+        program: ["Computer Science", "Information Technology"],
 
         "Computer Science": {
             relevant: 123,
@@ -371,7 +371,7 @@ const degreeRelevance = [
     },
     {
         batch: 2018,
-        program: ["Computer Science, Information Technology"],
+        program: ["Computer Science", "Information Technology"],
 
         "Computer Science": {
             relevant: 123,
@@ -399,7 +399,7 @@ const degreeRelevance = [
     },
     {
         batch: 2019,
-        program: ["Computer Science, Information Technology"],
+        program: ["Computer Science", "Information Technology"],
 
         "Computer Science": {
             relevant: 123,
@@ -427,7 +427,7 @@ const degreeRelevance = [
     },
     {
         batch: 2020,
-        program: ["Computer Science, Information Technology"],
+        program: ["Computer Science", "Information Technology"],
 
         "Computer Science": {
             relevant: 123,
@@ -455,7 +455,7 @@ const degreeRelevance = [
     },
     {
         batch: 2021,
-        program: ["Computer Science, Information Technology"],
+        program: ["Computer Science", "Information Technology"],
 
         "Computer Science": {
             relevant: 123,
