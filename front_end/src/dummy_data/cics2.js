@@ -1,116 +1,1049 @@
-const employability = [
+// place employed and unemployed inside object to make accessing labels dynamic
+const employabilityV2 = [
     {
-        year: 2017,
-        data: [
-            {
-                program: "Computer Science",
-                employed: 60,
-                unemployed: 10,
+        college: "CICS",
+        program: "Computer Science",
+        values: {
+            employed: {
+                2017: 20,
+                2018: 23,
+                2019: 26,
+                2020: 28,
+                2021: 40,
             },
-            {
-                program: "Information Technology",
-                employed: 40,
-                unemployed: 20,
+            unemployed: {
+                2017: 10,
+                2018: 13,
+                2019: 16,
+                2020: 18,
+                2021: 20,
             },
-        ],
+        },
     },
+
     {
-        year: 2018,
-        data: [
-            {
-                program: "Computer Science",
-                employed: 60,
-                unemployed: 10,
+        college: "CICS",
+        program: "Information Technology",
+        values: {
+            employed: {
+                2017: 30,
+                2018: 33,
+                2019: 36,
+                2020: 38,
+                2021: 50,
             },
-            {
-                program: "Information Technology",
-                employed: 50,
-                unemployed: 20,
+            unemployed: {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
             },
-        ],
-    },
-    {
-        year: 2019,
-        data: [
-            {
-                program: "Computer Science",
-                employed: 60,
-                unemployed: 10,
-            },
-            {
-                program: "Information Technology",
-                employed: 50,
-                unemployed: 20,
-            },
-        ],
-    },
-    {
-        year: 2020,
-        data: [
-            {
-                program: "Computer Science",
-                employed: 60,
-                unemployed: 10,
-            },
-            {
-                program: "Information Technology",
-                employed: 40,
-                unemployed: 20,
-            },
-        ],
-    },
-    {
-        year: 2021,
-        data: [
-            {
-                program: "Computer Science",
-                employed: 60,
-                unemployed: 10,
-            },
-            {
-                program: "Information Technology",
-                employed: 43,
-                unemployed: 20,
-            },
-        ],
+        },
     },
 ];
 
-const employabilityV2 = [
+const careerFields = [
     {
         program: "Computer Science",
-        employed: {
-            2017: 20,
-            2018: 23,
-            2019: 26,
-            2020: 28,
-            2021: 40,
-        },
-        unemployed: {
-            2017: 10,
-            2018: 13,
-            2019: 16,
-            2020: 18,
-            2021: 20,
+        values: {
+            "Architecture, Planning & Environmental Design": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            Education: {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            International: {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Arts & Entertainment": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Engineering & Computer Science": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Law & Public Policy": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            Business: {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            Environment: {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 21,
+            },
+            "Science - Biological & Physical": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 21,
+            },
+            Communication: {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 21,
+            },
+            Government: {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 21,
+            },
+            "Social Impact": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 21,
+            },
+            "Health & Medicine": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
         },
     },
 
     {
         program: "Information Technology",
-        employed: {
-            2017: 30,
-            2018: 33,
-            2019: 36,
-            2020: 38,
-            2021: 50,
-        },
-        unemployed: {
-            2017: 10,
-            2018: 13,
-            2019: 11,
-            2020: 18,
-            2021: 30,
+        values: {
+            "Architecture, Planning & Environmental Design": {
+                2017: 10,
+                2018: 32,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            Education: {
+                2017: 10,
+                2018: 32,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            International: {
+                2017: 10,
+                2018: 32,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Arts & Entertainment": {
+                2017: 32,
+                2018: 32,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Engineering & Computer Science": {
+                2017: 32,
+                2018: 32,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Law & Public Policy": {
+                2017: 32,
+                2018: 32,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            Business: {
+                2017: 32,
+                2018: 32,
+                2019: 5,
+                2020: 18,
+                2021: 30,
+            },
+            Environment: {
+                2017: 32,
+                2018: 32,
+                2019: 5,
+                2020: 18,
+                2021: 30,
+            },
+            "Science - Biological & Physical": {
+                2017: 10,
+                2018: 32,
+                2019: 5,
+                2020: 18,
+                2021: 30,
+            },
+            Communication: {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            Government: {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Social Impact": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Health & Medicine": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
         },
     },
 ];
-export { employability, employabilityV2 };
+
+const jobRelevance = [
+    {
+        college: "CICS",
+        program: "Computer Science",
+        values: {
+            related: {
+                2017: 20,
+                2018: 23,
+                2019: 26,
+                2020: 28,
+                2021: 40,
+            },
+            unrelated: {
+                2017: 10,
+                2018: 13,
+                2019: 16,
+                2020: 18,
+                2021: 20,
+            },
+        },
+    },
+
+    {
+        college: "CICS",
+        program: "Information Technology",
+        values: {
+            related: {
+                2017: 30,
+                2018: 33,
+                2019: 36,
+                2020: 38,
+                2021: 50,
+            },
+            unrelated: {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+        },
+    },
+];
+
+const jobPositions = [
+    {
+        program: "Computer Science",
+        values: {
+            "Technical Support": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Web Developers": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Business Analyst": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Data Analyst": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Database Administrator": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "IT Consultant": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "IT Manager": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Network Engineer": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 21,
+            },
+
+            "College Instructor": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 21,
+            },
+            "Marketing Consultant": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 21,
+            },
+            "Product Marketing Manager": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 21,
+            },
+        },
+    },
+
+    {
+        program: "Information Technology",
+        values: {
+            "Architecture, Planning & Environmental Design": {
+                2017: 10,
+                2018: 32,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            Education: {
+                2017: 10,
+                2018: 32,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            International: {
+                2017: 10,
+                2018: 32,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Arts & Entertainment": {
+                2017: 32,
+                2018: 32,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Engineering & Computer Science": {
+                2017: 32,
+                2018: 32,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Law & Public Policy": {
+                2017: 32,
+                2018: 32,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            Business: {
+                2017: 32,
+                2018: 32,
+                2019: 5,
+                2020: 18,
+                2021: 30,
+            },
+            Environment: {
+                2017: 32,
+                2018: 32,
+                2019: 5,
+                2020: 18,
+                2021: 30,
+            },
+            "Science - Biological & Physical": {
+                2017: 10,
+                2018: 32,
+                2019: 5,
+                2020: 18,
+                2021: 30,
+            },
+            Communication: {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            Government: {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Social Impact": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "Health & Medicine": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+        },
+    },
+];
+
+const employementCharacteristics = [
+    {
+        program: "Computer Science",
+        values: {
+            "Regular/Permanent": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            Temporary: {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            Casual: {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            Contractual: {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            "N/A": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+        },
+    },
+    {
+        program: "Information Technology",
+        values: {
+            "Regular/Permanent": {
+                2017: 10,
+                2018: 23,
+                2019: 21,
+                2020: 38,
+                2021: 50,
+            },
+            Temporary: {
+                2017: 5,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 13,
+            },
+            Casual: {
+                2017: 10,
+                2018: 10,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+            Contractual: {
+                2017: 20,
+                2018: 13,
+                2019: 31,
+                2020: 18,
+                2021: 10,
+            },
+            "N/A": {
+                2017: 10,
+                2018: 13,
+                2019: 11,
+                2020: 18,
+                2021: 30,
+            },
+        },
+    },
+];
+
+const usefullnessOfStudies = [
+    {
+        program: "Computer Science",
+        data: {
+            "For finding an adequate job after finishing your studies": {
+                2017: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2018: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2019: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2020: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+
+                    "Not Useful": 2,
+
+                    "Not Useful at All": 2,
+                },
+                2021: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+            },
+            "For fulfilling your present professional tasks, if applicable": {
+                2017: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2018: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2019: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2020: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2021: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+            },
+            "For your future professional development/career": {
+                2017: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2018: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2019: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2020: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2021: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+            },
+            "For the development of your personality": {
+                2017: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2018: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2019: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2020: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2021: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+            },
+            "N/A": {
+                2017: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2018: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2019: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2020: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2021: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+            },
+        },
+    },
+    {
+        program: "Information Technology",
+        data: {
+            "For finding an adequate job after finishing your studies": {
+                2017: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2018: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2019: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2020: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+
+                    "Not Useful": 2,
+
+                    "Not Useful at All": 2,
+                },
+                2021: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+            },
+            "For fulfilling your present professional tasks, if applicable": {
+                2017: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2018: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2019: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2020: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2021: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+            },
+            "For your future professional development/career": {
+                2017: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2018: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2019: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2020: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2021: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+            },
+            "For the development of your personality": {
+                2017: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2018: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2019: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2020: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2021: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+            },
+            "N/A": {
+                2017: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2018: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2019: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2020: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+                2021: {
+                    "Very Useful": 12,
+                    Useful: 10,
+                    "Fairly Useful": 10,
+                    "Not Useful": 2,
+                    "Not Useful at All": 2,
+                },
+            },
+        },
+    },
+];
+
+const waitingTimeBeforeEmployed = [
+    {
+        program: "Computer Science",
+        values: {
+            "Less than 1 month": {
+                2017: 22,
+                2018: 22,
+                2019: 30,
+                2020: 18,
+                2021: 10,
+            },
+            "1-6 months": {
+                2017: 42,
+                2018: 52,
+                2019: 30,
+                2020: 18,
+                2021: 30,
+            },
+            "7-11 months": {
+                2017: 30,
+                2018: 52,
+                2019: 66,
+                2020: 38,
+                2021: 50,
+            },
+            "1 year to less than 2 years": {
+                2017: 5,
+                2018: 8,
+                2019: 0,
+                2020: 0,
+                2021: 0,
+            },
+            "2 years to less than 3 years": {
+                2017: 1,
+                2018: 2,
+                2019: 0,
+                2020: 0,
+                2021: 0,
+            },
+            "3 years to less than 4 years": {
+                2017: 2,
+                2018: 2,
+                2019: 0,
+                2020: 0,
+                2021: 0,
+            },
+        },
+    },
+
+    {
+        program: "Information Technology",
+        values: {
+            "Less than 1 month": {
+                2017: 22,
+                2018: 32,
+                2019: 5,
+                2020: 18,
+                2021: 30,
+            },
+            "1-6 months": {
+                2017: 12,
+                2018: 34,
+                2019: 11,
+                2020: 10,
+                2021: 20,
+            },
+            "7-11 months": {
+                2017: 10,
+                2018: 32,
+                2019: 23,
+                2020: 48,
+                2021: 60,
+            },
+            "1 year to less than 2 years": {
+                2017: 6,
+                2018: 14,
+                2019: 3,
+                2020: 18,
+                2021: 10,
+            },
+            "2 years to less than 3 years": {
+                2017: 2,
+                2018: 0,
+                2019: 0,
+                2020: 0,
+                2021: 0,
+            },
+            "3 years to less than 4 years": {
+                2017: 2,
+                2018: 0,
+                2019: 0,
+                2020: 0,
+                2021: 0,
+            },
+        },
+    },
+];
+
+const reasonsOfUnemployment = [];
+const jobLocation = [];
+
+export {
+    employabilityV2,
+    careerFields,
+    jobRelevance,
+    employementCharacteristics,
+    usefullnessOfStudies,
+    waitingTimeBeforeEmployed,
+    reasonsOfUnemployment,
+    jobLocation,
+};

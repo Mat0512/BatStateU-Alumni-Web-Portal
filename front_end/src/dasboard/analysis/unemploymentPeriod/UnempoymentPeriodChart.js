@@ -1,5 +1,5 @@
 import { YearRangeInput } from "../../components/YearRangeInput";
-import { horizontalBarChartOptions } from "../utils/chartOptions";
+import { verticalBarChartOptions } from "../utils/chartOptions";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -12,7 +12,7 @@ import {
 import { Bar } from "react-chartjs-2";
 import { barChartDatasetReducer } from "../utils/chartDatasetReducer";
 
-const CareerFieldsChart = ({ state, dispatch, dataset }) => {
+const UnemploymentPeriodChart = ({ state, dispatch, dataset }) => {
     ChartJS.register(
         CategoryScale,
         LinearScale,
@@ -34,7 +34,8 @@ const CareerFieldsChart = ({ state, dispatch, dataset }) => {
         );
 
     const wrapLabels = fieldLabels.map((label) => {
-        return label.length > 40 ? label.slice(0, 32).concat("...") : label;
+        // return label.length > 40 ? label.slice(0, 32).concat("...") : label;
+        return label.replace("than", "than_").split("_");
     });
 
     return (
@@ -53,7 +54,7 @@ const CareerFieldsChart = ({ state, dispatch, dataset }) => {
                         labels: wrapLabels,
                         datasets: [fieldDataset],
                     }}
-                    options={horizontalBarChartOptions}
+                    options={verticalBarChartOptions}
                 />
             )}
             <YearRangeInput
@@ -65,4 +66,4 @@ const CareerFieldsChart = ({ state, dispatch, dataset }) => {
     );
 };
 
-export { CareerFieldsChart };
+export { UnemploymentPeriodChart };

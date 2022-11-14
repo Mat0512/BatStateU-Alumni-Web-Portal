@@ -1,31 +1,35 @@
 import { VisualizationLayout } from "../../components/VisualizationLayout";
 import { FilterTab } from "../../components/FilterTab";
 import { CheckboxInput } from "../../components/CheckBoxInput";
-import { EmployabilityChart } from "./EmployabilityChart";
 import { useReducer } from "react";
 import {
     employabilityReducer,
     INITIAL_STATE,
 } from "../../../reducer/EmployabilityAnalysisReducer";
-import { employabilityV2 } from "../../../dummy_data/cics2";
+import { jobRelevance } from "../../../dummy_data/cics2";
 import { useEffect } from "react";
+import { JobRelevanceChart } from "./JobRelevanceChart";
 import { filterGroupedBarStackByProgram } from "../utils/rawDatasetFilter";
 
-const EmployabilityAnalysis = () => {
+const JobRelevanceAnalysis = () => {
     const [state, dispatch] = useReducer(employabilityReducer, INITIAL_STATE);
-    const employabilityData = [...employabilityV2];
+    const jobRelevanceData = [...jobRelevance];
 
     const filteredData = filterGroupedBarStackByProgram(
-        employabilityData,
+        jobRelevanceData,
         state
     );
 
+    console.log("filtered data: ", filteredData);
+
     useEffect(() => {
-        dispatch({
-            type: "college",
-            field: "college",
-            value: filteredData[0]?.college || "",
-        });
+        if (filteredData.length !== 0) {
+            dispatch({
+                type: "college",
+                field: "college",
+                value: filteredData[0]?.college || "",
+            });
+        }
     }, []);
 
     return (
@@ -35,7 +39,7 @@ const EmployabilityAnalysis = () => {
                 name={
                     state.isLoading
                         ? " "
-                        : `Employability Status of ${state.college} Alumni`
+                        : `Relevance of ${state.college} Alumni's Degree to Job`
                 }
             >
                 <FilterTab>
@@ -54,7 +58,7 @@ const EmployabilityAnalysis = () => {
                     />
                 </FilterTab>
 
-                <EmployabilityChart
+                <JobRelevanceChart
                     state={state}
                     dispatch={dispatch}
                     dataset={filteredData}
@@ -64,4 +68,4 @@ const EmployabilityAnalysis = () => {
     );
 };
 
-export { EmployabilityAnalysis };
+export { JobRelevanceAnalysis };

@@ -1,5 +1,3 @@
-import { YearRangeInput } from "../../components/YearRangeInput";
-import { horizontalBarChartOptions } from "../utils/chartOptions";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -10,9 +8,11 @@ import {
     Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { YearRangeInput } from "../../components/YearRangeInput";
 import { barChartDatasetReducer } from "../utils/chartDatasetReducer";
+import { horizontalBarChartOptions } from "../utils/chartOptions";
 
-const CareerFieldsChart = ({ state, dispatch, dataset }) => {
+const EmploymentCharacteristicsChart = ({ dataset, state, dispatch }) => {
     ChartJS.register(
         CategoryScale,
         LinearScale,
@@ -22,39 +22,39 @@ const CareerFieldsChart = ({ state, dispatch, dataset }) => {
         Legend
     );
 
-    // exclude this logic as utils or costum hooks
+    console.log("\n\n\n\n\n\n chart component rendered");
+    console.log("dataset at employment types: ", dataset);
+    console.log("dataset length:", dataset.length);
 
-    const fieldLabels = dataset.length && Object.keys(dataset[0].values);
-    const fieldDataset =
-        fieldLabels.length &&
+    const labels = dataset.length && Object.keys(dataset[0].values);
+    console.log("labels: ", labels);
+    const employmentCharacteristicsDataset =
+        labels.length &&
         barChartDatasetReducer(
-            fieldLabels,
+            labels,
             dataset,
-            "Alumni's Career Fields Dataset"
+            "Employment Characteristic Dataset"
         );
 
-    const wrapLabels = fieldLabels.map((label) => {
-        return label.length > 40 ? label.slice(0, 32).concat("...") : label;
-    });
-
+    console.log("filered: ", employmentCharacteristicsDataset);
     return (
         <div className="h-full grow flex flex-col justify-between">
-            {dataset.length === 0 ? (
-                <div className="flex justify-center items-center h-full">
-                    No Program Selected
-                </div>
-            ) : Object.keys(dataset).length === 0 ? (
+            {Object.keys(dataset).length === 0 ? (
                 <div className="flex justify-center items-center h-full">
                     Loading..
+                </div>
+            ) : dataset.length === 0 ? (
+                <div className="flex justify-center items-center h-full">
+                    No Program Selected
                 </div>
             ) : (
                 <Bar
                     data={{
-                        labels: wrapLabels,
-                        datasets: [fieldDataset],
+                        labels: labels,
+                        datasets: [employmentCharacteristicsDataset],
                     }}
                     options={horizontalBarChartOptions}
-                />
+                ></Bar>
             )}
             <YearRangeInput
                 yearList={[2017, 2018, 2019, 2020, 2021]}
@@ -65,4 +65,4 @@ const CareerFieldsChart = ({ state, dispatch, dataset }) => {
     );
 };
 
-export { CareerFieldsChart };
+export { EmploymentCharacteristicsChart };

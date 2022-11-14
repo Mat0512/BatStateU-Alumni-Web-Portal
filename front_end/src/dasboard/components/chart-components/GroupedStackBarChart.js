@@ -8,9 +8,9 @@ import {
     Tooltip,
     Legend,
 } from "chart.js";
-import { YearRangeInput } from "../../components/YearRangeInput";
-import { groupedBarChartOptions } from "../utils/chartOptions";
-import { groupedStackedBarDatasetReducer } from "../utils/chartDatasetReducer";
+import { YearRangeInput } from "../YearRangeInput";
+import { groupedBarChartOptions } from "../../utils/chartOptions";
+import { groupedStackedBarDatasetReducer } from "../../utils/chartDatasetReducer";
 
 const EmployabilityChart = ({ state, dispatch, dataset }) => {
     ChartJS.register(

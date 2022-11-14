@@ -12,7 +12,7 @@ import { YearRangeInput } from "../../components/YearRangeInput";
 import { groupedBarChartOptions } from "../utils/chartOptions";
 import { groupedStackedBarDatasetReducer } from "../utils/chartDatasetReducer";
 
-const EmployabilityChart = ({ state, dispatch, dataset }) => {
+const JobRelevanceChart = ({ state, dispatch, dataset }) => {
     ChartJS.register(
         CategoryScale,
         LinearScale,
@@ -22,8 +22,11 @@ const EmployabilityChart = ({ state, dispatch, dataset }) => {
         Legend
     );
 
-    const yearLabel = dataset.length && Object.keys(dataset[0].values.employed);
-    const employmentDatasets =
+    // years that was extracted are filtered outside this component
+    const yearLabel = dataset.length && Object.keys(dataset[0].values.related);
+
+    //consider extracting formatting data logic in utilities
+    const jobRelevanceDataset =
         dataset.length && groupedStackedBarDatasetReducer(dataset);
 
     return (
@@ -40,7 +43,7 @@ const EmployabilityChart = ({ state, dispatch, dataset }) => {
                 <Bar
                     data={{
                         labels: yearLabel,
-                        datasets: employmentDatasets,
+                        datasets: jobRelevanceDataset,
                     }}
                     options={groupedBarChartOptions}
                 />
@@ -54,4 +57,4 @@ const EmployabilityChart = ({ state, dispatch, dataset }) => {
     );
 };
 
-export { EmployabilityChart };
+export { JobRelevanceChart };

@@ -9,13 +9,13 @@ const YearRangeInput = ({ yearList, rangeID, state, dispatch }) => {
                 type="range"
                 min={min}
                 max={max}
-                onChange={(e) =>
+                onChange={(e) => {
                     dispatch({
                         type: "batch",
                         value: e.target.value,
                         field: "maxBatchYear",
-                    })
-                }
+                    });
+                }}
                 value={state.maxBatchYear}
                 //  list={rangeID}
             />

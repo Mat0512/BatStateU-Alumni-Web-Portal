@@ -1,15 +1,19 @@
-const CheckboxInput = ({ label, inputs, selectionState, handleChange }) => {
+const CheckboxInput = ({ label, inputs, value, handleChange }) => {
+    console.log("selection value: ", value);
     return (
-        <div className="">
+        <div className="text-sm">
             <p>{label.toUpperCase()}</p>
-            <div className="text-sm">
+            <div>
                 {inputs.map((input) => (
-                    <div key={input} className="flex justify-baseline gap-1">
+                    <div
+                        key={input}
+                        className="flex items-baseline leading-5 gap-1"
+                    >
                         <input
                             type="checkbox"
                             id={input}
-                            checked={selectionState && selectionState[input]}
-                            onChange={handleChange && handleChange}
+                            checked={value[input]}
+                            onChange={handleChange}
                             name={label}
                         />
                         <label htmlFor={input}>{input}</label>

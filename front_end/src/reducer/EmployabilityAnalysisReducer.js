@@ -1,4 +1,5 @@
 const INITIAL_STATE = {
+    college: "",
     programs: {
         "Information Technology": true,
         "Computer Science": true,
@@ -9,11 +10,14 @@ const INITIAL_STATE = {
 
 const employabilityReducer = (state, action) => {
     switch (action.type) {
-        case "batch":
-            console.log("batch called ");
+        case "college":
             return {
                 ...state,
-                isLoading: true,
+                [action.field]: action.value,
+            };
+        case "batch":
+            return {
+                ...state,
                 [action.field]: action.value,
             };
         case "program":

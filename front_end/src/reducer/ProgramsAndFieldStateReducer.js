@@ -1,30 +1,12 @@
 const INITIAL_STATE = {
-    programs: {
-        "Information Technology": true,
-        "Computer Science": true,
-    },
-    selectedProgram: "Information Technology",
-    fields: {
-        "Architecture, Planning & Environmental Design": true,
-        Education: true,
-        International: true,
-        "Arts & Entertainment": true,
-        "Engineering & Computer Science": true,
-        "Law & Public Policy": true,
-        Business: true,
-        Environment: true,
-        "Science - Biological & Physical": true,
-        Communication: true,
-        Government: true,
-        "Social Impact": true,
-        "Health & Medicine": true,
-    },
-
+    programs: [],
+    selectedProgram: "",
+    fields: {},
     maxBatchYear: 2019,
-    isLoading: false,
+    isLoading: true,
 };
 
-const careerFieldsReducer = (state, action) => {
+const programsAndFieldStateReducer = (state, action) => {
     switch (action.type) {
         case "batch":
             console.log("batch called ");
@@ -45,6 +27,15 @@ const careerFieldsReducer = (state, action) => {
                 selectedProgram: action.value,
             };
 
+        case "loadInputs":
+            console.log("loading inputs: ", action.value);
+            return {
+                ...state,
+                programs: action.value.programs,
+                selectedProgram: action.value.selectedProgram,
+                fields: action.value.fields,
+            };
+
         case "success":
             return {
                 ...state,
@@ -56,4 +47,4 @@ const careerFieldsReducer = (state, action) => {
     }
 };
 
-export { INITIAL_STATE, careerFieldsReducer };
+export { INITIAL_STATE, programsAndFieldStateReducer };
