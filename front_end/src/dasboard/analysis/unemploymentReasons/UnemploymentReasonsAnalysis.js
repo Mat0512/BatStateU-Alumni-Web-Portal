@@ -4,31 +4,34 @@ import { CheckboxInput } from "../../components/CheckBoxInput";
 import { SelectionInput } from "../../components/SelectionInput";
 import { filterByProgramAndkey } from "../utils/rawDatasetFilter";
 import { useReducer, useEffect, useState } from "react";
-import { waitingTimeBeforeEmployed } from "../../../dummy_data/cics2";
-import { UnemploymentPeriodChart } from "./UnempoymentPeriodChart";
+import { reasonsOfUnemployment } from "../../../dummy_data/cics2";
 import {
     INITIAL_STATE,
     programsAndFieldStateReducer,
 } from "../../../reducer/ProgramsAndFieldStateReducer";
-const UnemploymentPeriodAnalysis = () => {
+import { UnemploymentReasonsChart } from "./UnemploymentReasonsChart";
+
+const UnemploymentReasonsAnalysis = () => {
     const [state, dispatch] = useReducer(
         programsAndFieldStateReducer,
         INITIAL_STATE
     );
-    const waitingTimeBeforeEmployedData = [...waitingTimeBeforeEmployed];
+    const reasonsOfUnemploymentData = [...reasonsOfUnemployment];
     const [checkboxInputs, setCheckboxInputs] = useState([]);
 
     // preparing/dynamically loading state for controlled checkbox input with loaded dataset
-
     useEffect(() => {
-        const programsSelection = waitingTimeBeforeEmployedData.map(
+        const programsSelection = reasonsOfUnemploymentData.map(
             (data) => data.program
         );
+
         const fieldsState = {};
-        for (let key in waitingTimeBeforeEmployedData[0].values) {
+        for (let key in reasonsOfUnemploymentData[0].values) {
             fieldsState[key] = true;
         }
-        setCheckboxInputs(Object.keys(waitingTimeBeforeEmployedData[0].values));
+
+        setCheckboxInputs(Object.keys(reasonsOfUnemploymentData[0].values));
+
         dispatch({
             type: "loadInputs",
             value: {
@@ -43,17 +46,21 @@ const UnemploymentPeriodAnalysis = () => {
     //filtering dataset for chart
     const filteredData =
         Object.keys(state.fields).length > 0
-            ? filterByProgramAndkey(
-                  waitingTimeBeforeEmployedData,
-                  state,
-                  "fields"
-              )
+            ? filterByProgramAndkey(reasonsOfUnemploymentData, state, "fields")
             : [];
 
     return (
         <div className="flex flex-col gap-3">
             {/* <AnalysisHeader /> */}
-            <VisualizationLayout name={`Waiting Time Before Employment`}>
+            <VisualizationLayout
+                name={
+                    state.isLoading
+                        ? " "
+                        : `Employment Types of ${
+                              !state.college ? "" : state.college
+                          } Alumni`
+                }
+            >
                 <FilterTab>
                     {Object.keys(state.fields).length === 0 ? (
                         "loading"
@@ -72,7 +79,7 @@ const UnemploymentPeriodAnalysis = () => {
                                 }
                             />
                             <CheckboxInput
-                                label="Unemploymeny Length"
+                                label="Employment Characteristics"
                                 inputs={checkboxInputs}
                                 value={state.fields}
                                 handleChange={(e) =>
@@ -88,10 +95,10 @@ const UnemploymentPeriodAnalysis = () => {
                 </FilterTab>
 
                 {Object.keys(state.fields).length > 0 ? (
-                    <UnemploymentPeriodChart
-                        dataset={filteredData}
+                    <UnemploymentReasonsChart
                         state={state}
                         dispatch={dispatch}
+                        dataset={filteredData}
                     />
                 ) : (
                     "loading..."
@@ -101,4 +108,4 @@ const UnemploymentPeriodAnalysis = () => {
     );
 };
 
-export { UnemploymentPeriodAnalysis };
+export { UnemploymentReasonsAnalysis };

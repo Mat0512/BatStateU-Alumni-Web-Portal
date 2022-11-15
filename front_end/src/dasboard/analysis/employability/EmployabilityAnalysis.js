@@ -15,11 +15,6 @@ const EmployabilityAnalysis = () => {
     const [state, dispatch] = useReducer(employabilityReducer, INITIAL_STATE);
     const employabilityData = [...employabilityV2];
 
-    const filteredData = filterGroupedBarStackByProgram(
-        employabilityData,
-        state
-    );
-
     useEffect(() => {
         dispatch({
             type: "college",
@@ -27,6 +22,13 @@ const EmployabilityAnalysis = () => {
             value: filteredData[0]?.college || "",
         });
     }, []);
+
+    const filteredData = filterGroupedBarStackByProgram(
+        employabilityData,
+        state
+    );
+
+    console.log("data at analysis filtered: ", filteredData);
 
     return (
         <div className="flex flex-col gap-3">

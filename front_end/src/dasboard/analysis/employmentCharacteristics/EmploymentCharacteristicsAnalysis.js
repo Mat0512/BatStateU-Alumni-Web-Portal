@@ -13,7 +13,6 @@ import {
 } from "../../../reducer/ProgramsAndFieldStateReducer";
 
 const EmploymentCharacteristicsAnalysis = () => {
-    console.log("rendered");
     const [state, dispatch] = useReducer(
         programsAndFieldStateReducer,
         INITIAL_STATE
@@ -23,8 +22,6 @@ const EmploymentCharacteristicsAnalysis = () => {
 
     // preparing/dynamically loading state for controlled checkbox input with loaded dataset
     useEffect(() => {
-        // console.log("mounted");
-
         const programsSelection = employmentCharacteristicsData.map(
             (data) => data.program
         );
@@ -47,7 +44,6 @@ const EmploymentCharacteristicsAnalysis = () => {
         dispatch({ type: "success" });
     }, []);
 
-    console.log("state: ", state);
     //filtering dataset for chart
     const filteredData =
         Object.keys(state.fields).length > 0
@@ -57,10 +53,6 @@ const EmploymentCharacteristicsAnalysis = () => {
                   "fields"
               )
             : [];
-
-    // console.log("checkBox input: ", checkboxInputs);
-    // console.log("filtered dataset: ", filteredData);
-    console.log("\n\n\n\n\n\n\n\n");
 
     return (
         <div className="flex flex-col gap-3">

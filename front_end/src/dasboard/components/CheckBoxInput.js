@@ -1,9 +1,8 @@
 const CheckboxInput = ({ label, inputs, value, handleChange }) => {
-    console.log("selection value: ", value);
     return (
         <div className="text-sm">
             <p>{label.toUpperCase()}</p>
-            <div>
+            <div className="mt-1 flex flex-col gap-1">
                 {inputs.map((input) => (
                     <div
                         key={input}

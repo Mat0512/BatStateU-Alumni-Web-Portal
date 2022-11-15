@@ -20,8 +20,6 @@ const JobRelevanceAnalysis = () => {
         state
     );
 
-    console.log("filtered data: ", filteredData);
-
     useEffect(() => {
         if (filteredData.length !== 0) {
             dispatch({
