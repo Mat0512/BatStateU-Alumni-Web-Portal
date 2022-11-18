@@ -10,6 +10,7 @@ module.exports = {
                 roboto: ["Roboto", "sans-serif"],
                 openSans: ["Open Sans", "sans-serif"],
                 notoSans: ["Noto Sans", "sans-serif"],
+                "inter-light": ["Inter", "sans-serif"],
             },
         },
         colors: {
@@ -26,6 +27,8 @@ module.exports = {
             blue: "#1984CB",
             "light-blue": "#63CDE4",
             "grey-transparent": "rgba(150, 150, 150, 0.70)",
+            "zinc-100": "#F9F9F9",
+            "zinc-2s00": "#F0F0F0",
         },
         spacing: {
             0: "0px",

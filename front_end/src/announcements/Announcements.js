@@ -1,48 +1,50 @@
 import "../search_bar/SearchBar.js";
 import SearchBar from "../search_bar/SearchBar.js";
-import imgPlaceholder from "../assets/placeholder-img.jpg";
-
-const AnnouncementCard = (props) => {
-    return (
-        <div className="w-full max-w-lg flex flex-col gap-3 bg-grey-100 px-8 py-6 border border-grey-200 rounded shadow-lg font-poppins text-sm">
-            <h1 className="font-montserrat text-xl text-blue">
-                Lorem IpsuM Dolor Ismaet
-            </h1>
-            <div className="max-h-lg">
-                <img src={imgPlaceholder} alt="announcement-img" />
-            </div>
-            <div className="flex justify-between between">
-                <p className="max-w-xs">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </p>
-                <a
-                    href="#"
-                    className="self-center text-light-blue hover:text-blue"
-                >
-                    View More &#8594;
-                </a>
-            </div>
-        </div>
-    );
-};
+import { AnnouncementCard } from "./components/AnnouncementCard.js";
+import { announcementDummy } from "../dummy_data/announcements";
+import { useState, useEffect, useContext } from "react";
+import { client } from "../api/api";
+import AuthContext from "../context/AuthContext";
 
 const Announcements = () => {
+    console.log("rendered");
+    const [announcements, setAnnouncements] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchAnnouncements = async () => {
+            try {
+                console.log("mounted");
+
+                setIsLoading(true);
+                const res = await client.get("/announcement", {
+                    withCredentials: true,
+                });
+                console.log("announcements: ", announcements);
+                setAnnouncements(res.data);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchAnnouncements();
+    }, []);
     return (
         <>
             <SearchBar />
             <ul className="p-4 flex flex-wrap gap-x-10 gap-y-5">
-                <li>
-                    <AnnouncementCard />
-                </li>
-                <li>
-                    <AnnouncementCard />
-                </li>
-                <li>
-                    <AnnouncementCard />
-                </li>
-                <li>
-                    <AnnouncementCard />
-                </li>
+                {isLoading
+                    ? "...loading"
+                    : announcements.map((announcement) => (
+                          <li key={announcement.annnouncementId}>
+                              <AnnouncementCard
+                                  announcementId={announcement._id}
+                                  title={announcement.title}
+                                  image={announcement.image}
+                              />
+                          </li>
+                      ))}
             </ul>
         </>
     );

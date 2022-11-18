@@ -1,7 +1,7 @@
 const Main = (props) => {
     return (
         <main className="mt-18 ml-48">
-            <div className="max-w-screen-xl h-full mx-auto min-h-xl py-4 px-10">
+            <div className="w-full min-h-screen py-4 px-10 flex flex-col">
                 {props.children}
             </div>
         </main>
