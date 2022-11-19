@@ -8,7 +8,7 @@ import { AuthContextProvider } from "./context/AuthContext";
 import { AdminAuthContextProvider } from "./context/AdminAuthContext";
 import { AnnouncementContextProvider } from "./context/AnnouncementInputContext";
 import { DeleteDataContextProvider } from "./context/DeleteDataContext";
-
+import { SignUpContextProvider } from "./context/SignUpContext";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
@@ -17,7 +17,9 @@ root.render(
                 <AuthContextProvider>
                     <AnnouncementContextProvider>
                         <DeleteDataContextProvider>
-                            <App />
+                            <SignUpContextProvider>
+                                <App />
+                            </SignUpContextProvider>
                         </DeleteDataContextProvider>
                     </AnnouncementContextProvider>
                 </AuthContextProvider>

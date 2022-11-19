@@ -3,19 +3,22 @@ const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 const announcementController = require("../controllers/announcementController");
 const multer = require("multer");
+const { v4: uuidv4 } = require("uuid");
+const path = require("path");
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
         callback(null, "./uploads/images/announcements");
     },
     filename: (req, file, callback) => {
-        callback(null, file.originalname);
+        callback(
+            null,
+            uuidv4() + "-" + Date.now() + path.extname(file.originalname)
+        );
     },
 });
 
 const upload = multer({ storage: storage });
-
-console.log("controller", announcementController);
 
 router.get(
     "/",
@@ -25,7 +28,7 @@ router.get(
 
 router.get(
     "/:id",
-    authMiddleware.verifyJWT,
+    // authMiddleware.verifyJWT,
     announcementController.handleGetOneAnnounncement
 );
 

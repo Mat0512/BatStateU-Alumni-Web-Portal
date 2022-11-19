@@ -15,6 +15,7 @@ const AlumniSignup = () => {
         handleSubmit,
         formState: { errors },
     } = useForm();
+    const maxBatch = new Date().getFullYear();
 
     const handleChange = (e) => {
         dispatch({
@@ -25,7 +26,7 @@ const AlumniSignup = () => {
     };
     console.log("errors: ", errors);
     return (
-        <div className="w-full pt-8 h-screen bg-zinc-200 flex flex-col items-center overflow-x-auto	">
+        <div className="w-full py-8 h-screen bg-zinc-200 flex flex-col items-center overflow-x-auto	bg-grey-100">
             <img className="h-16" src={alumniLogo} alt="batstateu logo" />
             <form
                 className="p-5 max-w-xl w-full bg-zinc-100 border border-grey-200 rounded font-poppins flex flex-col gap-4"
@@ -45,9 +46,16 @@ const AlumniSignup = () => {
                         // handleChange={handleChange}
                         field="firstname"
                         register={register}
-                        validation={{ required: "First Name is required" }}
+                        validation={{
+                            required: "First Name is required",
+                            minLength: {
+                                value: 3,
+                                message:
+                                    "First name must be atleast 3 characters long",
+                            },
+                        }}
                     />
-                    <p clasName="text-sm font-poppins text-red">
+                    <p className="text-sm font-poppins text-red">
                         {errors.firstname?.message}
                     </p>
                     <TextInput
@@ -56,10 +64,17 @@ const AlumniSignup = () => {
                         // handleChange={handleChange}
                         field="middlename"
                         register={register}
-                        validation={{ required: "Middle Name is required" }}
+                        validation={{
+                            required: "Middle Name is required",
+                            minLength: {
+                                value: 3,
+                                message:
+                                    "Middle name must be atleast 3 characters long",
+                            },
+                        }}
                     />
-                    <p clasName="text-sm font-poppins text-red">
-                        {errors.lastname?.message}
+                    <p className="text-sm font-poppins text-red">
+                        {errors.middlename?.message}
                     </p>
 
                     <TextInput
@@ -68,9 +83,16 @@ const AlumniSignup = () => {
                         // handleChange={handleChange}
                         field="lastname"
                         register={register}
-                        validation={{ required: "Last Name is required" }}
+                        validation={{
+                            required: "Last Name is required",
+                            minLength: {
+                                value: 3,
+                                message:
+                                    "First name must be atleast 3 characters long",
+                            },
+                        }}
                     />
-                    <p clasName="text-sm font-poppins text-red">
+                    <p className="text-sm font-poppins text-red">
                         {errors.lastname?.message}
                     </p>
 
@@ -82,7 +104,7 @@ const AlumniSignup = () => {
                         register={register}
                         validation={{ required: "Address is required" }}
                     />
-                    <p clasName="text-sm font-poppins text-red">
+                    <p className="text-sm font-poppins text-red">
                         {errors.address?.message}
                     </p>
                 </div>
@@ -105,7 +127,7 @@ const AlumniSignup = () => {
                             },
                         }}
                     />
-                    <p clasName="text-sm font-poppins text-red">
+                    <p className="text-sm font-poppins text-red">
                         {errors.email?.message}
                     </p>
 
@@ -118,12 +140,12 @@ const AlumniSignup = () => {
                         validation={{
                             required: "Phone Number is required",
                             pattern: {
-                                value: /(09[\d]{9})|(639[\d]{9})/,
+                                value: /09[\d]{9}/,
                                 message: "Phone must be valid",
                             },
                         }}
                     />
-                    <p clasName="text-sm font-poppins text-red">
+                    <p className="text-sm font-poppins text-red">
                         {errors.phone?.message}
                     </p>
 
@@ -134,14 +156,13 @@ const AlumniSignup = () => {
                         field="telephone"
                         register={register}
                         validation={{
-                            required: "Telephone is required",
                             pattern: {
                                 value: /(02)[\d]{8} | [\d]{7}/,
                                 message: "Telephone must be valid",
                             },
                         }}
                     />
-                    <p clasName="text-sm font-poppins text-red">
+                    <p className="text-sm font-poppins text-red">
                         {errors.telephone?.message}
                     </p>
                 </div>
@@ -159,13 +180,15 @@ const AlumniSignup = () => {
                         register={register}
                         validation={{
                             required: "SR-Code is required",
+
                             pattern: {
                                 value: /[1-9]\d-[\d]{5}/,
-                                message: "SR-Code must be valid",
+                                message:
+                                    "SR-Code must be valid, e.g., 18-57307",
                             },
                         }}
                     />
-                    <p clasName="text-sm font-poppins text-red">
+                    <p className="text-sm font-poppins text-red">
                         {errors.srCode?.message}
                     </p>
 
@@ -176,7 +199,7 @@ const AlumniSignup = () => {
                         register={register}
                         validation={{ required: "Program is required" }}
                     />
-                    <p clasName="text-sm font-poppins text-red">
+                    <p className="text-sm font-poppins text-red">
                         {errors.program?.message}
                     </p>
 
@@ -187,13 +210,12 @@ const AlumniSignup = () => {
                         register={register}
                         validation={{
                             required: "Batch is required",
-                            pattern: {
-                                value: /20[\d]{2}/,
-                                message: "Batch must be valid",
-                            },
+                            min: 2017,
+                            max: 2022,
                         }}
+                        number
                     />
-                    <p clasName="text-sm font-poppins text-red">
+                    <p className="text-sm font-poppins text-red">
                         {errors.batch?.message}
                     </p>
 
@@ -204,14 +226,13 @@ const AlumniSignup = () => {
                         field="student Email"
                         register={register}
                         validation={{
-                            required: "Student Email is required",
                             pattern: {
                                 value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                                 message: "Email must be valid",
                             },
                         }}
                     />
-                    <p clasName="text-sm font-poppins text-red">
+                    <p className="text-sm font-poppins text-red">
                         {errors.studentEmail?.message}
                     </p>
                 </div>

@@ -5,7 +5,6 @@ import Announcements from "./announcements/Announcements";
 import { ViewAnnouncement } from "./announcements/ViewAnnouncement";
 import Profile from "./profile/Profile";
 import { Login } from "./login/Login";
-import { Signup } from "./signup/Signup";
 import { EditProfile } from "./profile/edit_form/EditProfile";
 import { Playgorund } from "./Playground";
 import { PersistLogin } from "./PersistsLogin";
@@ -15,6 +14,8 @@ import { AlumniRecords } from "./alumniRecords/AlumniRecords";
 import { Dashboard } from "./dasboard/Dashboard";
 import { Survey } from "./survey/Survey";
 import { AlumniSignup } from "./signup/alumniSignup/AlumniSignup";
+import { EmailVerificationPage } from "./signup/alumniSignup/EmailVerificationPage";
+import { SetUpAccount } from "./signup/alumniSignup/SetUpAccount";
 
 function App() {
     //add a state that indicates either the user is log in or not to protect routes
@@ -27,7 +28,17 @@ function App() {
                     <Route path="admin/auth" element={<Login admin />} />
                     <Route path="*" element={<h1>Not Found</h1>} />
                     <Route path="playground" element={<Playgorund />} />
-                    <Route path="signup/alumni" element={<AlumniSignup />} />
+                    <Route path="signup/" element={<Outlet />}>
+                        <Route path="alumni" element={<AlumniSignup />} />
+                        <Route
+                            path="email-verification"
+                            element={<EmailVerificationPage />}
+                        />
+                        <Route
+                            path="setup-credentials"
+                            element={<SetUpAccount />}
+                        />
+                    </Route>
                 </Route>
                 <Route path="alumni" element={<PersistLogin />}>
                     {/*the authorization of routes are located on AlumniPage and AdminPage component*/}

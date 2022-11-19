@@ -31,6 +31,7 @@ app.use("/admin", require("./routes/admin"));
 app.use("/announcement", require("./routes/announcement"));
 app.use("/survey", require("./routes/survey"));
 app.use("/activitylog", require("./routes/activityLog"));
+app.use("/signup", require("./routes/signup"));
 
 app.use("*", (req, res) => {
     res.status(404).send({ message: "endpoint not found" });

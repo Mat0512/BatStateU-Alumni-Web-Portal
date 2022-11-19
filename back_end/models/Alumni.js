@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { stringify } = require("uuid");
 const { Schema } = mongoose;
 
 const alumniSchema = new Schema({
@@ -19,15 +20,9 @@ const alumniSchema = new Schema({
         email: String,
     },
     address: {
-        houseNumber: String,
-        building: String,
-        street: String,
-        city: String,
-        province: String,
-        country: String,
+        type: String,
     },
     alumniBackground: {
-        fullName: String,
         srCode: String,
         program: String,
         batch: Number,
