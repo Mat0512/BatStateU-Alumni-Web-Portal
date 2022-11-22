@@ -8,7 +8,7 @@ const Banner = ({ adminLogin }) => {
     const navigateSignup = (e) => {
         e.preventDefault();
         console.log("click signup");
-        navigate("/signup");
+        navigate("/signup/alumni");
     };
 
     return (

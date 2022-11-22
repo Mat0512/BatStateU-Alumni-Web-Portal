@@ -195,18 +195,7 @@ const authenticateAlumni = asyncHandler(async (req, res) => {
 const editAlumni = asyncHandler(async (req, res) => {
     console.log("req body: ", req.body);
     const updateCopy = { ...req.body };
-    const requiredKeys = [
-        "avatar",
-        "houseNumber",
-        "building",
-        "street",
-        "city",
-        "province",
-        "country",
-        "phone",
-        "cellphone",
-        "email",
-    ];
+    const requiredKeys = ["avatar", "address", "phone", "cellphone", "email"];
 
     let missingProperty = controllersUtilities.findMissingProp(
         requiredKeys,
@@ -223,15 +212,9 @@ const editAlumni = asyncHandler(async (req, res) => {
         );
     }
 
-    //filtering out the properties with null values before passing in query formatter
-    console.log("update copy: ", updateCopy);
-
-    const filteredUpdateObj = controllersUtilities.removeEmptyProp(updateCopy);
-    console.log("filter : ", filteredUpdateObj);
-
     //formatting the objects for $set operator
     const formattedUpdateQuery =
-        controllersUtilities.formatUpdateData(filteredUpdateObj);
+        controllersUtilities.parseToNestedFieldQuery(filteredUpdateObj);
 
     console.log("formated!!!!!!: ", formattedUpdateQuery);
     console.log("user: ", req.user);
@@ -278,9 +261,18 @@ const getAlumniUser = asyncHandler(async (req, res) => {
     });
 });
 
+const handleUsernames = async (req, res) => {
+    console.log("params: ", req.params);
+    const foundAlumni = await Alumni.findOne({ username: req.params.username });
+    console.log("found", foundAlumni);
+    let statusCode = foundAlumni ? 403 : 200;
+    res.sendStatus(statusCode);
+};
+
 module.exports = {
     createAlumni,
     authenticateAlumni,
     editAlumni,
     getAlumniUser,
+    handleUsernames,
 };

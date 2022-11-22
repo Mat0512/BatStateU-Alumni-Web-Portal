@@ -16,6 +16,7 @@ import { Survey } from "./survey/Survey";
 import { AlumniSignup } from "./signup/alumniSignup/AlumniSignup";
 import { EmailVerificationPage } from "./signup/alumniSignup/EmailVerificationPage";
 import { SetUpAccount } from "./signup/alumniSignup/SetUpAccount";
+import { AlumniInfoSurvey } from "./form/survey_forms/AlumniInfoSurvey";
 
 function App() {
     //add a state that indicates either the user is log in or not to protect routes
@@ -31,11 +32,11 @@ function App() {
                     <Route path="signup/" element={<Outlet />}>
                         <Route path="alumni" element={<AlumniSignup />} />
                         <Route
-                            path="email-verification"
+                            path="email-verification/:email"
                             element={<EmailVerificationPage />}
                         />
                         <Route
-                            path="setup-credentials"
+                            path="setup-credentials/:alumniId"
                             element={<SetUpAccount />}
                         />
                     </Route>
@@ -51,6 +52,10 @@ function App() {
                         <Route path="survey" element={<Survey />} />
                         <Route path="account" element={<Profile />} />
                         <Route path="edit-profile" element={<EditProfile />} />
+                        <Route
+                            path="alumni-info-survey"
+                            element={<AlumniInfoSurvey />}
+                        />
                     </Route>
                 </Route>
                 <Route path="admin" element={<PersistLogin admin={true} />}>

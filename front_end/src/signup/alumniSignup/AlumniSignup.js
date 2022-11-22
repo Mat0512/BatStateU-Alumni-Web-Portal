@@ -1,40 +1,57 @@
 import alumniLogo from "../../assets/logo/reg-logo.svg";
-import { TextInput } from "../../form/FormInput";
-import { useReducer } from "react";
+import { TextInput, NumberInput } from "../../form/FormInput";
+import { useState } from "react";
 import {
     alumniSignupReducer,
     INITIAL_STATE,
 } from "../../reducer/SignupAlumniReducer";
 import { client } from "../../api/api";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const AlumniSignup = () => {
-    const [state, dispatch] = useReducer(alumniSignupReducer, INITIAL_STATE);
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const maxBatch = new Date().getFullYear();
+    const maxBatch = new Date();
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
-    const handleChange = (e) => {
-        dispatch({
-            type: "field",
-            field: e.target.name,
-            value: e.target.value,
-        });
+    const submit = (data) => {
+        console.log("data: ", data);
+        const submitData = async () => {
+            try {
+                setIsLoading(true);
+                const res = await client.post(
+                    "/signup/alumni-verification",
+                    data
+                );
+                console.log("res: ", res);
+                if (res.status === 201) {
+                    navigate(`/signup/email-verification/${res.data.email}`);
+                }
+            } catch (err) {
+                console.log(err);
+                if (err.response.status === 401) {
+                    alert(err.response.data.message);
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        submitData();
     };
+
     console.log("errors: ", errors);
     return (
         <div className="w-full py-8 h-screen bg-zinc-200 flex flex-col items-center overflow-x-auto	bg-grey-100">
             <img className="h-16" src={alumniLogo} alt="batstateu logo" />
             <form
                 className="p-5 max-w-xl w-full bg-zinc-100 border border-grey-200 rounded font-poppins flex flex-col gap-4"
-                onSubmit={handleSubmit((data) => {
-                    console.log("invoked");
-                    console.log("data, ", data);
-                    console.log("errors", errors);
-                })}
+                onSubmit={handleSubmit(submit)}
             >
                 <h1 className="text-2xl">Alumni Registration</h1>
                 <hr className="bg-grey-200" />
@@ -44,7 +61,7 @@ const AlumniSignup = () => {
                         label="First Name"
                         // value={state.firsname}
                         // handleChange={handleChange}
-                        field="firstname"
+                        field="firstName"
                         register={register}
                         validation={{
                             required: "First Name is required",
@@ -62,7 +79,7 @@ const AlumniSignup = () => {
                         label="Middle Name"
                         // value={state.middlename}
                         // handleChange={handleChange}
-                        field="middlename"
+                        field="middleName"
                         register={register}
                         validation={{
                             required: "Middle Name is required",
@@ -81,7 +98,7 @@ const AlumniSignup = () => {
                         label="Last Name"
                         // value={state.lastname}
                         // handleChange={handleChange}
-                        field="lastname"
+                        field="lastName"
                         register={register}
                         validation={{
                             required: "Last Name is required",
@@ -149,7 +166,7 @@ const AlumniSignup = () => {
                         {errors.phone?.message}
                     </p>
 
-                    <TextInput
+                    {/* <TextInput
                         label="Telephone Number"
                         // value={state.telephone}
                         // handleChange={handleChange}
@@ -164,7 +181,7 @@ const AlumniSignup = () => {
                     />
                     <p className="text-sm font-poppins text-red">
                         {errors.telephone?.message}
-                    </p>
+                    </p> */}
                 </div>
                 <div>
                     <p className="text-xl">Alumni Information</p>
@@ -203,17 +220,24 @@ const AlumniSignup = () => {
                         {errors.program?.message}
                     </p>
 
-                    <TextInput
+                    <NumberInput
                         label="batch"
                         // value={state.batch}
                         // handleChange={handleChange}
                         register={register}
                         validation={{
                             required: "Batch is required",
-                            min: 2017,
-                            max: 2022,
+                            min: {
+                                value: 2017,
+                                message: "Batch must not be less than 2017",
+                            },
+                            max: {
+                                value: 2022,
+                                message: "Batch must not be greater than 2022",
+                            },
                         }}
-                        number
+                        min="2017"
+                        max={maxBatch.toString()}
                     />
                     <p className="text-sm font-poppins text-red">
                         {errors.batch?.message}
@@ -223,7 +247,7 @@ const AlumniSignup = () => {
                         label="student Email"
                         // value={state.email}
                         // handleChange={handleChange}
-                        field="student Email"
+                        field="studentEmail"
                         register={register}
                         validation={{
                             pattern: {
@@ -239,8 +263,9 @@ const AlumniSignup = () => {
                 <button
                     className={`p-2 rounded w-full bg-green text-center text-lg text-white`}
                     type="submit"
+                    disabled={isLoading}
                 >
-                    Register
+                    {isLoading ? "Submitting..." : "Register"}
                 </button>
             </form>
         </div>

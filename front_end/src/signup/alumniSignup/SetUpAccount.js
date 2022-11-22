@@ -1,95 +1,164 @@
 import alumniLogo from "../../assets/logo/reg-logo.svg";
-import { TextInput, PasswordInput } from "../../form/FormInput";
+import { TextInput } from "../../form/FormInput";
 import { client } from "../../api/api";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import formatRelativeWithOptions from "date-fns/esm/fp/formatRelativeWithOptions/index";
+import { useState, useRef, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const SetUpAccount = () => {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
-    const [passNotMatched, setPassNotMatched] = useState(false);
+    const userRegex = /^[a-zA-z][a-zA-Z0-9_]{2,23}$/;
+    const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    const { alumniId } = useParams();
+    const [accountInfo, setAccountInfo] = useState({
+        username: "",
+        password: "",
+        retypedPassword: "",
+    });
+    const [passMatched, setPassMatched] = useState(false);
+    const [conflictUsername, setConflictUsername] = useState(false);
+
+    const [validUsername, setValidUsername] = useState(false);
+    const [validPass, setValidPass] = useState(false);
+
+    const [sucess, setSuccess] = useState(false);
+
+    useEffect(() => {
+        const result = userRegex.test(accountInfo.username);
+        console.log("username res: ", result);
+        console.log("username: ", accountInfo.username);
+        setValidUsername(result);
+        verifyUsernameAvailability(accountInfo.username);
+    }, [accountInfo.username]);
+
+    useEffect(() => {
+        const result = passwordRegex.test(accountInfo.password);
+        console.log("pass res: ", result);
+        console.log("pass: ", accountInfo.password);
+        setValidPass(result);
+        const match = accountInfo.password === accountInfo.retypedPassword;
+        setPassMatched(match);
+    }, [accountInfo.password, accountInfo.retypedPassword]);
+
+    const verifyUsernameAvailability = async (username) => {
+        try {
+            setConflictUsername(false);
+            const res = await client.get(`/api/usernames/${username}`, {
+                // signal: controller.signal,
+                withCredentials: true,
+            });
+
+            console.log("response: ", res);
+        } catch (err) {
+            if (err.response.status === 403) {
+                setConflictUsername(true);
+            }
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        try {
+            e.preventDefault();
+            console.log("alumniID: ", alumniId);
+            const res = await client.post(
+                `signup/alumni-setup-credentials/${alumniId}`,
+                {
+                    username: accountInfo.username,
+                    password: accountInfo.password,
+                }
+            );
+            console.log("res reg: ", res);
+
+            alert("regitration successfully");
+        } catch (err) {
+            alert(err);
+            console.log(err);
+        }
+    };
 
     return (
         <div className="w-full py-8 h-screen bg-zinc-200 flex flex-col gap-3 items-center overflow-x-auto bg-grey-100">
             <img className="h-16" src={alumniLogo} alt="batstateu logo" />
             <form
-                className="p-5 max-w-lg w-full bg-zinc-100 border border-grey-200 rounded font-poppins flex flex-col gap-2"
-                onSubmit={handleSubmit((data) => {
-                    setPassNotMatched(data.password !== data.retypePassword);
-                    console.log("state: ", passNotMatched);
-                    console.log("data, ", data);
-                })}
+                className="p-5 max-w-lg w-full bg-zinc-100 border border-grey-200 rounded font-poppins flex flex-col gap-3"
+                onSubmit={handleSubmit}
             >
                 <h1 className="text-2xl">Set up your credentials</h1>
-                <TextInput
-                    label="Enter Username"
-                    // value={state.firsname}
-                    // handleChange={handleChange}
-                    field="username"
-                    register={register}
-                    validation={{
-                        required: "Username is required",
-                        minLength: {
-                            value: 3,
-                            message:
-                                "Username must be atleast 3 characters long",
-                        },
-                    }}
-                />
-                <p className="text-sm font-poppins text-red">
-                    {errors.username?.message}
-                </p>
-                <TextInput
-                    password
-                    label="Enter Password"
-                    // value={state.firsname}
-                    // handleChange={handleChange}
-                    field="password"
-                    register={register}
-                    validation={{
-                        required: "Password is required",
-                        minLength: {
-                            value: 6,
-                            message:
-                                "Password must be atleast 6 characters long",
-                        },
-                        pattern: {
-                            value: /^(?=.*[0-9])(?=.*[!@#$%^&*.,])[a-zA-Z0-9!@#$%^&*.,]{6,16}$/,
-                            message:
-                                "Password must contain atleast 6 characters, 1 uppercase, 1 lowercase, 1 number, and 1 special characters",
-                        },
-                    }}
-                />
-                <p className="text-sm font-poppins text-red">
-                    {errors.password?.message}
-                </p>
-                <TextInput
-                    password
-                    label="Retype Password"
-                    // value={state.firsname}
-                    // handleChange={handleChange}
-                    field="retypePassword"
-                    register={register}
-                    validation={{
-                        required: "Retype password is required",
-                        minLength: {
-                            value: 6,
-                            message: "Must be atleast 6 characters long",
-                        },
-                    }}
-                />
-                <p className="text-sm font-poppins text-red">
-                    {errors.retypePassword?.message}
-                    {passNotMatched && "Password Not Matched"}
-                </p>
+
+                <div className="flex flex-col w-full">
+                    <label htmlFor="username">Username</label>
+                    <input
+                        id="username"
+                        className="p-2 border border-grey-200 rounded"
+                        autoComplete="false"
+                        type="text"
+                        onChange={(e) => {
+                            setAccountInfo({
+                                ...accountInfo,
+                                username: e.target.value,
+                            });
+                        }}
+                        value={accountInfo.username}
+                        required
+                    />
+                </div>
+                <p className="text-sm font-poppins text-red">{`${
+                    !validUsername && accountInfo.username
+                        ? "Username must have atleast 3 characters, begins with letter and doesn't have special characters except underscore"
+                        : conflictUsername
+                        ? "Username is taken"
+                        : ""
+                }`}</p>
+                <div className="flex flex-col w-full">
+                    <label htmlFor="password">Password</label>
+                    <input
+                        id="accountInfo"
+                        className="p-2 border border-grey-200 rounded"
+                        type="password"
+                        autoComplete="new-password"
+                        onChange={(e) =>
+                            setAccountInfo({
+                                ...accountInfo,
+                                password: e.target.value,
+                            })
+                        }
+                        value={accountInfo.password}
+                        required
+                    />
+                </div>
+                <p className="text-sm font-poppins text-red">{`${
+                    !validPass && accountInfo.password
+                        ? "Password must have lowercase letter, uppercase letter, number, special characters (allowed: @$!%*?&), and 8-24 charaters long"
+                        : ""
+                }`}</p>
+                <div className="flex flex-col w-full">
+                    <label htmlFor="retypedPass">Retype Password</label>
+                    <input
+                        id="retypedPass"
+                        className="p-2 border border-grey-200 rounded"
+                        type="password"
+                        onChange={(e) =>
+                            setAccountInfo({
+                                ...accountInfo,
+                                retypedPassword: e.target.value,
+                            })
+                        }
+                        value={accountInfo.retypedPassword}
+                        required
+                    />
+                </div>
+                <p className="text-sm font-poppins text-red">{`${
+                    !passMatched && accountInfo.retypedPassword
+                        ? "Password not matched"
+                        : ""
+                }`}</p>
 
                 <button
                     type="submit"
-                    className="p-2 rounded w-full bg-green text-center text-lg text-white"
+                    className={`p-2 rounded w-full bg-green text-center text-lg text-white ${
+                        conflictUsername || !passMatched ? "opacity-50" : null
+                    }`}
+                    disabled={conflictUsername || !passMatched}
                 >
                     Create Account
                 </button>

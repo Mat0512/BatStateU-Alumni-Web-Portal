@@ -1,16 +1,17 @@
 import { useContext } from "react";
 import mailImage from "../../assets/icons/mail.png";
 import SignUpContext from "../../context/SignUpContext";
+import { useParams } from "react-router-dom";
 
 const EmailVerificationPage = () => {
-    const { emailVerification } = useContext(SignUpContext);
+    const { email } = useParams();
     return (
-        <div className="w-screen h-screen flex justify-center items-center bg-grey-100 ">
-            <div className="max-w-xl py-14 flex flex-col gap-5 bg-white items-center shadow-lg text-center rounded">
+        <div className="w-screen h-screen flex justify-center items-center bg-grey-100">
+            <div className="max-w-xl px-9 py-14 flex flex-col gap-5 bg-white items-center shadow-lg text-center rounded">
                 <img className="w-36" src={mailImage} alt="email icon" />
                 <p className="text-center font-poppins text-lg text-gret-400">
                     <span className="block color">{`Email Verification for alumni registration is sent to ${
-                        emailVerification || "exampleemail@email.com"
+                        email || "exampleemail@email.com"
                     }`}</span>
                     Please verify to continue your registration process.
                 </p>

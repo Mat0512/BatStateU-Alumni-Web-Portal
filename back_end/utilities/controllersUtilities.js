@@ -74,6 +74,46 @@ const formatUpdateData = (updateObj) => {
     // });
 };
 
+//creates a query object that fields are like this:  "parentKey.childKey" : "value";
+// this makes to query only with selected nested fields
+const parseToNestedFieldQuery = (data) => {
+    // removes empty value data on fields to avoid updating fields to have empty value
+    const removeEmptyPropHelper = (rawData) => {
+        const cleanedData = { ...rawData };
+        for (key in cleanedData) {
+            if (typeof cleanedData === "object") {
+                for (nestedKey in cleanedData[key]) {
+                    if (cleanedData[key][nestedKey] === "") {
+                        delete cleanedData[key][nestedKey];
+                    }
+                }
+            } else {
+                if (cleanedData[key] === "") {
+                    delete cleanedData[key][nestedKey];
+                }
+            }
+        }
+
+        return cleanedData;
+    };
+
+    let cleanedData = removeEmptyPropHelper(data);
+
+    let parsedQuery = {};
+    for (parentKey in cleanedData) {
+        if (typeof cleanedData[parentKey] === "object") {
+            for (let key in cleanedData[parentKey]) {
+                parsedQuery[`${parentKey}.${key}`] =
+                    cleanedData[parentKey][key];
+            }
+        } else {
+            parsedQuery[parentKey] = cleanedData[parentKey];
+        }
+    }
+    console.log(parsedQuery);
+    return parsedQuery;
+};
+
 //removes empty string in objects
 // const removeEmptyProp = (obj) => {
 //     //checks type of the current property
@@ -177,4 +217,5 @@ module.exports = {
     formatUpdateData,
     removeEmptyProp,
     matchCollege,
+    parseToNestedFieldQuery,
 };

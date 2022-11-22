@@ -1,14 +1,15 @@
 const mongoose = require("mongoose");
-const { stringify } = require("uuid");
 const { Schema } = mongoose;
 
 const alumniSchema = new Schema({
     name: {
         firstName: String,
+        middleName: String,
         lastName: String,
     },
-    username: String,
-    password: String,
+    username: { type: String, default: null, unique: true },
+    password: { type: String, default: null },
+    verified: Boolean,
     avatar: String,
     refreshToken: {
         type: String,
@@ -26,7 +27,7 @@ const alumniSchema = new Schema({
         srCode: String,
         program: String,
         batch: Number,
-        studentEmail: String,
+        studentEmail: { type: String, default: null },
     },
 });
 
