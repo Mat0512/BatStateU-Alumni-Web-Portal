@@ -17,6 +17,7 @@ import { AlumniSignup } from "./signup/alumniSignup/AlumniSignup";
 import { EmailVerificationPage } from "./signup/alumniSignup/EmailVerificationPage";
 import { SetUpAccount } from "./signup/alumniSignup/SetUpAccount";
 import { AlumniInfoSurvey } from "./form/survey_forms/AlumniInfoSurvey";
+import { AlumniTrackingSurvey } from "./form/survey_forms/AlumniTrackingSurvey";
 
 function App() {
     //add a state that indicates either the user is log in or not to protect routes
@@ -55,6 +56,10 @@ function App() {
                         <Route
                             path="alumni-info-survey"
                             element={<AlumniInfoSurvey />}
+                        />
+                        <Route
+                            path="alumni-tracking-survey"
+                            element={<AlumniTrackingSurvey />}
                         />
                     </Route>
                 </Route>

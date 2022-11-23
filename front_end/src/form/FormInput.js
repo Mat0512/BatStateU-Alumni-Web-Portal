@@ -54,7 +54,7 @@ const MultipleInputs = ({
                             type={radio ? "radio" : "checkbox"}
                             value={selection}
                             {...register(field, validation)}
-                        />{" "}
+                        />
                         <label htmlFor={selection}>
                             {capitalizeHelper(selection)}
                         </label>
@@ -71,6 +71,7 @@ const SelectionsInput = ({
     field,
     validation,
     selections,
+    onChange,
 }) => {
     return (
         <div className="flex flex-col">
@@ -78,6 +79,29 @@ const SelectionsInput = ({
             <select
                 className="flex flex-col p-1 border border-grey-200 rounded"
                 {...register(field, validation)}
+            >
+                {selections.map((selection) => {
+                    console.log("selection: ", selection);
+                    return (
+                        <option key={selection} value={selection}>
+                            {selection}
+                        </option>
+                    );
+                })}
+            </select>
+        </div>
+    );
+};
+
+const ControlledSelectionsInput = ({ field, value, onChange, selections }) => {
+    console.log("hello");
+    return (
+        <div className="flex flex-col">
+            <label>{field}</label>
+            <select
+                className="flex flex-col p-1 border border-grey-200 rounded"
+                onChange={onChange}
+                value={value}
             >
                 {selections.map((selection) => (
                     <option key={selection} value={selection}>
@@ -126,4 +150,5 @@ export {
     capitalizeHelper,
     MultipleInputs,
     SelectionsInput,
+    ControlledSelectionsInput,
 };
