@@ -1,11 +1,15 @@
 import { useContext, useState } from "react";
 import { client } from "../../api/api";
 import SurveyFormInputContext from "../../context/SurveyFormInputContext";
+import AdminAuthContext from "../../context/AdminAuthContext";
 
 const SurveyForm = ({ title, endpoint }) => {
     const { surveyFormInput, setSurveyFormInput } = useContext(
         SurveyFormInputContext
     );
+    const { authAdmin } = useContext(AdminAuthContext);
+    console.log("hello");
+    console.log("auth from form: ", authAdmin);
     const [isLoading, setIsLoading] = useState(false);
 
     const handleTitleOnChange = (e) => {
@@ -13,11 +17,18 @@ const SurveyForm = ({ title, endpoint }) => {
     };
 
     const handleLinkOnChange = (e) => {
-        setSurveyFormInput({ ...surveyFormInput, link: e.target.value });
+        setSurveyFormInput({ ...surveyFormInput, gLink: e.target.value });
     };
 
     const handleDescriptionOnChange = (e) => {
         setSurveyFormInput({ ...surveyFormInput, description: e.target.value });
+    };
+
+    const handleEditableFormUrlOnChange = (e) => {
+        setSurveyFormInput({
+            ...surveyFormInput,
+            editableGLink: e.target.value,
+        });
     };
 
     const handleCollegeOnChange = (e) => {
@@ -32,11 +43,17 @@ const SurveyForm = ({ title, endpoint }) => {
         try {
             e.preventDefault();
             setIsLoading(true);
+            console.log("survey from form: ", surveyFormInput);
+
             const submitForm = async () => {
-                const res = await client.post(
-                    surveyFormInput.endpoint,
-                    surveyFormInput
-                );
+                const res = await client.post(surveyFormInput.endpoint, {
+                    title: surveyFormInput.title,
+                    description: surveyFormInput.description,
+                    college: surveyFormInput.college,
+                    gLink: surveyFormInput.gLink,
+                    editableGLink: surveyFormInput.editableGLink,
+                    postedBy: `${authAdmin.firstName} ${authAdmin.lastName}`,
+                });
                 console.log("res: ", res.data);
             };
             submitForm();
@@ -55,32 +72,45 @@ const SurveyForm = ({ title, endpoint }) => {
     console.log("survey context: ", surveyFormInput);
 
     return (
-        <form className="bg-white lg:w-120 p-6 rounded font-poppins flex flex-col gap-3">
+        <form className="text-sm bg-white w-144 p-6 rounded font-poppins flex flex-col gap-3">
             <h1 className="text-2xl">{title}</h1>
             <div className={formControlClassUtils}>
-                <label className={labelCLassUtil} htmlFor="announcement-title">
+                <label className={labelCLassUtil} htmlFor="survey-title">
                     Enter Announcement Title:{" "}
                 </label>
                 <input
                     className={inputTextClassUtils}
                     type="text"
-                    id="announcement-title"
+                    id="survey-title"
                     value={surveyFormInput.title}
                     onChange={handleTitleOnChange}
                 />
             </div>
             <div className={formControlClassUtils}>
-                <label className={labelCLassUtil} htmlFor="announcement-link">
+                <label className={labelCLassUtil} htmlFor="survey-link">
                     Enter GForm Link:
                 </label>
                 <input
                     className={inputTextClassUtils}
                     type="text"
-                    id="announcement-link"
-                    value={surveyFormInput.link}
+                    id="survey-link"
+                    value={surveyFormInput.gLink}
                     onChange={handleLinkOnChange}
                 />
             </div>
+            <div className={formControlClassUtils}>
+                <label className={labelCLassUtil} htmlFor="survey-edit-link">
+                    Enter Editable GForm Link:
+                </label>
+                <input
+                    className={inputTextClassUtils}
+                    type="text"
+                    id="survey-edit-link"
+                    value={surveyFormInput.editableGLink}
+                    onChange={handleEditableFormUrlOnChange}
+                />
+            </div>
+
             <div className={formControlClassUtils}>
                 <label className={labelCLassUtil} htmlFor="college">
                     Select College
@@ -92,22 +122,19 @@ const SurveyForm = ({ title, endpoint }) => {
                     name="college"
                     onChange={handleCollegeOnChange}
                 >
-                    <option value="CICS">All</option>
+                    <option value="All">All</option>
                     <option value="CICS">CICS</option>
                     <option value="CEAFA">CEAFA</option>
                     <option value="CIT">CIT</option>
                 </select>
             </div>
             <div className={formControlClassUtils}>
-                <label
-                    className={labelCLassUtil}
-                    htmlFor="announcement-description"
-                >
+                <label className={labelCLassUtil} htmlFor="survey-description">
                     Description:
                 </label>
                 <textarea
                     className="px-1.5 py-2 h-40 rounded border border-grey-300"
-                    id="announcement-description"
+                    id="survey-description"
                     value={surveyFormInput.description}
                     onChange={handleDescriptionOnChange}
                 />

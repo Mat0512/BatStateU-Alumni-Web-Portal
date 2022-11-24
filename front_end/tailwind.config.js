@@ -24,11 +24,12 @@ module.exports = {
             "grey-400": "#454545",
             "grey-300": "#878787",
             "grey-200": "#CDCDCD",
+            "light-blue": "#2587BE",
             blue: "#1984CB",
             "light-blue": "#63CDE4",
             "grey-transparent": "rgba(150, 150, 150, 0.70)",
             "zinc-100": "#F9F9F9",
-            "zinc-2s00": "#F0F0F0",
+            "zinc-200": "#F0F0F0",
         },
         spacing: {
             0: "0px",

@@ -2,11 +2,13 @@ import { createContext, useState } from "react";
 
 const SurveyFormInputContext = createContext({});
 
+//context for survey page of admin
 export const SurveyFormInputContextProvider = ({ children }) => {
     const [surveyFormInput, setSurveyFormInput] = useState({
         id: "",
         title: "",
-        url: "",
+        gLink: "",
+        editableGLink: "",
         description: "",
         college: "",
         endpoint: "",

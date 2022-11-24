@@ -18,6 +18,7 @@ import { EmailVerificationPage } from "./signup/alumniSignup/EmailVerificationPa
 import { SetUpAccount } from "./signup/alumniSignup/SetUpAccount";
 import { AlumniInfoSurvey } from "./form/survey_forms/AlumniInfoSurvey";
 import { AlumniTrackingSurvey } from "./form/survey_forms/AlumniTrackingSurvey";
+import { SurveyAdmin } from "./survey_admin/SurveyAdmin";
 
 function App() {
     //add a state that indicates either the user is log in or not to protect routes
@@ -69,6 +70,7 @@ function App() {
 
                         <Route index path="account" element={<Profile />} />
                         <Route index path="post" element={<Post />} />
+                        <Route index path="survey" element={<SurveyAdmin />} />
                         <Route
                             index
                             path="activitylog"

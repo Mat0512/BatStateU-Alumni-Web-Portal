@@ -23,17 +23,17 @@ const handlePostSurvey = asyncHandler(async (req, res) => {
     if (
         !(
             req.body.title &&
-            req.body.url &&
             req.body.description &&
-            req.body.description
+            req.body.gLink &&
+            req.body.editableGLink
         )
     ) {
         res.status(400);
     }
 
-    const survey = await Survey.createAndRecordOnLog({
-        ...req.body,
-    });
+    console.log("Post survey data at controller", req.body);
+
+    const survey = await Survey.createAndRecordOnLog(req.body);
 
     if (!survey) {
         res.sendStatus(400);

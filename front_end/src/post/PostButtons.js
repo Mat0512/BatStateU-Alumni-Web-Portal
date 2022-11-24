@@ -12,10 +12,18 @@ const PostButtons = ({
 
     const handleAddSurvey = () => {
         console.log("click add survey");
+        // adding endpoint in onclick event of add survey to make the surveyForm component  reused with editing survey
+        // for instance, if adding survey api/endpoint is declared inside surveyForm component, edit survey will use the this api instead of edit survey api/endpoint
+        //  adding endpoint is same in edit button/ handleEdit function. Located at surveyPostTable
+        // clearing survey context before adding since the edit form saves the fetched survey data in context
         setSurveyFormInput({
+            id: "",
             title: "",
-            body: "",
-            image: "",
+            gLink: "",
+            editableGlink: "",
+            description: "",
+            college: "",
+            endpoint: "",
             endpoint: "/survey/post",
         });
         setDisplayModalAddSurvey(true);

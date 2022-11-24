@@ -8,37 +8,37 @@ const surveySchema = new Schema(
         title: {
             type: String,
         },
-        link: {
-            type: String,
-        },
         description: {
             type: String,
         },
         college: {
             type: String,
         },
-        glink: {
+        gLink: {
+            type: String,
+        },
+        editableGLink: {
             type: String,
         },
         postedBy: {
             type: String,
         },
-        questions: [
-            {
-                text: String,
-                questionType: String,
-                options: [String],
-            },
-        ],
     },
     { timestamps: true }
 );
 
 surveySchema.statics.createAndRecordOnLog = async (surveyData) => {
-    console.log("survey data: ", surveyData);
-    const survey = await Survey.create(surveyData);
+    console.log("survey data at create: ", surveyData);
+    const survey = await Survey.create({
+        title: surveyData.title,
+        description: surveyData.description,
+        college: surveyData.college,
+        gLink: surveyData.gLink,
+        editableGLink: surveyData.editableGLink,
+        postedBy: surveyData.author,
+    });
 
-    // console.log("Survey: ", survey);
+    console.log("Survey created at statics: ", survey);
 
     if (!survey) {
         throw new Error("Survey not found");

@@ -23,7 +23,10 @@ const SurveyPostsTable = ({
             try {
                 const surveyId = e.target.parentNode.parentNode.id;
                 const res = await client.get(`/survey/${surveyId}`);
-                console.log("survey data: ", res.data);
+                console.log(
+                    "survey data at edit handle click post: ",
+                    res.data
+                );
                 setSurveyFormInput({
                     title: res.data.title,
                     link: res.data.link,
@@ -33,7 +36,6 @@ const SurveyPostsTable = ({
                 });
 
                 setDisplayModalEditSurvey(true);
-                console.log("Survey Response: ", res.data);
             } catch (err) {
                 alert(err);
                 console.log(err);

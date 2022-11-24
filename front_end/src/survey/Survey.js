@@ -46,14 +46,14 @@ const Survey = () => {
             <h1 className="text-xl font-poppins">Alumni Tracking Surveys</h1>
             <div className="flex flex-wrap gap-5">
                 <SurveyCard
-                    link="alumni-tracking-survey"
+                    link="../alumni-tracking-survey"
                     title={"Alumni Tracking Survey"}
                     description={
                         "This survey form is intended to gather information with regard to your - Personal Information, Alumni Information and Employability (Job and Curriculum Relevance). The data to be gathered will be used to track the employability of the alumni, to determine the effectiveness of the course curriculum taken to their current profession, and for record purposes. Rest assured that the data provided in this form will only be used for the said purpose in accordance to all the provisions of the Republic Act No. 10173 or the Data Privacy of 2012.  "
                     }
                 />
                 <SurveyCard
-                    link="alumni-info-survey"
+                    link="../alumni-info-survey"
                     title={"Alumni Information Survey"}
                     description={
                         "This survey form is intended to gather information with regard to your - Personal Information, Family Background, Training Programs, and other information which will be utilized for monitoring and tracking of records. Rest assured that the data provided in this form will only be used for the said purpose in accordance to all the provisions of the Republic Act No. 10173 or the Data Privacy of 2012."
@@ -70,7 +70,7 @@ const Survey = () => {
                     : surveys.map((survey) => (
                           <li key={survey._id}>
                               <SurveyCard
-                                  link={survey.link}
+                                  gLink={survey.gLink}
                                   title={survey.title}
                                   description={survey.description}
                                   date={survey.updatedAt}
