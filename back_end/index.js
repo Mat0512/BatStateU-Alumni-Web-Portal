@@ -11,7 +11,7 @@ const cors = require("cors");
 const connectMongoDb = require("./configs/databaseConnection");
 const errorHandler = require("./middleware/errorHandler");
 const cookieParser = require("cookie-parser");
-// const expressValidator = require("express-validator");
+const filterJson = require("./transpose");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 4000;
