@@ -25,10 +25,8 @@ app.use(express.json());
 
 app.use("/alumni", require("./routes/alumni"));
 app.use("/admin", require("./routes/admin"));
-app.use("/announcement", (req, res) => {
-    res.status(200).send("announcement path");
-});
-// app.use("/announcement", require("./routes/announcement"));
+
+app.use("/announcement", require("./routes/announcement"));
 app.use("/survey", require("./routes/survey"));
 app.use("/activitylog", require("./routes/activityLog"));
 app.use("/signup", require("./routes/signup"));
