@@ -11,7 +11,7 @@ const Announcements = () => {
     const [announcements, setAnnouncements] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    console.log("hello");
+    console.log("at announcements");
     console.log("\n\n !!!env var", process.env);
 
     useEffect(() => {

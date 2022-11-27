@@ -23,9 +23,6 @@ app.use(cookieParser());
 app.use(express.json());
 // app.use(expressValidator()); bug
 
-app.get("/", (req, res) => {
-    res.send("hello world");
-});
 app.use("/alumni", require("./routes/alumni"));
 app.use("/admin", require("./routes/admin"));
 app.use("/announcement", require("./routes/announcement"));
