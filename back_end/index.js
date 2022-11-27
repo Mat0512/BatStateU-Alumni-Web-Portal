@@ -32,8 +32,6 @@ app.use("/activitylog", require("./routes/activityLog.js"));
 app.use("/signup", require("./routes/signup.js"));
 app.use("/api/usernames", require("./routes/api/usernames.js"));
 
-app.use("/test", require("./routes/test.js"));
-
 app.use("*", (req, res) => {
     res.status(404).send({ message: "endpoint not found" });
 });
