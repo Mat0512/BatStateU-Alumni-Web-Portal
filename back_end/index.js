@@ -23,14 +23,18 @@ app.use(cookieParser());
 app.use(express.json());
 // app.use(expressValidator()); bug
 
-app.use("/alumni", require("./routes/alumni"));
-app.use("/admin", require("./routes/admin"));
+app.use("/alumni", require("./routes/alumni.js"));
+app.use("/admin", require("./routes/admin.js"));
 
 app.use("/announcement", require("./routes/announcement.js"));
 app.use("/survey", require("./routes/survey.js"));
 app.use("/activitylog", require("./routes/activityLog.js"));
 app.use("/signup", require("./routes/signup.js"));
 app.use("/api/usernames", require("./routes/api/usernames.js"));
+
+app.use("/test", (req, res) => {
+    res.status(404).send({ message: "test" });
+});
 
 app.use("*", (req, res) => {
     res.status(404).send({ message: "endpoint not found" });

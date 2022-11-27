@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const adminController = require("../controllers/adminController");
-const refreshTokenController = require("../controllers/refreshTokenController");
-const authMiddleware = require("../middleware/authMiddleware");
-const logoutController = require("../controllers/logoutController");
+const adminController = require("../controllers/adminController.js");
+const refreshTokenController = require("../controllers/refreshTokenController.js");
+const authMiddleware = require("../middleware/authMiddleware.js");
+const logoutController = require("../controllers/logoutController.js");
 
 router.post("/auth", adminController.authenticateAdmin);
 router.post("/signup", adminController.createAdmin);
