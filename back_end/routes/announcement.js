@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const authMiddleware = require("../middleware/authMiddleware");
-const announcementController = require("../controllers/announcementController");
+const authMiddleware = require("../middleware/authMiddleware.js");
+const announcementController = require("../controllers/announcementController.js");
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
