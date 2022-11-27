@@ -6,7 +6,6 @@ import { ViewAnnouncement } from "./announcements/ViewAnnouncement";
 import Profile from "./profile/Profile";
 import { Login } from "./login/Login";
 import { EditProfile } from "./profile/edit_form/EditProfile";
-import { Playgorund } from "./Playground";
 import { PersistLogin } from "./PersistsLogin";
 import { Post } from "./post/Post";
 import { ActivityLog } from "./activitylog/ActivityLog";
@@ -21,8 +20,6 @@ import { AlumniTrackingSurvey } from "./form/survey_forms/AlumniTrackingSurvey";
 import { SurveyAdmin } from "./survey_admin/SurveyAdmin";
 
 function App() {
-    //add a state that indicates either the user is log in or not to protect routes
-
     return (
         <div className="w-full h-screen">
             <Routes>
@@ -30,7 +27,6 @@ function App() {
                     <Route index element={<Login />} />
                     <Route path="admin/auth" element={<Login admin />} />
                     <Route path="*" element={<h1>Not Found</h1>} />
-                    <Route path="playground" element={<Playgorund />} />
                     <Route path="signup/" element={<Outlet />}>
                         <Route path="alumni" element={<AlumniSignup />} />
                         <Route

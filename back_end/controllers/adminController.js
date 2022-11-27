@@ -146,10 +146,9 @@ const authenticateAdmin = asyncHandler(async (req, res) => {
     //save refresh token in the databse for preventing refresh token reuse, a kind of exploiting resources with refresh token
 
     console.log("foundUser: ", foundUser);
-    console.log("refresh token: ", refreshToken);
-
     foundUser.refreshToken = refreshToken;
     const updatedUser = await foundUser.save();
+    console.log("refresh token in authuser: ", updatedUser.refreshToken);
 
     if (!updatedUser) {
         throw new Error("mongoose did not update refresh token");

@@ -8,14 +8,18 @@ const useRefreshToken = () => {
     const { setAuthAdmin } = useContext(AdminAuthContext);
 
     const refresh = async (user = null) => {
-        const isAdmin = user === "admin";
-        const endpoint = isAdmin ? "/admin/refresh" : "/alumni/refresh";
+        try {
+            const isAdmin = user === "admin";
+            const endpoint = isAdmin ? "/admin/refresh" : "/alumni/refresh";
 
-        let res = await client.get(endpoint, { withCredentials: true });
-        if (isAdmin) {
-            setAuthAdmin(res.data);
-        } else {
-            setAuth(res.data);
+            let res = await client.get(endpoint, { withCredentials: true });
+            if (isAdmin) {
+                setAuthAdmin(res.data);
+            } else {
+                setAuth(res.data);
+            }
+        } catch (err) {
+            console.log("error: ", err);
         }
     };
 

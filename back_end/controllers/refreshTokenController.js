@@ -61,6 +61,9 @@ const handleAlumniRefreshToken = asyncHandler(async (req, res) => {
 
 const handleAdminRefreshToken = asyncHandler(async (req, res) => {
     //checks if username is taken
+    console.log("\n\n\n checking cookies: ");
+    console.log(req.cookies ? req.cookies : "none");
+
     const cookies = req.cookies;
     if (!cookies?.jwt) {
         res.status(401);
@@ -83,7 +86,7 @@ const handleAdminRefreshToken = asyncHandler(async (req, res) => {
         process.env.REFRESH_TOKEN_SECRET
     );
 
-    console.log("decoded: ", decoded);
+    console.log("decoded ref token: ", decoded);
     console.log("username: ", foundUser.username);
 
     if (!decoded || decoded.username !== foundUser.username) {
