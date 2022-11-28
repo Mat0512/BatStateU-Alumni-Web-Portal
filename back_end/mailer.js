@@ -13,7 +13,7 @@ const sendVerificationEmail = async ({ toUser, hash }) => {
 
         const message = {
             from: process.env.GOOGLE_USER,
-            to: toUser.email,
+            to: toUser,
             subject: "Verify Your Email for Alumni Registration",
             html: verificationTemplate(hash),
         };

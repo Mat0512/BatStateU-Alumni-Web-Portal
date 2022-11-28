@@ -45,7 +45,6 @@ const handleAlumniVerification = async (req, res) => {
 
     //check if alumni information are recorded on alumni graduates
     const verifiedAlumni = await AlumniDummy.findOne(query).exec();
-
     console.log("verifiedAlumni: ", verifiedAlumni);
 
     if (!verifiedAlumni) {
@@ -87,7 +86,9 @@ const handleAlumniVerification = async (req, res) => {
     }
 
     //if verified and doesn't have existing unverified account, create alumni record/account with unverified status
+
     // verifying account will be handled on different controller(handleVerifiedAlumni)
+
     const newUnverifiedAlumni = await Alumni.create({
         name: {
             firstName: req.body.firstName,
