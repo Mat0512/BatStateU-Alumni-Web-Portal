@@ -36,6 +36,8 @@ const AlumniSignup = () => {
                 console.log(err);
                 if (err.response.status === 401) {
                     alert(err.response.data.message);
+                } else {
+                    alert(err.response.data.message);
                 }
             } finally {
                 setIsLoading(false);
