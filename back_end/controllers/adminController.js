@@ -16,12 +16,7 @@ const createAdmin = asyncHandler(async (req, res) => {
         "role",
         "phone",
         "cellphone",
-        "houseNumber",
-        "building",
-        "street",
-        "city",
-        "province",
-        "country",
+        "address",
     ];
     let missingProperty = controllersUtilities.findMissingProp(
         requiredKeys,
@@ -57,15 +52,10 @@ const createAdmin = asyncHandler(async (req, res) => {
             phone: req.body.phone,
             cellphone: req.body.cellphone,
         },
-        address: {
-            houseNumber: req.body.houseNumber,
-            building: req.body.building,
-            street: req.body.street,
-            city: req.body.city,
-            province: req.body.province,
-            country: req.body.country,
-        },
+        address: req.body.address,
     };
+
+    //hasing pass
 
     const hashedPass = await bcrypt.hash(req.body.password, saltRounds);
     adminRegistrationData.password = hashedPass;
@@ -73,6 +63,7 @@ const createAdmin = asyncHandler(async (req, res) => {
     const newAdmin = await Admin.create(adminRegistrationData);
     console.log("newAdmin: ", newAdmin);
 
+    //jwt ref
     const token = jwt.sign(
         { username: newAdmin.username },
         process.env.SECRET_KEY,
@@ -98,6 +89,7 @@ const authenticateAdmin = asyncHandler(async (req, res) => {
         requiredKeys,
         req.body
     );
+
     //check if username and password are in request body
     if (missingProp.length !== 0) {
         res.status(400);
@@ -107,6 +99,7 @@ const authenticateAdmin = asyncHandler(async (req, res) => {
             } ${missingProp.length > 1 ? "are" : "is"} required.`
         );
     }
+
     const foundUser = await Admin.findOne({ username: req.body.username });
 
     //check if user exist
@@ -175,18 +168,7 @@ const authenticateAdmin = asyncHandler(async (req, res) => {
 
 const editAdmin = asyncHandler(async (req, res) => {
     console.log("req body: ", req.body);
-    const requiredKeys = [
-        "avatar",
-        "houseNumber",
-        "building",
-        "street",
-        "city",
-        "province",
-        "country",
-        "phone",
-        "cellphone",
-        "email",
-    ];
+    const requiredKeys = ["avatar", "address", "phone", "cellphone", "email"];
 
     let missingProperty = controllersUtilities.findMissingProp(
         requiredKeys,

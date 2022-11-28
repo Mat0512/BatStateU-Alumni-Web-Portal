@@ -8,30 +8,17 @@ const EditProfile = ({ user }) => {
     const [email, setEmail] = useState(user.email);
     const [phone, setPhone] = useState(user.phone);
     const [cellphone, setCellphone] = useState(user.cellphone);
-    const [houseNumber, setHouseNumber] = useState(user.address.houseNumber);
-    const [building, setBuilding] = useState(user.address.building);
-    const [street, setStreet] = useState(user.address.street);
-    const [city, setCity] = useState(user.address.city);
-    const [province, setProvince] = useState(user.address.province);
-    const [country, setCountry] = useState(user.address.country);
+    const [address, setAddress] = useState(user.address);
     const { auth } = useContext(AuthContext);
     const { authAdmin } = useContext(AdminAuthContext);
 
-    const endpoint = `/${auth.user ? "alumni/edit" : "admin/edit"}`;
+    const endpoint = `/${auth.username ? "alumni/edit" : "admin/edit"}`;
     const token = auth.token ? auth.token : authAdmin.token;
 
     const submit = (e) => {
         e.preventDefault();
         console.log("submitted");
-        if (
-            !email &&
-            !phone &&
-            !houseNumber &&
-            !building &&
-            !street &&
-            !city &&
-            !province
-        ) {
+        if (!email && !phone && !address) {
             alert(" Atleast one input must have.");
             return;
         }
@@ -42,12 +29,7 @@ const EditProfile = ({ user }) => {
                 `${endpoint}`,
                 {
                     avatar: "",
-                    houseNumber: houseNumber,
-                    building: building,
-                    street: street,
-                    city: city,
-                    province: province,
-                    country: country,
+                    address: address,
                     phone: phone,
                     cellphone: cellphone,
                     email: email,
@@ -103,59 +85,15 @@ const EditProfile = ({ user }) => {
                         }}
                     />
                     <TextInput
-                        value={houseNumber}
-                        label={"House Number"}
+                        value={address}
+                        label={"Address"}
                         type={"text"}
                         handleChange={(e) => {
                             console.log("triggered");
-                            setHouseNumber(e.target.value);
+                            setAddress(e.target.value);
                         }}
                     />
-                    <TextInput
-                        value={building}
-                        label={"Building"}
-                        type={"text"}
-                        handleChange={(e) => {
-                            console.log("triggered");
-                            setBuilding(e.target.value);
-                        }}
-                    />
-                    <TextInput
-                        value={street}
-                        label={"Street"}
-                        type={"text"}
-                        handleChange={(e) => {
-                            console.log("triggered");
-                            setStreet(e.target.value);
-                        }}
-                    />
-                    <TextInput
-                        value={city}
-                        label={"City"}
-                        type={"text"}
-                        handleChange={(e) => {
-                            console.log("triggered");
-                            setCity(e.target.value);
-                        }}
-                    />
-                    <TextInput
-                        value={province}
-                        label={"Province"}
-                        type={"text"}
-                        handleChange={(e) => {
-                            console.log("triggered");
-                            setProvince(e.target.value);
-                        }}
-                    />
-                    <TextInput
-                        value={country}
-                        label={"Country"}
-                        type={"text"}
-                        handleChange={(e) => {
-                            console.log("triggered");
-                            setCountry(e.target.value);
-                        }}
-                    />
+
                     <button
                         className="bg-blue text-white w-24 py-1 font-poppins text-sm rounded self-center"
                         onClick={submit}

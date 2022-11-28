@@ -1,18 +1,9 @@
 import { UserData } from "./UserData";
 
 const AlumniData = ({ alumniUser }) => {
-    const { houseNumber, building, street, city, province } =
-        alumniUser.address;
-
-    const address = `${houseNumber ? houseNumber + ", " : ""}${
-        building ? building + ", " : ""
-    }${street ? street + ", " : ""}${city ? city + ", " : ""}${
-        province ? province : ""
-    }`;
-
     return (
         <>
-            <div className="text-3xl font-openSans font-bold">
+            <div className="text-2xl font-openSans font-bold self-center">
                 {`${alumniUser.firstname} ${alumniUser.lastname}`}
             </div>
             <div className="flex flex-wrap justify-between">
@@ -26,9 +17,9 @@ const AlumniData = ({ alumniUser }) => {
                     />
                 </div>
                 <div>
-                    <UserData label={"Address"} value={address} />
+                    <UserData label={"Address"} value={alumniUser.address} />
                     <UserData label={"Email"} value={alumniUser.email} />
-                    <UserData label={"Phone"} value={alumniUser.phone} />
+                    <UserData label={"Phone"} value={alumniUser.cellphone} />
                 </div>
             </div>
         </>

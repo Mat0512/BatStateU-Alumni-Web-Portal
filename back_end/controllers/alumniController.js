@@ -195,8 +195,9 @@ const authenticateAlumni = asyncHandler(async (req, res) => {
 });
 
 const editAlumni = asyncHandler(async (req, res) => {
+    //the req.user was defined in verifyjwt middleware
+
     console.log("req body: ", req.body);
-    const updateCopy = { ...req.body };
     const requiredKeys = ["avatar", "address", "phone", "cellphone", "email"];
 
     let missingProperty = controllersUtilities.findMissingProp(
@@ -213,6 +214,9 @@ const editAlumni = asyncHandler(async (req, res) => {
             }: ${missingProperty}`
         );
     }
+
+    //filtering out the properties with null values
+    const filteredUpdateObj = controllersUtilities.removeEmptyProp(req.body);
 
     //formatting the objects for $set operator
     const formattedUpdateQuery =
@@ -255,8 +259,7 @@ const getAlumniUser = asyncHandler(async (req, res) => {
         lastname: user.name.lastName,
         username: user.username,
         address: user.address,
-        phone: user.contact.phone,
-        cellphone: user.contact.cellphone,
+        cellphone: user.contact.phone,
         email: user.contact.email,
         batch: user.alumniBackground.batch,
         program: user.alumniBackground.program,

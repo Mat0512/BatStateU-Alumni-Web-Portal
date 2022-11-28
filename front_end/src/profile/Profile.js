@@ -19,7 +19,7 @@ const Profile = () => {
     const [editPass, setEditPass] = useState(false);
     const { auth } = useContext(AuthContext);
     const { authAdmin } = useContext(AdminAuthContext);
-    let isUserALumni = auth.user;
+    let isUserALumni = auth.username;
 
     const apiEndpoint = isUserALumni
         ? `/alumni/account/${auth.username}`
@@ -28,6 +28,7 @@ const Profile = () => {
 
     console.log("admin: ", authAdmin);
     console.log("alumni: ", auth);
+    console.log("api: ", apiEndpoint);
 
     useEffect(() => {
         const getUserData = async () => {
@@ -48,7 +49,7 @@ const Profile = () => {
     }, [editProfile]);
 
     return (
-        <div className="mt-10">
+        <div className="mt-10 self-center">
             {/*Modals */}
             <div
                 className={`absolute z-30 w-full h-screen inset-0 ${
@@ -69,9 +70,9 @@ const Profile = () => {
             </div>
             {/*Modals */}
 
-            <div className="bg-grey-100 flex text-454545 font-notoSans border border-grey-200 shadow-lg md:w-196 md:flex-row">
+            <div className="pt-10 max-w-md bg-grey-100 flex flex-col items-center text-454545 text-sm font-notoSans border border-grey-200 shadow-lg">
                 <UserImage />
-                <div className="w-full px-7 py-6 flex flex-col justify-center gap-4 ">
+                <div className="w-full px-7 py-6 flex flex-col justify-center gap-5 ">
                     {alumniUser ? (
                         <AlumniData alumniUser={alumniUser} />
                     ) : adminUser ? (
@@ -81,7 +82,7 @@ const Profile = () => {
                         <h1>Loading</h1>
                     )}
                     {/*buttons for triggering modals*/}
-                    <div className="self-start flex gap-3">
+                    <div className="self-center flex gap-3">
                         <button
                             className="bg-blue py-1.5 px-3 text-white font-poppins rounded text-xs"
                             onClick={() => setEditPass(true)}

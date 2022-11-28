@@ -31,6 +31,7 @@ const upload = multer({ storage: storage });
 
 router.put("/edit", authMiddleware.verifyJWT, alumniController.editAlumni);
 router.get("/refresh", refreshTokenController.handleAlumniRefreshToken);
+
 router.get(
     "/logout",
     authMiddleware.verifyJWT,

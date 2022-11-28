@@ -21,12 +21,7 @@ const adminSchema = new Schema({
         email: String,
     },
     address: {
-        houseNumber: String,
-        building: String,
-        street: String,
-        city: String,
-        province: String,
-        country: String,
+        type: String,
     },
 });
 
