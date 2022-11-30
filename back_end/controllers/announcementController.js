@@ -5,6 +5,7 @@ const { body } = require("express-validator/check");
 
 const handlePostAnnouncement = asyncHandler(async (req, res) => {
     const announcement = { ...req.body };
+
     console.log("announcement from controller : ", announcement);
 
     if (!(announcement.title && announcement.body)) {
@@ -72,13 +73,31 @@ const handleDeleteAnnouncement = asyncHandler(async (req, res) => {
 });
 
 const handleGetAllAnnouncement = asyncHandler(async (req, res) => {
-    const announcements = await Announcement.find();
-    res.status(200).json(announcements);
+    const page = parseInt(req.query.page || "0");
+    console.log("page: ", page);
+    const pageLimit = 4;
+    const total = await Announcement.countDocuments({});
+    console.log("total page: ", total / pageLimit);
+    const announcements = await Announcement.find({})
+        .limit(pageLimit)
+        .skip(pageLimit * page);
+
+    res.status(200).json({
+        totalPage: Math.ceil(total / pageLimit),
+        data: announcements,
+    });
 });
 
-const handleGetOneAnnounncement = asyncHandler(async (req, res) => {
-    console.log("get one announcement invoked!");
+const handleGetAnnouncementsByTitle = async (req, res) => {
+    console.log("search ");
+    // const announcements = await Announcement.find({
+    //     title: "new",
+    //     // { $regex: req.query.title, $options: "i" },
+    // });
+    res.status(200).json({ message: `query: ${req.query.title}` });
+};
 
+const handleGetOneAnnounncement = asyncHandler(async (req, res) => {
     if (!req.params.id) {
         res.sendStatus(400);
     }
@@ -139,5 +158,6 @@ module.exports = {
     handleGetAllAnnouncement,
     handleGetOneAnnounncement,
     handleGetAnnouncementImage,
+    handleGetAnnouncementsByTitle,
     validate,
 };

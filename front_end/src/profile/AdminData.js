@@ -9,13 +9,11 @@ const AdminData = ({ adminUser }) => {
             <div className="flex flex-wrap justify-between">
                 <div>
                     <UserData label={"Username"} value={adminUser.username} />
-                    <UserData label={"Username"} value={adminUser.username} />
                     <UserData label={"Cellphone"} value={adminUser.cellphone} />
                 </div>
                 <div>
                     <UserData label={"Address"} value={adminUser.address} />
                     <UserData label={"Email"} value={adminUser.email} />
-                    <UserData label={"Phone"} value={adminUser.phone} />
                 </div>
             </div>
         </>

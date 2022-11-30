@@ -51,10 +51,8 @@ const StudyUsefullnessAnalysis = () => {
                 name={
                     state.isLoading
                         ? " "
-                        : `Employment Types of ${
-                              !state.college ? "" : state.college
-                          } Alumni`
-                }
+                        : "Usefulness of the Studies"
+                    }
             >
                 <FilterTab>
                     {Object.keys(state.programs).length === 0 ? (

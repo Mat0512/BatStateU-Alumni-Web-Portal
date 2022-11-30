@@ -2,6 +2,7 @@ import { Table } from "../table/Table";
 import { Row } from "../table/Row";
 import { Columns } from "../table/Columns";
 import { Button } from "../table/Button";
+import { useState } from "react";
 
 const dummy = [
     {
@@ -63,6 +64,7 @@ const dummy = [
 ];
 
 const AlumniRecordsTable = () => {
+    const [alumniRecords, setAlumniRecords] = useState([]);
     const columns = [
         "SR-Code",
         "Student Name",
@@ -71,8 +73,6 @@ const AlumniRecordsTable = () => {
         "Batch",
         "",
     ];
-
-    const replacer = <div>HELLO!</div>;
 
     const downloadPdfColumn = (
         <div className="flex gap-2 items-center">

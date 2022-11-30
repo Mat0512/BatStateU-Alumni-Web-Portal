@@ -59,4 +59,10 @@ router.get(
     announcementController.handleGetAnnouncementImage
 );
 
+router.get(
+    "/search",
+    authMiddleware.verifyJWT,
+    announcementController.handleGetAnnouncementsByTitle
+);
+
 module.exports = router;

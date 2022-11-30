@@ -72,7 +72,7 @@ const UnemploymentPeriodAnalysis = () => {
                                 }
                             />
                             <CheckboxInput
-                                label="Unemploymeny Length"
+                                label="Unemployment Length"
                                 inputs={checkboxInputs}
                                 value={state.fields}
                                 handleChange={(e) =>

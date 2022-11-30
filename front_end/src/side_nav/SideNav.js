@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const SideNav = ({ links, admin }) => {
     // creates an array of li tags from links prop and embeds it into react router Link component
@@ -7,14 +7,16 @@ const SideNav = ({ links, admin }) => {
         let parentLink = admin ? "admin" : "alumni";
         return (
             <li key={link} className="pl-5 pb-1.5 flex items-center">
-                <Link
+                <NavLink
                     to={`/${parentLink}/${
                         i === 0 ? "" : link.toLowerCase().split(" ").join("")
                     }`}
-                    className="links"
+                    className={({ isActive }) =>
+                        isActive ? "text-red" : "text-grey-400"
+                    }
                 >
                     {link}
-                </Link>
+                </NavLink>
             </li>
         );
     });

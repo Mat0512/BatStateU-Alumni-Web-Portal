@@ -1,0 +1,33 @@
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
+
+const alumniInformationSchema = new Schema({
+    image: String,
+    "First Name": String,
+    "Middle Name": String,
+    "Last Name": String,
+    Age: Number,
+    Gender: String,
+    "Civil Status": String,
+    "Permanent Address": String,
+    "Contact Number": String,
+    "Email Address": String,
+    "Father's First Name": String,
+    "Father's Middle Name": String,
+    "Father's Last Name": String,
+    "Mother's First Name": String,
+    "Mother's Middle Name": String,
+    "Mother's Last Name": String,
+    "Title of seminar/ conference/ workshop/ short courses attended": String,
+    "Date of Attendance": Date,
+    "Conducted/Sponsored by": String,
+    "Special skills/Hobbies": String,
+    "Membership in associations/organizations": String,
+});
+
+const AlumniInformation = mongoose.model(
+    "AlumniInformation",
+    alumniInformationSchema
+);
+
+module.exports = AlumniInformation;

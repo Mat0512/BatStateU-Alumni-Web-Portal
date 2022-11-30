@@ -53,13 +53,7 @@ const UnemploymentReasonsAnalysis = () => {
         <div className="flex flex-col gap-3">
             {/* <AnalysisHeader /> */}
             <VisualizationLayout
-                name={
-                    state.isLoading
-                        ? " "
-                        : `Employment Types of ${
-                              !state.college ? "" : state.college
-                          } Alumni`
-                }
+                name={state.isLoading ? " " : "Unemployment Reasons"}
             >
                 <FilterTab>
                     {Object.keys(state.fields).length === 0 ? (
@@ -79,7 +73,7 @@ const UnemploymentReasonsAnalysis = () => {
                                 }
                             />
                             <CheckboxInput
-                                label="Employment Characteristics"
+                                label="Unemployment Characteristics"
                                 inputs={checkboxInputs}
                                 value={state.fields}
                                 handleChange={(e) =>

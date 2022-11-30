@@ -21,7 +21,7 @@ const CareerFieldsAnalysis = () => {
     );
 
     return (
-        <VisualizationLayout name="Career Fields of [Program Name]">
+        <VisualizationLayout name="Career Fields">
             <FilterTab>
                 <SelectionInput
                     label="program"
