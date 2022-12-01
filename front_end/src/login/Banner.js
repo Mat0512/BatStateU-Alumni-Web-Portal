@@ -12,7 +12,7 @@ const Banner = ({ adminLogin }) => {
     };
 
     return (
-        <div className="bg-red w-1/2 px-6 py-6 flex flex-col justify-center items-center gap-4">
+        <div className="bg-red h-100 sm:h-auto md:w-1/2 px-6 py-6 flex flex-col justify-center items-center gap-4">
             <img
                 className="w-64"
                 src={adminLogin ? loginLogoAdmin : loginLogo}

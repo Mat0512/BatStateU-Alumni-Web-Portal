@@ -77,7 +77,7 @@ const SetUpAccount = () => {
     };
 
     return (
-        <div className="w-full py-8 h-screen bg-zinc-200 flex flex-col gap-3 items-center overflow-x-auto bg-grey-100">
+        <div className="px-2 w-full py-8 h-screen bg-zinc-200 flex flex-col gap-3 items-center overflow-x-auto bg-grey-100">
             <img className="h-16" src={alumniLogo} alt="batstateu logo" />
             <form
                 className="p-5 max-w-lg w-full bg-zinc-100 border border-grey-200 rounded font-poppins flex flex-col gap-3"

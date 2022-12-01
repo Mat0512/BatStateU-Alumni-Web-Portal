@@ -61,7 +61,7 @@ const LoginForm = ({ adminLogin }) => {
     // const redirectToRegist =
 
     return (
-        <form className="bg-white w-1/2 px-6 py-6 font-poppins flex flex-col justify-center gap-5">
+        <form className="bg-white h-100 sm:h-auto sm:w-1/2 px-6 py-6 font-poppins flex flex-col justify-center gap-5">
             <h1 className="text-4xl">Log In</h1>
             <div className="flex flex-col gap-3">
                 <Input

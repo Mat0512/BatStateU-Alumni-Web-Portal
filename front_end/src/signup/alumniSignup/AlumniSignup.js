@@ -49,7 +49,7 @@ const AlumniSignup = () => {
 
     console.log("errors: ", errors);
     return (
-        <div className="w-full py-8 h-screen bg-zinc-200 flex flex-col items-center overflow-x-auto	bg-grey-100">
+        <div className="w-full py-8 px-2 h-screen bg-zinc-200 flex flex-col items-center overflow-y-auto bg-grey-100">
             <img className="h-16" src={alumniLogo} alt="batstateu logo" />
             <form
                 className="p-5 max-w-xl w-full bg-zinc-100 border border-grey-200 rounded font-poppins flex flex-col gap-4"
