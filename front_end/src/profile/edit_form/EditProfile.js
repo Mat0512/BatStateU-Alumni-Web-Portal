@@ -5,9 +5,10 @@ import AuthContext from "../../context/AuthContext";
 import AdminAuthContext from "../../context/AdminAuthContext";
 
 const EditProfile = ({ user }) => {
+    console.log("!!!!!!!!!!!!!: ", user);
+
     const [email, setEmail] = useState(user.email);
     const [phone, setPhone] = useState(user.phone);
-    const [cellphone, setCellphone] = useState(user.cellphone);
     const [address, setAddress] = useState(user.address);
     const { auth } = useContext(AuthContext);
     const { authAdmin } = useContext(AdminAuthContext);
@@ -18,6 +19,7 @@ const EditProfile = ({ user }) => {
     const submit = (e) => {
         e.preventDefault();
         console.log("submitted");
+        console.log(phone);
         if (!email && !phone && !address) {
             alert(" Atleast one input must have.");
             return;
@@ -31,7 +33,6 @@ const EditProfile = ({ user }) => {
                     avatar: "",
                     address: address,
                     phone: phone,
-                    cellphone: cellphone,
                     email: email,
                 },
                 {
@@ -64,15 +65,6 @@ const EditProfile = ({ user }) => {
                         handleChange={(e) => {
                             console.log("triggered");
                             setEmail(e.target.value);
-                        }}
-                    />
-                    <TextInput
-                        value={cellphone}
-                        label={"Cellphone"}
-                        type={"text"}
-                        handleChange={(e) => {
-                            console.log("triggered");
-                            setCellphone(e.target.value);
                         }}
                     />
                     <TextInput

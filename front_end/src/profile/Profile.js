@@ -8,6 +8,7 @@ import { useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import AdminAuthContext from "../context/AdminAuthContext";
 import { client } from "../api/api";
+import { ModalHandler } from "../modals/ModalHandler";
 
 //this component is shared by alumni and admin page
 //notice that endpoint var, token var, DataSection component (AdminData, AlumniData), inputs from edit profile are conditionally set
@@ -31,11 +32,14 @@ const Profile = () => {
     console.log("api: ", apiEndpoint);
 
     useEffect(() => {
+        //set the alumni or admin data when edit modal is clicked pass the data to form and used as a default input value
         const getUserData = async () => {
             try {
                 let res = await client.get(`${apiEndpoint}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
+
+                console.log("fetched user: ", res.data);
 
                 if (isUserALumni) {
                     setAlumniUser(res.data);
@@ -46,12 +50,12 @@ const Profile = () => {
         };
 
         getUserData();
-    }, [editProfile]);
+    }, [editProfile, editPass]);
 
     return (
         <div className="mt-10 self-center">
             {/*Modals */}
-            <div
+            {/* <div
                 className={`absolute z-30 w-full h-screen inset-0 ${
                     editProfile || editPass ? "block" : "hidden"
                 } overflow-y-auto`}
@@ -67,7 +71,23 @@ const Profile = () => {
                 ) : (
                     <EditPassword userAdm={auth ? auth : authAdmin} />
                 )}
-            </div>
+            </div> */}
+            {editProfile ? (
+                <ModalHandler
+                    displayModal={editProfile}
+                    setDisplayModal={setEditProfile}
+                >
+                    <EditProfile user={alumniUser ? alumniUser : adminUser} />
+                </ModalHandler>
+            ) : editPass ? (
+                <ModalHandler
+                    displayModal={editPass}
+                    setDisplayModal={setEditPass}
+                >
+                    <EditPassword userAdm={auth ? auth : authAdmin} />
+                </ModalHandler>
+            ) : null}
+
             {/*Modals */}
 
             <div className="pt-10 max-w-md bg-grey-100 flex flex-col items-center text-454545 text-sm font-notoSans border border-grey-200 shadow-lg">

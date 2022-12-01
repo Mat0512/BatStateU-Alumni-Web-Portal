@@ -3,10 +3,11 @@ import { client } from "../api/api";
 import { format, parseISO } from "date-fns";
 import AdminAuthContext from "../context/AdminAuthContext";
 
-const useFetchAnnouncement = () => {
+const useFetchAnnouncement = (page, limit) => {
     const [announcements, setAnnouncements] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const { authAdmin } = useContext(AdminAuthContext);
+    const [totalPage, setTotalPage] = useState(0);
 
     const announcementKeyUsed = ["_id", "title", "author", "updatedAt"];
 
@@ -14,14 +15,17 @@ const useFetchAnnouncement = () => {
         const fetchAnnouncement = async () => {
             try {
                 setIsLoading(true);
-                const res = await client.get("/announcement", {
-                    headers: {
-                        authorization: `Bearer ${authAdmin.token}`,
-                    },
-                });
+                const res = await client.get(
+                    `/announcement?page=${page}&limit=${limit}`,
+                    {
+                        headers: {
+                            authorization: `Bearer ${authAdmin.token}`,
+                        },
+                    }
+                );
                 //filtering data before saving into state
 
-                const filteredAnnouncement = res.data.map((data) => {
+                const filteredAnnouncement = res.data.data.map((data) => {
                     const filteredData = {};
                     announcementKeyUsed.forEach((key) => {
                         filteredData[key] = data[key];
@@ -37,6 +41,7 @@ const useFetchAnnouncement = () => {
                 });
 
                 setAnnouncements(filteredAnnouncement);
+                setTotalPage(res.data.totalPage);
             } catch (err) {
                 console.log(err);
             } finally {
@@ -47,7 +52,7 @@ const useFetchAnnouncement = () => {
         fetchAnnouncement();
     }, []);
 
-    return { announcements, isLoading };
+    return { announcements, isLoading, totalPage };
 };
 
 export { useFetchAnnouncement };

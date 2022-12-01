@@ -31,15 +31,7 @@ const removeEmptyProp = (obj) => {
 //$set operators requires to update nested property in dot notation
 
 const formatUpdateData = (updateObj) => {
-    const contactKeys = ["phone", "cellphone", "email"];
-    const addressKeys = [
-        "houseNumber",
-        "building",
-        "street",
-        "city",
-        "province",
-        "country",
-    ];
+    const contactKeys = ["phone", "email"];
 
     console.log("type from format: ", updateObj);
     let queryString = "";
@@ -50,8 +42,6 @@ const formatUpdateData = (updateObj) => {
     updateKeys.forEach((key) => {
         if (contactKeys.includes(key)) {
             updateQuery[`contact.${key}`] = updateObj[key];
-        } else if (addressKeys.includes(key)) {
-            updateQuery[`address.${key}`] = updateObj[key];
         } else {
             updateQuery[key] = updateObj[key];
         }
@@ -98,6 +88,7 @@ const parseToNestedFieldQuery = (data) => {
     };
 
     let cleanedData = removeEmptyPropHelper(data);
+    console.log("\n\n cleaned data: ", cleanedData);
 
     let parsedQuery = {};
     for (parentKey in cleanedData) {
@@ -110,7 +101,7 @@ const parseToNestedFieldQuery = (data) => {
             parsedQuery[parentKey] = cleanedData[parentKey];
         }
     }
-    console.log(parsedQuery);
+    console.log("parsed: ", parsedQuery);
     return parsedQuery;
 };
 

@@ -17,7 +17,6 @@ const adminSchema = new Schema({
     },
     contact: {
         phone: String,
-        cellphone: String,
         email: String,
     },
     address: {

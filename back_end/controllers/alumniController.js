@@ -198,7 +198,7 @@ const editAlumni = asyncHandler(async (req, res) => {
     //the req.user was defined in verifyjwt middleware
 
     console.log("req body: ", req.body);
-    const requiredKeys = ["avatar", "address", "phone", "cellphone", "email"];
+    const requiredKeys = ["avatar", "address", "phone", "email"];
 
     let missingProperty = controllersUtilities.findMissingProp(
         requiredKeys,
@@ -207,12 +207,12 @@ const editAlumni = asyncHandler(async (req, res) => {
 
     // check if required properties are in request body
     if (missingProperty.length !== 0) {
-        res.status(400);
-        throw new Error(
-            `Missing ${
-                missingProperty.length > 1 ? "properties" : "property"
-            }: ${missingProperty}`
-        );
+        res.status(400).json({ message: "incomplete inputs" });
+        // throw new Error(
+        //     `Missing ${
+        //         missingProperty.length > 1 ? "properties" : "property"
+        //     }: ${missingProperty}`
+        // );
     }
 
     //filtering out the properties with null values
@@ -220,7 +220,7 @@ const editAlumni = asyncHandler(async (req, res) => {
 
     //formatting the objects for $set operator
     const formattedUpdateQuery =
-        controllersUtilities.parseToNestedFieldQuery(filteredUpdateObj);
+        controllersUtilities.formatUpdateData(filteredUpdateObj);
 
     console.log("formated!!!!!!: ", formattedUpdateQuery);
     console.log("user: ", req.user);
@@ -249,6 +249,9 @@ const getAlumniUser = asyncHandler(async (req, res) => {
     console.log("username: ", username);
     const user = await Alumni.findOne({ username: username }).exec();
 
+    console.log("\n\n\n!!!");
+    console.log("fopund aalumni at get alumni user controller: ", user);
+
     if (!user) {
         res.status(400);
         throw new Error("User not found.");
@@ -259,12 +262,27 @@ const getAlumniUser = asyncHandler(async (req, res) => {
         lastname: user.name.lastName,
         username: user.username,
         address: user.address,
-        cellphone: user.contact.phone,
+        phone: user.contact.phone,
+        cellphone: user.contact.cellphone,
         email: user.contact.email,
         batch: user.alumniBackground.batch,
         program: user.alumniBackground.program,
     });
 });
+
+const handleEditPass = async (req, res) => {
+    const foundAlumni = await Alumni.find({ username: req.query.username });
+    if (!foundAlumni) {
+        res.status(404).json({ message: "alumni not found" });
+        return;
+    }
+
+    const hashedPass = await bcrypt.hash(req.body.password, saltRounds);
+    foundAlumni.password = hashedPass;
+    foundAlumni.save();
+
+    res.statu(200).json({ message: "Password Updated!" });
+};
 
 const handleUsernames = async (req, res) => {
     console.log("params: ", req.params);
