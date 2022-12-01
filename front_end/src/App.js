@@ -21,66 +21,60 @@ import { SurveyAdmin } from "./survey_admin/SurveyAdmin";
 
 function App() {
     return (
-        <div className="w-full h-screen">
-            <Routes>
-                <Route path="/" element={<Outlet />}>
-                    <Route index element={<Login />} />
-                    <Route path="admin/auth" element={<Login admin />} />
-                    <Route path="*" element={<h1>Not Found</h1>} />
-                    <Route path="signup/" element={<Outlet />}>
-                        <Route path="alumni" element={<AlumniSignup />} />
-                        <Route
-                            path="email-verification/:email"
-                            element={<EmailVerificationPage />}
-                        />
-                        <Route
-                            path="setup-credentials/:alumniId"
-                            element={<SetUpAccount />}
-                        />
-                    </Route>
+        <Routes>
+            <Route path="/" element={<Outlet />}>
+                <Route index element={<Login />} />
+                <Route path="admin/auth" element={<Login admin />} />
+                <Route path="*" element={<h1>Not Found</h1>} />
+                <Route path="signup/" element={<Outlet />}>
+                    <Route path="alumni" element={<AlumniSignup />} />
+                    <Route
+                        path="email-verification/:email"
+                        element={<EmailVerificationPage />}
+                    />
+                    <Route
+                        path="setup-credentials/:alumniId"
+                        element={<SetUpAccount />}
+                    />
                 </Route>
-                <Route path="alumni" element={<PersistLogin />}>
-                    {/*the authorization of routes are located on AlumniPage and AdminPage component*/}
-                    <Route element={<AlumniPage />}>
-                        <Route index element={<Announcements />} />
-                        <Route
-                            path="announcement/:announcementId"
-                            element={<ViewAnnouncement />}
-                        />
-                        <Route path="survey" element={<Survey />} />
-                        <Route path="account" element={<Profile />} />
-                        <Route path="edit-profile" element={<EditProfile />} />
-                        <Route
-                            path="alumni-info-survey"
-                            element={<AlumniInfoSurvey />}
-                        />
-                        <Route
-                            path="alumni-tracking-survey"
-                            element={<AlumniTrackingSurvey />}
-                        />
-                    </Route>
+            </Route>
+            <Route path="alumni" element={<PersistLogin />}>
+                {/*the authorization of routes are located on AlumniPage and AdminPage component*/}
+                <Route element={<AlumniPage />}>
+                    <Route index element={<Announcements />} />
+                    <Route
+                        path="announcement/:announcementId"
+                        element={<ViewAnnouncement />}
+                    />
+                    <Route path="survey" element={<Survey />} />
+                    <Route path="account" element={<Profile />} />
+                    <Route path="edit-profile" element={<EditProfile />} />
+                    <Route
+                        path="alumni-info-survey"
+                        element={<AlumniInfoSurvey />}
+                    />
+                    <Route
+                        path="alumni-tracking-survey"
+                        element={<AlumniTrackingSurvey />}
+                    />
                 </Route>
-                <Route path="admin" element={<PersistLogin admin={true} />}>
-                    <Route element={<AdminPage />}>
-                        <Route index element={<Dashboard />} />
+            </Route>
+            <Route path="admin" element={<PersistLogin admin={true} />}>
+                <Route element={<AdminPage />}>
+                    <Route index element={<Dashboard />} />
 
-                        <Route index path="account" element={<Profile />} />
-                        <Route index path="post" element={<Post />} />
-                        <Route index path="survey" element={<SurveyAdmin />} />
-                        <Route
-                            index
-                            path="activitylog"
-                            element={<ActivityLog />}
-                        />
-                        <Route
-                            index
-                            path="alumniRecords"
-                            element={<AlumniRecords />}
-                        />
-                    </Route>
+                    <Route index path="account" element={<Profile />} />
+                    <Route index path="post" element={<Post />} />
+                    <Route index path="survey" element={<SurveyAdmin />} />
+                    <Route index path="activitylog" element={<ActivityLog />} />
+                    <Route
+                        index
+                        path="alumniRecords"
+                        element={<AlumniRecords />}
+                    />
                 </Route>
-            </Routes>
-        </div>
+            </Route>
+        </Routes>
     );
 }
 
