@@ -30,7 +30,7 @@ const JobRelevanceChart = ({ state, dispatch, dataset }) => {
         dataset.length && groupedStackedBarDatasetReducer(dataset);
 
     return (
-        <div className="h-full grow flex flex-col justify-between">
+        <div className="h-112 flex flex-col justify-between w-full xl:w-196">
             {Object.keys(dataset).length === 0 ? (
                 <div className="flex justify-center items-center h-full">
                     Loading..

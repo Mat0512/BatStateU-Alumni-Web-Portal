@@ -18,6 +18,7 @@ import { SetUpAccount } from "./signup/alumniSignup/SetUpAccount";
 import { AlumniInfoSurvey } from "./form/survey_forms/AlumniInfoSurvey";
 import { AlumniTrackingSurvey } from "./form/survey_forms/AlumniTrackingSurvey";
 import { SurveyAdmin } from "./survey_admin/SurveyAdmin";
+import { TestUpload } from "./TestUpload";
 
 function App() {
     return (

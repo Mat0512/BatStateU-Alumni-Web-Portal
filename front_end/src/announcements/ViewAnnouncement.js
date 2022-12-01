@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { announcementDummy } from "../dummy_data/announcements";
 import { useState, useEffect } from "react";
 import imgPlaceholder from "../assets/placeholder-img.jpg";
@@ -50,22 +50,30 @@ const ViewAnnouncement = () => {
             ) : announcement.length == 0 ? (
                 "not found"
             ) : (
-                <div className="font-poppins text-grey-400 max-w-2xl flex flex-col gap-9 py-4 px-10">
-                    <div className="font-poppins">
-                        <h1 className="text-2xl">{announcement.title}</h1>
-                        <p>{announcement.updatedAt}</p>
+                <>
+                    <Link
+                        to="../"
+                        className="font-poppins text-xl text-blue hover:text-light-blue"
+                    >
+                        &#x3c; Back
+                    </Link>
+                    <div className="ml-2 font-poppins text-grey-400 max-w-2xl flex flex-col gap-9 py-4 px-10">
+                        <div className="font-poppins">
+                            <h1 className="text-2xl">{announcement.title}</h1>
+                            <p>{announcement.updatedAt}</p>
+                        </div>
+
+                        <img
+                            className="object-cover max-h-64"
+                            src={imgPlaceholder}
+                            alt="announcment image"
+                        />
+
+                        <p className="font-poppins text-justify">
+                            {announcement.body}
+                        </p>
                     </div>
-
-                    <img
-                        className="object-cover max-h-64"
-                        src={imgPlaceholder}
-                        alt="announcment image"
-                    />
-
-                    <p className="font-poppins text-justify">
-                        {announcement.body}
-                    </p>
-                </div>
+                </>
             )}
         </>
     );

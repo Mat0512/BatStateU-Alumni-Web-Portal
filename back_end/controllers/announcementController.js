@@ -13,9 +13,12 @@ const handlePostAnnouncement = asyncHandler(async (req, res) => {
         throw new Error("Incomplete anouncement parameter");
     }
 
-    const newAnnouncement = await Announcement.createAndRecordOnLog({
-        ...announcement,
-    });
+    const newAnnouncement = await Announcement.createAndRecordOnLog(
+        {
+            ...announcement,
+        },
+        req.file.location
+    );
 
     if (!newAnnouncement) {
         res.sendStatus(500);
