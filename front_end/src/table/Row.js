@@ -37,7 +37,14 @@ const Row = ({ data, actionColumn, selectedKeys }) => {
         return accumulatedRows.concat(row);
     };
 
-    const rows = data.length != 0 ? data.reduce(reducer, []) : "No Annoucement";
+    const rows =
+        data.length != 0 ? (
+            data.reduce(reducer, [])
+        ) : (
+            <div className="w-full py-5 flex justify-center items-center font-poppins text-lg text-grey-300">
+                No Posted Entries
+            </div>
+        );
     return <div className="overflow-y-auto">{rows}</div>;
 };
 

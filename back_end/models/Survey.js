@@ -35,7 +35,7 @@ surveySchema.statics.createAndRecordOnLog = async (surveyData) => {
         college: surveyData.college,
         gLink: surveyData.gLink,
         editableGLink: surveyData.editableGLink,
-        postedBy: surveyData.author,
+        postedBy: surveyData.postedBy,
     });
 
     console.log("Survey created at statics: ", survey);
