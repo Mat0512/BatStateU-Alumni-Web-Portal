@@ -22,7 +22,7 @@ const Nav = ({ backgroundColor, links, admin }) => {
         <nav
             className={`fixed top-0 z-10 ${backgroundColor} h-20 md:h-auto w-full px-4 py-2 bg-red flex justify-between items-center`}
         >
-            <img className="w-72" src={navLogo} alt="logo" />
+            <img className="md:w-72" src={navLogo} alt="logo" />
             <div className="hidden md:flex items-center gap-1 text-white font-poppins">
                 <div className="w-4 h-4 bg-black"></div> {/* avatar style*/}
                 <button

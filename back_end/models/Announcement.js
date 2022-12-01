@@ -34,7 +34,7 @@ announcementSchema.statics.createAndRecordOnLog = async (
     }
 
     const activityLog = await ActivityLog.create({
-        user: announcement.authorName,
+        user: announcement.author,
         activity: "Create",
         entry: "Announcement",
         description: `Title: ${announcement.title}`,
@@ -72,7 +72,7 @@ announcementSchema.statics.updateAndRecordOnLog = async (
 
     const activityLog = await ActivityLog.create({
         dateCreated: announcement.dateCreated,
-        user: announcement.authorName,
+        user: announcement.author,
         activity: "Edit",
         entry: "Announcement",
         description: announcementData.description,

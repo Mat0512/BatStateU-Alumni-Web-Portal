@@ -1,5 +1,7 @@
-// const express = require("express");
-// const router = express.Router();
+const express = require("express");
+const router = express.Router();
+const { upload } = require("../configs/multer.js");
+
 // const aws = require("aws-sdk");
 // const multer = require("multer");
 // const multerS3 = require("multer-s3");
@@ -43,14 +45,14 @@
 //     }),
 // }).single("upload");
 
-// router.post("/", upload, (req, res) => {
-//     console.log("req: ", req.body);
-//     console.log("req file from test DO-space: ", req.file);
+router.post("/", upload("upload"), (req, res) => {
+    console.log("req: ", req.body);
+    console.log("req file from test DO-space: ", req.file);
 
-//     console.log("called");
-//     res.status(200).send("success");
-// });
+    console.log("called");
+    res.status(200).json({ message: req.file.location });
+});
 
-// router.get("/files", (req, res) => {});
+router.get("/files", (req, res) => {});
 
-// module.exports = router;
+module.exports = router;

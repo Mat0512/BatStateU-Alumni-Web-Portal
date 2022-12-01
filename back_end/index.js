@@ -23,7 +23,7 @@ app.use("/survey", require("./routes/survey.js"));
 app.use("/activitylog", require("./routes/activityLog.js"));
 app.use("/signup", require("./routes/signup.js"));
 app.use("/api/usernames", require("./routes/api/usernames.js"));
-// app.use("/test-s3-space", require("./routes/doSpace"));
+app.use("/test-s3-space", require("./routes/doSpace"));
 
 app.use("*", (req, res) => {
     res.status(404).send({ message: "endpoint not found" });

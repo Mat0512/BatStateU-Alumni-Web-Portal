@@ -18,7 +18,7 @@ const TestUpload = () => {
             console.log("form data: ", formData);
 
             const res = await client.post("/test-s3-space", formData);
-            console.log(res.data);
+            console.log("response: ", res.data);
             setImage(res.data.image);
         } catch (err) {
             alert("error");

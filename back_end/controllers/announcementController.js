@@ -5,7 +5,6 @@ const { body } = require("express-validator/check");
 
 const handlePostAnnouncement = asyncHandler(async (req, res) => {
     const announcement = { ...req.body };
-
     console.log("announcement from controller : ", announcement);
 
     if (!(announcement.title && announcement.body)) {

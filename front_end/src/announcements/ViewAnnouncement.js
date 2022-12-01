@@ -62,13 +62,13 @@ const ViewAnnouncement = () => {
                             <h1 className="text-2xl">{announcement.title}</h1>
                             <p>{announcement.updatedAt}</p>
                         </div>
-
-                        <img
-                            className="object-cover max-h-64"
-                            src={imgPlaceholder}
-                            alt="announcment image"
-                        />
-
+                        <div className="aspect-video max-w-3xl overflow-hidden">
+                            <img
+                                className="object-cover w-full h-full"
+                                src={announcement.image}
+                                alt="announcment image"
+                            />
+                        </div>
                         <p className="font-poppins text-justify">
                             {announcement.body}
                         </p>

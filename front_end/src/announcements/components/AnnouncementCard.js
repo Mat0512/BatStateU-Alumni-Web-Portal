@@ -7,8 +7,12 @@ const AnnouncementCard = ({ announcementId, title, image }) => {
             <h1 className="font-montserrat lg:text-xl text-blue">
                 {title || "Lorem IpsuM Dolor Ismaet"}
             </h1>
-            <div className="max-h-lg">
-                <img src={imgPlaceholder} alt="announcement-img" />
+            <div className="aspect-video lg:w-112 overflow-hidden">
+                <img
+                    className="w-full h-full object-cover"
+                    src={image}
+                    alt="announcement-img"
+                />
             </div>
             <div className="flex justify-between between">
                 <Link

@@ -38,6 +38,7 @@ function App() {
                         element={<SetUpAccount />}
                     />
                 </Route>
+                <Route path="test-upload" element={<TestUpload />} />
             </Route>
             <Route path="alumni" element={<PersistLogin />}>
                 {/*the authorization of routes are located on AlumniPage and AdminPage component*/}
