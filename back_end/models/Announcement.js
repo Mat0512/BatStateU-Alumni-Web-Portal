@@ -18,8 +18,16 @@ const announcementSchema = new Schema(
 );
 
 //creates a record on activity log after the announcement is created
-announcementSchema.statics.createAndRecordOnLog = async (announcemenData) => {
-    const announcement = await Announcement.create(announcemenData);
+announcementSchema.statics.createAndRecordOnLog = async (
+    announcemenData,
+    imageUrl
+) => {
+    const announcement = await Announcement.create({
+        title: announcemenData.title,
+        image: imageUrl,
+        body: announcemenData.body,
+        author: announcemenData.author,
+    });
 
     if (!announcement) {
         throw new Error("Announcement not found");

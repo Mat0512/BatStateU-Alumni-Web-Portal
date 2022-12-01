@@ -17,7 +17,7 @@ const AdminLayout = ({ children }) => {
             <Helmet>
                 <title>Admin Portal</title>
             </Helmet>
-            <Nav backgroundColor={"bg-grey-300"} admin />
+            <Nav backgroundColor={"bg-grey-300"} links={adminNavLinks} admin />
             <Sidenav links={adminNavLinks} admin />
             {/*make this a nav that accepts list of links and img */}
             <Main>{children}</Main>

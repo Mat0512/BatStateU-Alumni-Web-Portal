@@ -20,7 +20,7 @@ const SideNav = ({ links, admin }) => {
     });
 
     return (
-        <nav className="fixed top-0 w-48 h-full pt-20 bg-grey-100 flex flex-col gap-2 font-poppins sm:hidden lg:block border border-grey-200  shadow-sm">
+        <nav className="hidden fixed top-0 w-48 h-full pt-20 bg-grey-100 md:flex flex-col gap-2 font-poppins border border-grey-200 shadow-sm">
             <ul>{navLinks}</ul>
         </nav>
     );

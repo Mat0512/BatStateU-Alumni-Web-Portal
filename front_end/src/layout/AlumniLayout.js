@@ -8,7 +8,7 @@ const alumniNavLinks = ["Announcements", "Survey", "Account"];
 const AlumniLayout = ({ children }) => {
     return (
         <>
-            <Nav backgroundColor={"bg-red"} />
+            <Nav backgroundColor={"bg-red"} links={alumniNavLinks} />
             <Sidenav links={alumniNavLinks} />
             {/*make this a nav that accepts list of links and img */}
             <Main>{children}</Main>

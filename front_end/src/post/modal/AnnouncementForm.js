@@ -90,6 +90,7 @@ const AnnouncementForm = ({ name }) => {
                     placeholder="Enter announcement title here."
                     value={announcementInput.title}
                     onChange={handleOnChangeTitle}
+                    required
                 />
             </div>
 
@@ -103,6 +104,7 @@ const AnnouncementForm = ({ name }) => {
                     placeholder="Enter announcement details here."
                     value={announcementInput.body}
                     onChange={handleOnChangeDescription}
+                    required
                 />
             </div>
             <div className="mt-3">
@@ -116,6 +118,7 @@ const AnnouncementForm = ({ name }) => {
                     type="file"
                     accept=".png, .jpg, .svg"
                     onChange={handleOnChangeFile}
+                    required
                 />
             </div>
 

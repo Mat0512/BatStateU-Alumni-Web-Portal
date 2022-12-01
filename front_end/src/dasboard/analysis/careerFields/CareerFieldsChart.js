@@ -38,7 +38,7 @@ const CareerFieldsChart = ({ state, dispatch, dataset }) => {
     });
 
     return (
-        <div className="h-full grow flex flex-col justify-between">
+        <div className="h-112 flex flex-col justify-between w-full lg:w-196">
             {dataset.length === 0 ? (
                 <div className="flex justify-center items-center h-full">
                     No Program Selected

@@ -6,11 +6,11 @@ import ytLogo from "../assets/icons/youtube.svg";
 
 const Footer = () => {
     return (
-        <footer className="ml-48 bg-red font-poppins onft-poppins text-white tracking-wider ">
-            <div className="flex justify-between max-w-5xl mx-auto py-10">
-                <div className="flex flex-col gap-3 text-sm">
+        <footer className=" md:ml-48 py-5 sm:py-0 px-10 bg-red font-poppins text-white tracking-wider">
+            <div className="flex flex-col gap-4 md:flex-row md:justify-between max-w-6xl mx-auto py-5">
+                <div className="flex flex-col items-start gap-3 text-sm">
                     <img
-                        className="h-16"
+                        className="h-18 sm:h-16"
                         src={footerLogo}
                         alt="Batangas State University Logo"
                     />
@@ -33,15 +33,15 @@ const Footer = () => {
                         </li>
                     </ul>
                 </div>
-                <div className="flex flex-col gap-2">
-                    <p className="text-2xl">Visit Us on</p>
-                    <div className="flex gap-2">
+                <div className="py-5 flex flex-col gap-2">
+                    <p className="text-2xl text-3xl">Visit Us on</p>
+                    <div className="flex gap-5">
                         <a
                             href="https://www.linkedin.com/school/batstateuofficial/ "
                             target="_blank"
                         >
                             <img
-                                className="h-12"
+                                className="h-14"
                                 src={linkedinLogo}
                                 alt="LinkedIn Logo"
                             />
@@ -51,7 +51,7 @@ const Footer = () => {
                             target="_blank"
                         >
                             <img
-                                className="h-12"
+                                className="h-14"
                                 src={fbLogo}
                                 alt="Facebook Logo"
                             />
@@ -61,7 +61,7 @@ const Footer = () => {
                             target="_blank"
                         >
                             <img
-                                className="h-12"
+                                className="h-14"
                                 src={twitterLogo}
                                 alt="Twitter Logo"
                             />
@@ -71,7 +71,7 @@ const Footer = () => {
                             target="_blank"
                         >
                             <img
-                                className="h-12"
+                                className="h-14"
                                 src={ytLogo}
                                 alt="Youtube Logo"
                             />
@@ -79,7 +79,7 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <div className="border-t text-center py-5 font-poppins tracking-wide text-sm max-w-5xl mx-auto">
+            <div className="border-t text-center py-5 font-poppins tracking-wide text-sm max-w-6xl mx-auto">
                 &#169; 2022 Batangas State University
             </div>
         </footer>
