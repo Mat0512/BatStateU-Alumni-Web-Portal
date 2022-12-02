@@ -50,7 +50,7 @@ const useFetchAnnouncement = (page, limit) => {
         };
 
         fetchAnnouncement();
-    }, []);
+    }, [page]);
 
     return { announcements, isLoading, totalPage };
 };

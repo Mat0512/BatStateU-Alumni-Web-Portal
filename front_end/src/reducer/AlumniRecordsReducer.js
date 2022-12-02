@@ -1,8 +1,11 @@
 const INITIAL_STATE = {
     batch: "",
     program: "",
+    srCode: "",
+    page: 0,
+    data: [],
+    totalPage: 0,
     isLoading: false,
-    error: "",
 };
 
 const alumniRecordReucer = (state, action) => {

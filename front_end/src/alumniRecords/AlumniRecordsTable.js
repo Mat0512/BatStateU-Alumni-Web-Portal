@@ -2,76 +2,26 @@ import { Table } from "../table/Table";
 import { Row } from "../table/Row";
 import { Columns } from "../table/Columns";
 import { Button } from "../table/Button";
-import { useState } from "react";
 
-const dummy = [
-    {
-        srCode: "19-01100",
-        name: "name name",
-        program: "Information Technology",
-        major: "major ",
-        batch: "2022",
-    },
-    {
-        srCode: "19-00011",
-        name: "name name",
-        program: "Computer Science",
-        major: "major ",
-        batch: "2022",
-    },
-    {
-        srCode: "19-01100",
-        name: "name name",
-        program: "Electrical Engineering",
-        major: "major ",
-        batch: "2014",
-    },
-    {
-        srCode: "19-1200",
-        name: "name name",
-        program: "Computer Engineering",
-        major: "major ",
-        batch: "2011",
-    },
-    {
-        srCode: "19-00200",
-        name: "name name",
-        program: "Information Technology",
-        major: "major ",
-        batch: "2015",
-    },
-    {
-        srCode: "19-40000",
-        name: "name name",
-        program: "Computer Science",
-        major: "major ",
-        batch: "2021",
-    },
-    {
-        srCode: "19-03000",
-        name: "name name",
-        program: "Information Technology",
-        major: "major ",
-        batch: "2011",
-    },
-    {
-        srCode: "19-09000",
-        name: "name name",
-        program: "Information Technology",
-        major: "major ",
-        batch: "2001",
-    },
-];
-
-const AlumniRecordsTable = () => {
-    const [alumniRecords, setAlumniRecords] = useState([]);
+const AlumniRecordsTable = ({ data, state, dispatch }) => {
     const columns = [
         "SR-Code",
-        "Student Name",
+        "First Name",
+        "Middle Name",
+        "Last Name",
+        "Program",
+        "Batch",
+        "",
+    ];
+
+    const selectedKeys = [
+        "SR-Code",
+        "First Name",
+        "Middle Name",
+        "Last Name",
         "Program",
         "Major",
         "Batch",
-        "",
     ];
 
     const downloadPdfColumn = (
@@ -87,10 +37,49 @@ const AlumniRecordsTable = () => {
         </div>
     );
 
+    const handlePrev = () => {
+        dispatch({
+            type: "field",
+            field: "page",
+            value: Math.max(0, state.page - 1),
+        });
+    };
+
+    const handleNext = () => {
+        dispatch({
+            type: "field",
+            field: "page",
+            value: Math.min(state.totalPage - 1, state.page + 1),
+        });
+    };
+
+    const tablePagingRow = (
+        <div className="flex flex-row gap-4">
+            <>
+                <button
+                    className="bg-zinc-200 text-grey border text-sm rounded border-grey-200 py px-5 hover:bg-white hover:text-blue hover:border-blue"
+                    onClick={handlePrev}
+                >
+                    Prev
+                </button>
+                <button
+                    className="bg-zinc-200 text-grey border text-sm rounded border-grey-200 py px-5 hover:bg-white hover:text-blue hover:border-blue"
+                    onClick={handleNext}
+                >
+                    Next
+                </button>
+            </>
+        </div>
+    );
+
     return (
-        <Table name="Alumni Records">
+        <Table name="Alumni Records" paging={!state.srCode && tablePagingRow}>
             <Columns columns={columns} />
-            <Row data={dummy} actionColumn={downloadPdfColumn} />
+            <Row
+                data={data}
+                selectedKeys={selectedKeys}
+                actionColumn={downloadPdfColumn}
+            />
         </Table>
     );
 };

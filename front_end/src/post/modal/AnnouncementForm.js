@@ -126,7 +126,7 @@ const AnnouncementForm = ({ name }) => {
                 className="block w-full px-4 py-2 bg-green text-white rounded mt-3"
                 onClick={handleSubmit}
             >
-                Add Announcement
+                {name}
             </button>
             {isLoading ? "Loading..." : null}
         </form>

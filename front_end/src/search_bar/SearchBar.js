@@ -1,6 +1,6 @@
 //controlled component of announcement component
 
-const SearchBar = ({ state, setState, placeholder, handleSubmit }) => {
+const SearchBar = ({ state, handleChange, placeholder, handleSubmit }) => {
     return (
         <form onSubmit={handleSubmit} className="flex gap-1">
             <input
@@ -8,7 +8,7 @@ const SearchBar = ({ state, setState, placeholder, handleSubmit }) => {
                 type="text"
                 placeholder={placeholder || "Search here"}
                 value={state}
-                onChange={(e) => setState(e.target.value)}
+                onChange={handleChange}
             />
             <button
                 type="submit"

@@ -84,7 +84,7 @@ const AnnouncementPostsTable = ({
             <>
                 <button
                     className="bg-zinc-200 text-grey border text-sm rounded border-grey-200 py px-5 hover:bg-white hover:text-blue hover:border-blue"
-                    onClick={handleNext}
+                    onClick={handlePrev}
                 >
                     Prev
                 </button>

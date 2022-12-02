@@ -1,76 +1,36 @@
 import { SelectInput } from "../table/InputTypes";
 import SearchBar from "../search_bar/SearchBar";
-import { useReducer } from "react";
-import {
-    INITIAL_STATE,
-    alumniRecordReucer,
-} from "../reducer/AlumniRecordsReducer";
 import { getUniqueVal } from "../table/utils/tableUtils";
+import { client } from "../api/api";
 
-const dummy = [
-    {
-        srCode: "19-01100",
-        name: "name name",
-        program: "Information Technology",
-        major: "major ",
-        batch: "2022",
-    },
-    {
-        srCode: "19-00011",
-        name: "name name",
-        program: "Computer Science",
-        major: "major ",
-        batch: "2022",
-    },
-    {
-        srCode: "19-01100",
-        name: "name name",
-        program: "Electrical Engineering",
-        major: "major ",
-        batch: "2014",
-    },
-    {
-        srCode: "19-1200",
-        name: "name name",
-        program: "Computer Engineering",
-        major: "major ",
-        batch: "2011",
-    },
-    {
-        srCode: "19-00200",
-        name: "name name",
-        program: "Information Technology",
-        major: "major ",
-        batch: "2015",
-    },
-    {
-        srCode: "19-40000",
-        name: "name name",
-        program: "Computer Science",
-        major: "major ",
-        batch: "2021",
-    },
-    {
-        srCode: "19-03000",
-        name: "name name",
-        program: "Information Technology",
-        major: "major ",
-        batch: "2011",
-    },
-    {
-        srCode: "19-09000",
-        name: "name name",
-        program: "Information Technology",
-        major: "major ",
-        batch: "2001",
-    },
-];
+const FilterSection = ({ state, dispatch, data }) => {
+    const batchOptions = ["all"].concat(getUniqueVal(data, "Batch"));
+    const programOptions = ["all"].concat(getUniqueVal(data, "Program"));
 
-const FilterSection = () => {
-    const [state, dispatch] = useReducer(alumniRecordReucer, INITIAL_STATE);
-    const batchOptions = getUniqueVal(dummy, "batch");
-    const programOptions = getUniqueVal(dummy, "program");
+    const handleSearch = (e) => {
+        e.preventDefault();
+        dispatch({ type: "field", field: "srCode", value: e.target.value });
+    };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const fetchAlumniInfo = async () => {
+            try {
+                const res = await client.get(
+                    `/alumi-records/dummy?srCode=${state.srCode}`
+                );
+                dispatch({
+                    type: "field",
+                    field: "data",
+                    value: res.data.data,
+                });
+            } catch (err) {
+                console.log(err);
+                alert(err.message);
+            }
+        };
+        fetchAlumniInfo();
+    };
     return (
         <form className="flex justify-between items-end">
             <div className="flex gap-3">
@@ -100,7 +60,11 @@ const FilterSection = () => {
                 />
             </div>
             <div className="w-80 h-10">
-                <SearchBar />
+                <SearchBar
+                    value={state.srCode}
+                    handleChange={handleSearch}
+                    handleSubmit={handleSubmit}
+                />
             </div>
         </form>
     );
