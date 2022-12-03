@@ -17,13 +17,14 @@ app.use(express.json());
 
 app.use("/alumni", require("./routes/alumni.js"));
 app.use("/admin", require("./routes/admin.js"));
-// app.use("/alumni-records", require("./routes/trackings/alumniInformations.js"));
+app.use("/alumni-records", require("./routes/trackings/alumniInformations.js"));
 app.use("/announcement", require("./routes/announcement.js"));
 app.use("/survey", require("./routes/survey.js"));
 app.use("/activitylog", require("./routes/activityLog.js"));
 app.use("/signup", require("./routes/signup.js"));
 app.use("/api/usernames", require("./routes/api/usernames.js"));
 app.use("/test-s3-space", require("./routes/doSpace"));
+app.use("/cubejs", require("./routes/cubejsToken.js"));
 
 app.use("*", (req, res) => {
     res.status(404).send({ message: "endpoint not found" });
