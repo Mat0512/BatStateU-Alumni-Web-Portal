@@ -35,15 +35,11 @@ const sendVerificationEmail = async ({
                   )
                 : verificationTemplate(hash),
         };
-        console.log("!!!!!! sending !!!!!!!!!!!");
 
         transporter.sendMail(message, function (err, info) {
-            console.log("!!!!!! inside sendMail !!!!!!!!!!!");
-
             if (err) {
                 rej(err);
             } else {
-                console.log("\n\n\n !!!!!!! Sent !!!!!!!!!");
                 res(info);
             }
         });
