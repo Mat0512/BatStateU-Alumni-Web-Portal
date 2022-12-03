@@ -19,9 +19,9 @@ const Banner = ({ adminLogin }) => {
                 alt="logo"
             />
             <p className="font-poppins text-sm text-center text-white">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Vestibulum in bibendum risus. Aenean at rutrum velit. Cras non
-                turpis eget est vulputate dictum.
+                {adminLogin
+                    ? "Welcome, Admin! This is the alumni portal and tracking system of Batangas State University - Alangilan Campus, The National Engineering University. "
+                    : "This is the alumni portal of BatStateU - Alangilan. Engage now, be informed, and be part of the Batangas State University -Alangilan Campus, The National Engineering University Alumni Association. Don’t have an account yet? Sign up now!"}
             </p>
             {!adminLogin && (
                 <button

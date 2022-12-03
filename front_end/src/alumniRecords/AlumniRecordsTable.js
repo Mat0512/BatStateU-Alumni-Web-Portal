@@ -15,13 +15,12 @@ const AlumniRecordsTable = ({ data, state, dispatch }) => {
     ];
 
     const selectedKeys = [
-        "SR-Code",
+        "Sr-code",
         "First Name",
         "Middle Name",
         "Last Name",
         "Program",
-        "Major",
-        "Batch",
+        "Batch/Year Graduated",
     ];
 
     const downloadPdfColumn = (

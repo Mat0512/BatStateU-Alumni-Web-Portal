@@ -299,13 +299,13 @@ const handleEditPass = asyncHandler(async (req, res) => {
     res.status(200).json({ message: "Password Updated!" });
 });
 
-const handleUsernames = async (req, res) => {
+const handleUsernames = asyncHandler(async (req, res) => {
     console.log("params: ", req.params);
     const foundAlumni = await Alumni.findOne({ username: req.params.username });
     console.log("found", foundAlumni);
     let statusCode = foundAlumni ? 403 : 200;
     res.sendStatus(statusCode);
-};
+});
 
 module.exports = {
     createAlumni,

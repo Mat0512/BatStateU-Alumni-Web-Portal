@@ -6,6 +6,7 @@ const Row = ({ data, actionColumn, selectedKeys }) => {
             selectedKeys || Object.keys(element).filter((key) => key !== "_id");
 
         const cols = noIdKeys.map((key, index) => {
+            //for button column
             if (hasActionColumn && index === noIdKeys.length - 1) {
                 const concatCols = [
                     <div className="flex-1 py-2.5 text-sm align-center">
@@ -21,8 +22,13 @@ const Row = ({ data, actionColumn, selectedKeys }) => {
                 return [...concatCols];
             }
 
+            //for non-button columns
             return (
-                <div className="flex-1 py-2.5 text-sm align-center">
+                <div
+                    className={`flex-1 py-2.5 text-sm ${
+                        key === "Program" && "grow"
+                    } align-center`}
+                >
                     {element[key] || key}
                 </div>
             );
@@ -45,7 +51,7 @@ const Row = ({ data, actionColumn, selectedKeys }) => {
                 No Posted Entries
             </div>
         );
-    return <div className="overflow-y-auto">{rows}</div>;
+    return <div className="overflow-y-auto text-sm font-roboto">{rows}</div>;
 };
 
 export { Row };

@@ -5,7 +5,7 @@ const alumniInformationController = require("../../controllers/alumniInformation
 
 router.get(
     "/dummy",
-    authMiddleware.verifyJWT,
+    // authMiddleware.verifyJWT,
     alumniInformationController.handleGetAlumniInformationDataset
 );
 router.get("/dummy:id");

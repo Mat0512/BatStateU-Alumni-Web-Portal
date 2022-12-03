@@ -40,12 +40,12 @@ const SurveyForm = ({ title, endpoint }) => {
     };
 
     const handleSubmit = (e) => {
-        try {
-            e.preventDefault();
-            setIsLoading(true);
-            console.log("survey from form: ", surveyFormInput);
+        e.preventDefault();
+        setIsLoading(true);
+        console.log("survey from form: ", surveyFormInput);
 
-            const submitForm = async () => {
+        const submitForm = async () => {
+            try {
                 const res = await client.post(surveyFormInput.endpoint, {
                     title: surveyFormInput.title,
                     description: surveyFormInput.description,
@@ -55,14 +55,15 @@ const SurveyForm = ({ title, endpoint }) => {
                     postedBy: `${authAdmin.firstName} ${authAdmin.lastName}`,
                 });
                 console.log("res: ", res.data);
-            };
-            submitForm();
-            alert("Sucess");
-        } catch (err) {
-            console.log(err);
-        } finally {
-            setIsLoading(false);
-        }
+
+                alert("Sucess");
+            } catch (err) {
+                console.log(err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        submitForm();
     };
 
     const inputTextClassUtils = "px-1.5 py-2 rounded border border-grey-300";

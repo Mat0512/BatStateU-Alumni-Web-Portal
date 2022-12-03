@@ -24,10 +24,10 @@ const alumniInformationDatasetSchema = new Schema({
     "Special skills/Hobbies": String,
     "Membership in associations/organizations": String,
     "Sr-code": String,
-    "Batch/Year Graduated": Number,
+    "Batch/Year Graduated": String,
     Program: String,
+    Major: String,
 });
-
 const AlumniInformationDataset = mongoose.model(
     "AlumniInformationDataset",
     alumniInformationDatasetSchema

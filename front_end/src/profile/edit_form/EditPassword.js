@@ -10,6 +10,7 @@ const EditPassword = () => {
     const [newPass2, setNewPass2] = useState("");
     const { auth } = useContext(AuthContext);
     const { authAdmin } = useContext(AdminAuthContext);
+    const [passNotMatched, setPassNotMatched] = useState(false);
 
     const endpoint = `/${
         auth.username ? "alumni/edit-pass" : "admin/edit-pass"
@@ -37,18 +38,16 @@ const EditPassword = () => {
                 }
             }
         };
-        if (newPass !== newPass2) {
-        } else {
-            submitPass();
-        }
+
+        submitPass();
     };
 
+    console.log(passNotMatched);
     return (
         <form
             className="relative inset-0 mx-auto z-50 mx-auto my-20 w-112 bg-grey-100 px-5 py-5 font-poppins flex flex-col border border-grey-200 shadow-sm shadow-grey-400"
             onSubmit={handleSubmit}
         >
-            <p></p>
             <p className="my-2 text-lg text-grey mx-auto">Change Password</p>
             <div className="my-2 flex flex-col gap-3">
                 <TextInput
@@ -72,12 +71,21 @@ const EditPassword = () => {
                 <TextInput
                     value={newPass2}
                     handleChange={(e) => {
+                        console.log("pass1: ", newPass);
+                        console.log("pass2: ", newPass2);
+
+                        setPassNotMatched(
+                            newPass === e.target.value ? false : true
+                        );
                         setNewPass2(e.target.value);
                     }}
                     setValue={setNewPass2}
                     label={"Re-enter your new password"}
                     type="password"
                 />
+                <p className=" text-sm text-red mx-auto">
+                    {passNotMatched && "Password not Matched"}
+                </p>
                 <button className="bg-blue w-32 text-sm text-white font-poppins py-2 px-4 rounded self-center">
                     Save
                 </button>

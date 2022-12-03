@@ -1,5 +1,7 @@
 const Survey = require("../models/Survey");
+const Alumni = require("../models/Alumni");
 const asyncHandler = require("express-async-handler");
+const { sendVerificationEmail } = require("../mailer.js");
 
 const handleGetAllSurvey = asyncHandler(async (req, res) => {
     const surveys = await Survey.find();
@@ -20,6 +22,7 @@ const handleGetSurvey = asyncHandler(async (req, res) => {
 });
 
 const handlePostSurvey = asyncHandler(async (req, res) => {
+    console.log("\n\n\n Post Survey routes");
     if (
         !(
             req.body.title &&
@@ -38,6 +41,18 @@ const handlePostSurvey = asyncHandler(async (req, res) => {
     if (!survey) {
         res.sendStatus(400);
     }
+
+    const alumniContacts = await Alumni.find({}, "contact.email -_id");
+    const emailList = alumniContacts.map((data) => data.contact.email);
+
+    console.log("survey: ", survey);
+
+    console.log("email list: ", emailList);
+    await sendVerificationEmail({
+        multipleUsers: emailList,
+        surveyTitle: survey.title,
+        glink: survey.gLink,
+    });
 
     console.log("survet at controller: ", survey);
     res.status(200).json(survey);

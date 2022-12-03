@@ -1,4 +1,6 @@
 const Announcement = require("../models/Announcement");
+const Alumni = require("../models/Alumni");
+const { sendVerificationEmail } = require("../mailer.js");
 const asyncHandler = require("express-async-handler");
 const path = require("path");
 const { body } = require("express-validator/check");
@@ -20,9 +22,19 @@ const handlePostAnnouncement = asyncHandler(async (req, res) => {
     );
 
     if (!newAnnouncement) {
-        res.sendStatus(500);
+        res.sendStatus(400);
+        throw new Error("Announement not created");
     }
 
+    //email users after posting an announcement
+    const alumniContacts = await Alumni.find({}, "contact.email -_id");
+    const emailList = alumniContacts.map((data) => data.contact.email);
+
+    console.log("email list: ", emailList);
+    await sendVerificationEmail({
+        multipleUsers: emailList,
+        announcementTitle: newAnnouncement.title,
+    });
     res.sendStatus(201);
 });
 
