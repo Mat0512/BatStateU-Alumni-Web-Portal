@@ -37,5 +37,10 @@ router.get(
     authMiddleware.verifyJWT,
     logoutController.handleAlumniLogout
 );
+router.post(
+    "/edit-pass",
+    authMiddleware.verifyJWT,
+    alumniController.handleEditPass
+);
 
 module.exports = router;

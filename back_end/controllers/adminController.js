@@ -167,8 +167,7 @@ const authenticateAdmin = asyncHandler(async (req, res) => {
 });
 
 const editAdmin = asyncHandler(async (req, res) => {
-    console.log("req body: ", req.body);
-    const requiredKeys = ["avatar", "address", "phone", "cellphone", "email"];
+    const requiredKeys = ["avatar", "address", "phone", "email"];
 
     let missingProperty = controllersUtilities.findMissingProp(
         requiredKeys,
@@ -236,9 +235,37 @@ const getAdminUser = asyncHandler(async (req, res) => {
     });
 });
 
+const handleEditPass = asyncHandler(async (req, res) => {
+    console.log("\n\n");
+    console.log("at pass \n\n body: ", req.body);
+    console.log("user: ", req.user);
+
+    const foundAdmin = await Admin.findOne({ username: req.user });
+    if (!foundAdmin) {
+        res.status(404);
+        throw new Error("Unauthorized");
+    }
+    const matchedPass = await bcrypt.compare(
+        req.body.oldPassword,
+        foundAdmin.password
+    );
+
+    if (!matchedPass) {
+        res.status(401);
+        throw new Error("Wrong Old Password");
+    }
+
+    const hashedPass = await bcrypt.hash(req.body.newPassword, saltRounds);
+    foundAdmin.password = hashedPass;
+    await foundAdmin.save();
+
+    res.status(200).json({ message: "Password Updated!" });
+});
+
 module.exports = {
     authenticateAdmin,
     createAdmin,
     getAdminUser,
     editAdmin,
+    handleEditPass,
 };

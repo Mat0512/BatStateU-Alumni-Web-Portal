@@ -15,5 +15,10 @@ router.get(
 router.put("/edit", authMiddleware.verifyJWT, adminController.editAdmin);
 router.get("/refresh", refreshTokenController.handleAdminRefreshToken);
 router.get("/logout", logoutController.handleAdminLogout);
+router.post(
+    "/edit-pass",
+    authMiddleware.verifyJWT,
+    adminController.handleEditPass
+);
 
 module.exports = router;

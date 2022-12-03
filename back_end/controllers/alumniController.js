@@ -270,19 +270,34 @@ const getAlumniUser = asyncHandler(async (req, res) => {
     });
 });
 
-const handleEditPass = async (req, res) => {
-    const foundAlumni = await Alumni.find({ username: req.query.username });
+const handleEditPass = asyncHandler(async (req, res) => {
+    console.log("\n\n eq edit pass: ", req.body);
+
+    console.log("user: ", req.user);
+    const foundAlumni = await Alumni.findOne({ username: req.user });
     if (!foundAlumni) {
-        res.status(404).json({ message: "alumni not found" });
+        console.log("condition True");
+        res.status(404).json({ message: "Unauthorized Access" });
         return;
     }
 
-    const hashedPass = await bcrypt.hash(req.body.password, saltRounds);
-    foundAlumni.password = hashedPass;
-    foundAlumni.save();
+    console.log("foundAlumni: ", foundAlumni);
+    const matchedPass = await bcrypt.compare(
+        req.body.oldPassword,
+        foundAlumni.password
+    );
 
-    res.statu(200).json({ message: "Password Updated!" });
-};
+    if (!matchedPass) {
+        res.status(401);
+        throw new Error("Wrong Old Password");
+    }
+
+    const hashedPass = await bcrypt.hash(req.body.newPassword, saltRounds);
+    foundAlumni.password = hashedPass;
+    await foundAlumni.save();
+
+    res.status(200).json({ message: "Password Updated!" });
+});
 
 const handleUsernames = async (req, res) => {
     console.log("params: ", req.params);
@@ -298,4 +313,5 @@ module.exports = {
     editAlumni,
     getAlumniUser,
     handleUsernames,
+    handleEditPass,
 };

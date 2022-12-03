@@ -23,6 +23,9 @@ const alumniInformationDatasetSchema = new Schema({
     "Conducted/Sponsored by": String,
     "Special skills/Hobbies": String,
     "Membership in associations/organizations": String,
+    "Sr-code": String,
+    "Batch/Year Graduated": Number,
+    Program: String,
 });
 
 const AlumniInformationDataset = mongoose.model(
