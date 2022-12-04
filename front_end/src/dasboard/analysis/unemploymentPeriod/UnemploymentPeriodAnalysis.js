@@ -10,6 +10,8 @@ import {
     INITIAL_STATE,
     programsAndFieldStateReducer,
 } from "../../../reducer/ProgramsAndFieldStateReducer";
+import { CubeContext, useCubeQuery } from "@cubejs-client/react";
+
 const UnemploymentPeriodAnalysis = () => {
     const [state, dispatch] = useReducer(
         programsAndFieldStateReducer,
@@ -17,6 +19,17 @@ const UnemploymentPeriodAnalysis = () => {
     );
     const waitingTimeBeforeEmployedData = [...waitingTimeBeforeEmployed];
     const [checkboxInputs, setCheckboxInputs] = useState([]);
+    const { resultSet, isLoading, error, progress } = useCubeQuery({
+        measures: ["Trackingdatasets.count"],
+        dimensions: [
+            "Trackingdatasets.courseProgram",
+            "Trackingdatasets.batchYearGraduated",
+            "Trackingdatasets.reasonsOfUnemployment",
+        ],
+        order: {
+            "Trackingdatasets.count": "desc",
+        },
+    });
 
     // preparing/dynamically loading state for controlled checkbox input with loaded dataset
 
@@ -39,6 +52,24 @@ const UnemploymentPeriodAnalysis = () => {
         });
         dispatch({ type: "success" });
     }, []);
+
+    if (isLoading) {
+        return (
+            <div>
+                {(progress && progress.stage && progress.stage.stage) ||
+                    "Loading..."}
+            </div>
+        );
+    }
+
+    if (error) {
+        return <div>{error.toString()}</div>;
+    }
+
+    if (!resultSet) {
+        console.log(true);
+        return null;
+    }
 
     //filtering dataset for chart
     const filteredData =

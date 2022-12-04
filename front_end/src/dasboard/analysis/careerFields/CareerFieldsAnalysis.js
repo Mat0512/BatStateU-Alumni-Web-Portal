@@ -10,6 +10,7 @@ import {
 } from "../../../reducer/CareerFieldsAnalysisReducer";
 import { careerFields } from "../../../dummy_data/cics2";
 import { CareerFieldsChart } from "./CareerFieldsChart";
+import { CubeContext, useCubeQuery } from "@cubejs-client/react";
 
 const CareerFieldsAnalysis = () => {
     const [state, dispatch] = useReducer(careerFieldsReducer, INITIAL_STATE);
@@ -19,6 +20,17 @@ const CareerFieldsAnalysis = () => {
         state,
         "fields"
     );
+    const { resultSet, isLoading, error, progress } = useCubeQuery({
+        measures: ["Trackingdatasets.count"],
+        dimensions: [
+            "Trackingdatasets.currentNatureOfWorkProfessionField",
+            "Trackingdatasets.courseProgram",
+            "Trackingdatasets.batchYearGraduated",
+        ],
+        order: {
+            "Trackingdatasets.count": "desc",
+        },
+    });
 
     return (
         <VisualizationLayout name="Career Fields">

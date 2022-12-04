@@ -10,6 +10,7 @@ import {
     programsAndFieldStateReducer,
 } from "../../../reducer/ProgramsAndFieldStateReducer";
 import { UnemploymentReasonsChart } from "./UnemploymentReasonsChart";
+import { CubeContext, useCubeQuery } from "@cubejs-client/react";
 
 const UnemploymentReasonsAnalysis = () => {
     const [state, dispatch] = useReducer(
@@ -18,6 +19,17 @@ const UnemploymentReasonsAnalysis = () => {
     );
     const reasonsOfUnemploymentData = [...reasonsOfUnemployment];
     const [checkboxInputs, setCheckboxInputs] = useState([]);
+    const { resultSet, isLoading, error, progress } = useCubeQuery({
+        dimensions: [
+            "Trackingdatasets.currentNatureOfWorkProfessionField",
+            "Trackingdatasets.batchYearGraduated",
+            "Trackingdatasets.courseProgram",
+        ],
+        order: {
+            "Trackingdatasets.count": "desc",
+        },
+        measures: ["Trackingdatasets.count"],
+    });
 
     // preparing/dynamically loading state for controlled checkbox input with loaded dataset
     useEffect(() => {
@@ -42,6 +54,24 @@ const UnemploymentReasonsAnalysis = () => {
         });
         dispatch({ type: "success" });
     }, []);
+
+    if (isLoading) {
+        return (
+            <div>
+                {(progress && progress.stage && progress.stage.stage) ||
+                    "Loading..."}
+            </div>
+        );
+    }
+
+    if (error) {
+        return <div>{error.toString()}</div>;
+    }
+
+    if (!resultSet) {
+        console.log(true);
+        return null;
+    }
 
     //filtering dataset for chart
     const filteredData =

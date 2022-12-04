@@ -10,10 +10,22 @@ import {
 
 import { filterByProgramAndYear } from "../utils/rawDatasetFilter";
 import { StudyUsefullnessChart } from "./StudyUsefullnessChart";
+import { CubeContext, useCubeQuery } from "@cubejs-client/react";
 
 const StudyUsefullnessAnalysis = () => {
     const [state, dispatch] = useReducer(programAndBatchReducer, INITIAL_STATE);
     const usefullnessOfStudiesData = [...usefullnessOfStudies];
+    const { resultSet, isLoading, error, progress } = useCubeQuery({
+        dimensions: [
+            "Trackingdatasets.currentNatureOfWorkProfessionField",
+            "Trackingdatasets.batchYearGraduated",
+            "Trackingdatasets.courseProgram",
+        ],
+        order: {
+            "Trackingdatasets.count": "desc",
+        },
+        measures: ["Trackingdatasets.count"],
+    });
 
     // preparing/dynamically loading state for controlled checkbox input with loaded dataset
     useEffect(() => {
@@ -39,6 +51,25 @@ const StudyUsefullnessAnalysis = () => {
     }, []);
 
     //filtering dataset for chart
+
+    if (isLoading) {
+        return (
+            <div>
+                {(progress && progress.stage && progress.stage.stage) ||
+                    "Loading..."}
+            </div>
+        );
+    }
+
+    if (error) {
+        return <div>{error.toString()}</div>;
+    }
+
+    if (!resultSet) {
+        console.log(true);
+        return null;
+    }
+
     const filteredData =
         Object.keys(state.programs).length > 0
             ? filterByProgramAndYear(usefullnessOfStudiesData, state)
@@ -48,11 +79,7 @@ const StudyUsefullnessAnalysis = () => {
         <div className="flex flex-col gap-3">
             {/* <AnalysisHeader /> */}
             <VisualizationLayout
-                name={
-                    state.isLoading
-                        ? " "
-                        : "Usefulness of the Studies"
-                    }
+                name={state.isLoading ? " " : "Usefulness of the Studies"}
             >
                 <FilterTab>
                     {Object.keys(state.programs).length === 0 ? (

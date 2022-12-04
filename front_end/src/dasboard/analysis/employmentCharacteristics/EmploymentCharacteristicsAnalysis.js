@@ -6,6 +6,7 @@ import { filterByProgramAndkey } from "../utils/rawDatasetFilter";
 import { useReducer, useEffect, useState } from "react";
 import { EmploymentCharacteristicsChart } from "./EmploymentCharacteristicsChart";
 import { employementCharacteristics } from "../../../dummy_data/cics2";
+import { CubeContext, useCubeQuery } from "@cubejs-client/react";
 
 import {
     INITIAL_STATE,
@@ -19,6 +20,17 @@ const EmploymentCharacteristicsAnalysis = () => {
     );
     const employmentCharacteristicsData = [...employementCharacteristics];
     const [checkboxInputs, setCheckboxInputs] = useState([]);
+    const { resultSet, isLoading, error, progress } = useCubeQuery({
+        measures: ["Trackingdatasets.count"],
+        dimensions: [
+            "Trackingdatasets.courseProgram",
+            "Trackingdatasets.batchYearGraduated",
+            "Trackingdatasets.employmentCharacteristic",
+        ],
+        order: {
+            "Trackingdatasets.count": "desc",
+        },
+    });
 
     // preparing/dynamically loading state for controlled checkbox input with loaded dataset
     useEffect(() => {
@@ -43,6 +55,29 @@ const EmploymentCharacteristicsAnalysis = () => {
         });
         dispatch({ type: "success" });
     }, []);
+
+    if (isLoading) {
+        return (
+            <div>
+                {(progress && progress.stage && progress.stage.stage) ||
+                    "Loading..."}
+            </div>
+        );
+    }
+
+    if (error) {
+        return <div>{error.toString()}</div>;
+    }
+
+    if (!resultSet) {
+        console.log(true);
+        return null;
+    }
+
+    if (resultSet) {
+        //aggregate  dataset here
+        console.log("result: ", resultSet);
+    }
 
     //filtering dataset for chart
     const filteredData =

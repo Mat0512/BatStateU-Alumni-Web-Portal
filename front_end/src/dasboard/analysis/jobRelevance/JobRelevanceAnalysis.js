@@ -10,6 +10,7 @@ import { jobRelevance } from "../../../dummy_data/cics2";
 import { useEffect } from "react";
 import { JobRelevanceChart } from "./JobRelevanceChart";
 import { filterGroupedBarStackByProgram } from "../utils/rawDatasetFilter";
+import { CubeContext, useCubeQuery } from "@cubejs-client/react";
 
 const JobRelevanceAnalysis = () => {
     const [state, dispatch] = useReducer(employabilityReducer, INITIAL_STATE);
@@ -19,6 +20,17 @@ const JobRelevanceAnalysis = () => {
         jobRelevanceData,
         state
     );
+    const { resultSet, isLoading, error, progress } = useCubeQuery({
+        measures: ["Trackingdatasets.count"],
+        dimensions: [
+            "Trackingdatasets.isYourCollegeDegreeRelevantToYourJob",
+            "Trackingdatasets.courseProgram",
+            "Trackingdatasets.batchYearGraduated",
+        ],
+        order: {
+            "Trackingdatasets.count": "desc",
+        },
+    });
 
     useEffect(() => {
         if (filteredData.length !== 0) {
@@ -29,6 +41,24 @@ const JobRelevanceAnalysis = () => {
             });
         }
     }, []);
+
+    if (isLoading) {
+        return (
+            <div>
+                {(progress && progress.stage && progress.stage.stage) ||
+                    "Loading..."}
+            </div>
+        );
+    }
+
+    if (error) {
+        return <div>{error.toString()}</div>;
+    }
+
+    if (!resultSet) {
+        console.log(true);
+        return null;
+    }
 
     return (
         <div className="flex flex-col gap-3">
