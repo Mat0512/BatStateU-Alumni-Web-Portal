@@ -1,3 +1,13 @@
+/*
+    the flow of filtering starts with removing unselected element on dataset and removing its fields
+    then filtering the resulting dataset by program if datasets has that field
+*/
+
+//removes "Bachelor of Science" in program field of dataset for program filtering to properly access the field
+const trimProgramName = (programString) => {
+    return programString.replace(/Bachelor of Science in /, "").trim();
+};
+
 const filterGroupedBarStackByProgram = (dataset, state) => {
     return dataset
         .map((data) => {
@@ -19,7 +29,7 @@ const filterGroupedBarStackByProgram = (dataset, state) => {
 
             return newData;
         })
-        .filter((data) => state.programs[data.program]);
+        .filter((data) => state.programs[trimProgramName(data.program)]);
 };
 
 const filterByProgramAndkey = (dataset, state, key) => {
@@ -45,8 +55,10 @@ const filterByProgramAndkey = (dataset, state, key) => {
                 values: newFields,
             };
         })
-        .filter((data) => data.program === state.selectedProgram);
 
+        .filter(
+            (data) => trimProgramName(data.program) === state.selectedProgram
+        );
     return data;
 };
 
@@ -80,7 +92,9 @@ const filterByProgramAndKeysV2 = (dataset, state) => {
                 values: newFields,
             };
         })
-        .filter((data) => data.program === state.selectedProgram);
+        .filter(
+            (data) => trimProgramName(data.program) === state.selectedProgram
+        );
 
     return data;
 };
@@ -103,7 +117,7 @@ const filterByProgramAndYear = (dataset, state) => {
             return { ...data, values: newData };
         })
         .filter((data) => {
-            return data.program == state.selectedProgram;
+            return trimProgramName(data.program) == state.selectedProgram;
         });
 
     return filteredDataset;

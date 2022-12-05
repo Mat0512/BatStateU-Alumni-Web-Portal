@@ -13,6 +13,7 @@ import { filterGroupedBarStackByProgram } from "../utils/rawDatasetFilter";
 import { CubeContext, useCubeQuery } from "@cubejs-client/react";
 import { cubeQuery } from "../utils/cubeQueries";
 import { aggregateEmployabilityRawDataset } from "../utils/rawDatasetReducer";
+import { generateEmployabilityStatement } from "../utils/descriptiveUtililies";
 
 const EmployabilityAnalysis = () => {
     const [state, dispatch] = useReducer(employabilityReducer, INITIAL_STATE);
@@ -40,11 +41,6 @@ const EmployabilityAnalysis = () => {
                     aggregateEmployabilityRawDataset(res.loadResponses[0].data);
                 console.log("aggregated: ", aggregatedEmployabilityData);
                 setData(aggregatedEmployabilityData);
-                dispatch({
-                    type: "college",
-                    field: "college",
-                    value: data[0]?.college || "",
-                });
                 setisLoading(false);
             })
             .catch((err) => {
@@ -64,12 +60,13 @@ const EmployabilityAnalysis = () => {
     // filters dataset every re-render caused by state reducer
     console.log("has data?: ", data.length !== 0);
     console.log("state: ", state);
+    console.log("data: ", data);
 
     const filteredData =
         data.length !== 0 ? filterGroupedBarStackByProgram(data, state) : [];
 
+    console.log("datastet, ", data);
     console.log("filtered: ", filteredData);
-    console.log("is loading? ", isLoading);
 
     return (
         <div className="flex flex-col gap-3">
@@ -77,35 +74,45 @@ const EmployabilityAnalysis = () => {
             {isLoading ? (
                 "Loading"
             ) : data.length === 0 ? null : (
-                <VisualizationLayout
-                    name={
-                        state.isLoading
-                            ? " "
-                            : `Employability Status of ${state.college} Alumni`
-                    }
-                >
-                    <FilterTab>
-                        <CheckboxInput
-                            label="program"
-                            inputs={Object.keys(state.programs)}
-                            value={state.programs}
-                            selectionState={state.programs}
-                            handleChange={(e) => {
-                                dispatch({
-                                    type: "program",
-                                    field: e.target.id,
-                                    value: !state.programs[e.target.id],
-                                });
-                            }}
-                        />
-                    </FilterTab>
+                <>
+                    <VisualizationLayout
+                        name={
+                            state.isLoading
+                                ? " "
+                                : `Employability Status of ${state.college} Alumni`
+                        }
+                    >
+                        <FilterTab>
+                            <CheckboxInput
+                                label="program"
+                                inputs={Object.keys(state.programs)}
+                                name="program-employability"
+                                value={state.programs}
+                                selectionState={state.programs}
+                                handleChange={(e) => {
+                                    dispatch({
+                                        type: "program",
+                                        field: e.target.id,
+                                        value: !state.programs[e.target.id],
+                                    });
+                                }}
+                            />
+                        </FilterTab>
 
-                    <EmployabilityChart
-                        state={state}
-                        dispatch={dispatch}
-                        dataset={filteredData}
-                    />
-                </VisualizationLayout>
+                        <EmployabilityChart
+                            state={state}
+                            dispatch={dispatch}
+                            dataset={filteredData}
+                        />
+                    </VisualizationLayout>
+                    <div className="mt-3 font-poppins text-justify text-sm text-grey-400 ">
+                        <hr className="text-grey-200 mb-2" />
+                        {generateEmployabilityStatement(
+                            filteredData,
+                            state.maxBatchYear
+                        )}
+                    </div>
+                </>
             )}
         </div>
     );

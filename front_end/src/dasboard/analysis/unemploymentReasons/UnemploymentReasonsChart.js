@@ -33,9 +33,11 @@ const UnemploymentReasonsChart = ({ state, dispatch, dataset }) => {
             "Alumni's Career Fields Dataset"
         );
 
-    const wrapLabels = fieldLabels.map((label) => {
-        return label.length > 40 ? label.slice(0, 32).concat("...") : label;
-    });
+    const wrapLabels =
+        fieldLabels &&
+        fieldLabels.map((label) => {
+            return label.length > 40 ? label.slice(0, 32).concat("...") : label;
+        });
 
     return (
         <div className="h-112 flex flex-col justify-between w-full lg:w-196">

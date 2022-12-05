@@ -21,14 +21,13 @@ const Dashboard = () => {
         <CubeProvider cubejsApi={cubejsApi}>
             <div className="font-poppins flex flex-col gap-10">
                 <EmployabilityAnalysis />
-                {/* 
-                        <CareerFieldsAnalysis />
-            <JobRelevanceAnalysis />
-            <EmploymentCharacteristicsAnalysis />
-            <UnemploymentPeriodAnalysis />
-            <UnemploymentReasonsAnalysis />
-            <StudyUsefullnessAnalysis /> 
-            */}
+                <CareerFieldsAnalysis />
+
+                <JobRelevanceAnalysis />
+                <EmploymentCharacteristicsAnalysis />
+                <UnemploymentPeriodAnalysis />
+                <UnemploymentReasonsAnalysis />
+                {/* <StudyUsefullnessAnalysis /> */}
             </div>
         </CubeProvider>
     );

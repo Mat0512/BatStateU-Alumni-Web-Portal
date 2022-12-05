@@ -23,7 +23,7 @@ const JobRelevanceChart = ({ state, dispatch, dataset }) => {
     );
 
     // years that was extracted are filtered outside this component
-    const yearLabel = dataset.length && Object.keys(dataset[0].values.related);
+    const yearLabel = dataset.length && Object.keys(dataset[0].values.Related);
 
     //consider extracting formatting data logic in utilities
     const jobRelevanceDataset =
