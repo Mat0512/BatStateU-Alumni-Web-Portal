@@ -102,7 +102,7 @@ const createAlumni = asyncHandler(async (req, res) => {
         firstName: newAlumni.name.firstName,
         lastName: newAlumni.name.lastName,
         token: token,
-        avatar: "",
+        avatar: newAlumni.avatar,
     });
 });
 
@@ -186,11 +186,13 @@ const authenticateAlumni = asyncHandler(async (req, res) => {
         maxAge: 24 * 60 * 60 * 1000,
     });
 
+    console.log("user ", foundUser);
+
     res.status(200).json({
         user: foundUser.username,
         message: "user successfuly logged in",
         token: accessToken,
-        //include avatar when image buffer are coded
+        avatar: foundUser.avatar,
     });
 });
 
@@ -267,6 +269,7 @@ const getAlumniUser = asyncHandler(async (req, res) => {
         email: user.contact.email,
         batch: user.alumniBackground.batch,
         program: user.alumniBackground.program,
+        avatar: user.avatar,
     });
 });
 

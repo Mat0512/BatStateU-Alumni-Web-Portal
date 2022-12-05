@@ -17,6 +17,7 @@ const Profile = () => {
     const [alumniUser, setAlumniUser] = useState(null);
     const [adminUser, setAdminUser] = useState(null);
     const [editProfile, setEditProfile] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [editPass, setEditPass] = useState(false);
     const { auth } = useContext(AuthContext);
     const { authAdmin } = useContext(AdminAuthContext);
@@ -27,26 +28,25 @@ const Profile = () => {
         : `/admin/account/${authAdmin.username}`;
     const token = isUserALumni ? auth.token : authAdmin.token;
 
-    console.log("admin: ", authAdmin);
-    console.log("alumni: ", auth);
-    console.log("api: ", apiEndpoint);
-
     useEffect(() => {
         //set the alumni or admin data when edit modal is clicked pass the data to form and used as a default input value
         const getUserData = async () => {
             try {
+                setIsLoading(true);
                 let res = await client.get(`${apiEndpoint}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-
-                console.log("fetched user: ", res.data);
 
                 if (isUserALumni) {
                     setAlumniUser(res.data);
                 } else {
                     setAdminUser(res.data);
                 }
-            } catch (err) {}
+            } catch (err) {
+                console.log(err);
+            } finally {
+                setIsLoading(false);
+            }
         };
 
         getUserData();
@@ -54,70 +54,65 @@ const Profile = () => {
 
     return (
         <div className="mt-10 self-center">
-            {/*Modals */}
-            {/* <div
-                className={`absolute z-30 w-full h-screen inset-0 ${
-                    editProfile || editPass ? "block" : "hidden"
-                } overflow-y-auto`}
-            >
-                <ModalBackground
-                    modalVisibility={editProfile ? editProfile : editPass}
-                    setModalVisibility={
-                        editProfile ? setEditProfile : setEditPass
-                    }
-                />
-                {editProfile ? (
-                    <EditProfile user={alumniUser ? alumniUser : adminUser} />
-                ) : (
-                    <EditPassword userAdm={auth ? auth : authAdmin} />
-                )}
-            </div> */}
-            {editProfile ? (
-                <ModalHandler
-                    displayModal={editProfile}
-                    setDisplayModal={setEditProfile}
-                >
-                    <EditProfile user={alumniUser ? alumniUser : adminUser} />
-                </ModalHandler>
-            ) : editPass ? (
-                <ModalHandler
-                    displayModal={editPass}
-                    setDisplayModal={setEditPass}
-                >
-                    <EditPassword userAdm={auth ? auth : authAdmin} />
-                </ModalHandler>
-            ) : null}
-
-            {/*Modals */}
-
-            <div className="pt-10 max-w-md bg-grey-100 flex flex-col items-center text-454545 text-sm font-notoSans border border-grey-200 shadow-lg">
-                <UserImage />
-                <div className="w-full px-7 py-6 flex flex-col justify-center gap-5 ">
-                    {alumniUser ? (
-                        <AlumniData alumniUser={alumniUser} />
-                    ) : adminUser ? (
-                        <AdminData adminUser={adminUser} />
-                    ) : (
-                        // <AdminData alumniUser={adminUser} />
-                        <h1>Loading</h1>
-                    )}
-                    {/*buttons for triggering modals*/}
-                    <div className="self-center flex gap-3">
-                        <button
-                            className="bg-blue py-1.5 px-3 text-white font-poppins rounded text-xs"
-                            onClick={() => setEditPass(true)}
+            {isLoading ? (
+                "Loading..."
+            ) : alumniUser !== null || adminUser !== null ? (
+                <>
+                    {editProfile ? (
+                        <ModalHandler
+                            displayModal={editProfile}
+                            setDisplayModal={setEditProfile}
                         >
-                            Change Password
-                        </button>
-                        <button
-                            className="bg-blue py-1.5 px-3 text-white font-poppins rounded text-xs"
-                            onClick={() => setEditProfile(true)}
+                            <EditProfile
+                                user={auth.user ? alumniUser : adminUser}
+                            />
+                        </ModalHandler>
+                    ) : editPass ? (
+                        <ModalHandler
+                            displayModal={editPass}
+                            setDisplayModal={setEditPass}
                         >
-                            Edit Profile
-                        </button>
+                            <EditPassword
+                                userAdm={auth.user ? auth : authAdmin}
+                            />
+                        </ModalHandler>
+                    ) : null}
+                    {/*Modals */}
+                    <div className="pt-10 max-w-md bg-grey-100 flex flex-col items-center text-454545 text-sm font-notoSans border border-grey-200 shadow-lg">
+                        <UserImage
+                            imageUrl={
+                                auth.user
+                                    ? alumniUser && alumniUser.avatar
+                                    : adminUser && adminUser.avatar
+                            }
+                        />
+                        <div className="w-full px-7 py-6 flex flex-col justify-center gap-5 ">
+                            {alumniUser ? (
+                                <AlumniData alumniUser={alumniUser} />
+                            ) : adminUser ? (
+                                <AdminData adminUser={adminUser && adminUser} />
+                            ) : (
+                                // <AdminData alumniUser={adminUser} />
+                                <h1>Loading</h1>
+                            )}
+                            <div className="self-center flex gap-3">
+                                <button
+                                    className="bg-blue py-1.5 px-3 text-white font-poppins rounded text-xs"
+                                    onClick={() => setEditPass(true)}
+                                >
+                                    Change Password
+                                </button>
+                                <button
+                                    className="bg-blue py-1.5 px-3 text-white font-poppins rounded text-xs"
+                                    onClick={() => setEditProfile(true)}
+                                >
+                                    Edit Profile
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </>
+            ) : null}
         </div>
     );
 };

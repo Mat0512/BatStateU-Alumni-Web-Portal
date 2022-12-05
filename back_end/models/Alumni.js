@@ -10,7 +10,11 @@ const alumniSchema = new Schema({
     username: { type: String, default: null, unique: true },
     password: { type: String, default: null },
     verified: Boolean,
-    avatar: String,
+    avatar: {
+        type: String,
+        default:
+            "https://alumniportal.sgp1.digitaloceanspaces.com/eab52ec1-9dc1-46ab-bcb0-541962b78e29-1670048664479-github.png",
+    },
     refreshToken: {
         type: String,
         default: null,

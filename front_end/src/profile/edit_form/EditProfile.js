@@ -1,62 +1,83 @@
 import { TextInput } from "./TextInput";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import { client } from "../../api/api";
 import AuthContext from "../../context/AuthContext";
 import AdminAuthContext from "../../context/AdminAuthContext";
+import { AvatarViewer } from "./AvatarViewer";
 
 const EditProfile = ({ user }) => {
     console.log("!!!!!!!!!!!!!: ", user);
-
+    const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState(user.email);
     const [phone, setPhone] = useState(user.phone);
     const [address, setAddress] = useState(user.address);
+    const [imgData, setImgData] = useState("");
     const { auth } = useContext(AuthContext);
     const { authAdmin } = useContext(AdminAuthContext);
+    const [objUrl, setObjUrl] = useState(null);
+    const imageRef = useRef(null);
 
     const endpoint = `/${auth.username ? "alumni/edit" : "admin/edit"}`;
     const token = auth.token ? auth.token : authAdmin.token;
 
+    const handleChangeImage = (e) => {
+        const [file] = e.target.files;
+        imageRef.current().srcObject(file);
+        setObjUrl(URL.createObjectURL(file));
+        setImgData(e.target.files[0]);
+    };
+
     const submit = (e) => {
         e.preventDefault();
-        console.log("submitted");
-        console.log(phone);
-        if (!email && !phone && !address) {
+        if (!email && !phone && !address && !imgData) {
             alert(" Atleast one input must have.");
             return;
         }
 
+        const formData = new FormData();
+
+        formData.append("avatar", imgData);
+        formData.append("email", email);
+        formData.append("phone", phone);
+        formData.append("address", address);
+
         const postEditData = async () => {
-            console.log("api called");
-            const res = await client.put(
-                `${endpoint}`,
-                {
-                    avatar: "",
-                    address: address,
-                    phone: phone,
-                    email: email,
-                },
-                {
+            try {
+                setIsLoading(true);
+                console.log("api called");
+
+                const res = await client.put(`${endpoint}`, formData, {
                     headers: { Authorization: `Bearer ${token}` },
+                });
+                console.log("response: ", res);
+                console.log("done..");
+                if (res) {
+                    alert("Saved!");
                 }
-            );
-            console.log("response: ", res);
-            console.log("done..");
-            if (res) {
-                alert("Saved!");
+                setIsLoading(false);
+            } catch (err) {
+                console.log(err);
+                alert(err);
+                setIsLoading(false);
             }
         };
 
         postEditData();
     };
 
+    console.log("obj url: ", objUrl);
     return (
         <>
-            <form className="relative inset-0 mx-auto z-50 mx-auto my-20 w-112 bg-grey-100 px-5 py-5 font-poppins flex flex-col border border-grey-200 shadow-sm shadow-grey-400">
+            <form
+                encType="multipart/form-data"
+                className="relative inset-0 mx-auto z-50 mx-auto my-20 w-112 bg-grey-100 px-5 py-5 font-poppins flex flex-col border border-grey-200 shadow-sm shadow-grey-400"
+            >
                 <p className="mb-2 text-2xl text-grey mx-auto">Edit Profile</p>
-                <div className="my-3 self-center text-center">
-                    <div className="w-32 h-32 bg-black text-white"></div>
-                    <p className="text-blue">Change Avatar</p>
-                </div>
+                <AvatarViewer
+                    handleChange={handleChangeImage}
+                    url={objUrl || user.avatar}
+                    ref={imageRef}
+                />
                 <div className="my-2 flex flex-col gap-3">
                     <TextInput
                         value={email}

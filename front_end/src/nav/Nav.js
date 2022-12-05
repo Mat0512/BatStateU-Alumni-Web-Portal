@@ -1,14 +1,19 @@
 import navLogo from "../assets/logo/nav_logo.svg";
 import { useLogout } from "../hooks/useLogout";
 import { useLogoutAdmin } from "../hooks/useLogoutAdmin";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
 import { MobileNav } from "../mobile_nav/MobileNav";
+import AdminAuthContext from "../context/AdminAuthContext";
 
 const Nav = ({ backgroundColor, links, admin }) => {
     const logout = useLogout();
     const { auth } = useContext(AuthContext);
+    const { authAdmin } = useContext(AdminAuthContext);
     const logoutAdmin = useLogoutAdmin();
+
+    console.log("auth", auth);
+    console.log("auth admin", authAdmin);
 
     const handleLogout = async () => {
         if (auth.token) {
@@ -24,9 +29,18 @@ const Nav = ({ backgroundColor, links, admin }) => {
         >
             <img className="md:w-72" src={navLogo} alt="logo" />
             <div className="hidden md:flex items-center gap-1 text-white font-poppins">
-                <div className="w-4 h-4 bg-black"></div> {/* avatar style*/}
+                <div className="w-8 mr-1.5">
+                    {(auth.user || authAdmin.user) && (
+                        <img
+                            className="w-full h-full rounded-full"
+                            src={auth.user ? auth.avatar : authAdmin.avatar}
+                            alt="user avatar"
+                        />
+                    )}
+                </div>
+                {/* avatar style*/}
                 <button
-                    className="px-4 py-1 text-sm border-white border rounded-md :hover-bg-white :hover-text-white"
+                    className="px-4 py-1 text-sm border-white border rounded-md hover:bg-white hover:text-red"
                     onClick={handleLogout}
                 >
                     Log Out

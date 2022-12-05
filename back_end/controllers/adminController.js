@@ -156,13 +156,14 @@ const authenticateAdmin = asyncHandler(async (req, res) => {
         maxAge: 24 * 60 * 60 * 1000,
     });
 
+    console.log("found user: ", foundUser);
+
     res.status(200).json({
         username: foundUser.username,
         firstName: foundUser.name.firstName,
         lastName: foundUser.name.lastName,
         token: accessToken,
-        //include avatar when image buffer are coded\
-        avatar: "",
+        avatar: foundUser.avatar,
     });
 });
 
