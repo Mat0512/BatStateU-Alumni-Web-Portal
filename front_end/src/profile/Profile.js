@@ -64,7 +64,7 @@ const Profile = () => {
                             setDisplayModal={setEditProfile}
                         >
                             <EditProfile
-                                user={auth.user ? alumniUser : adminUser}
+                                user={alumniUser ? alumniUser : adminUser}
                             />
                         </ModalHandler>
                     ) : editPass ? (
@@ -73,7 +73,7 @@ const Profile = () => {
                             setDisplayModal={setEditPass}
                         >
                             <EditPassword
-                                userAdm={auth.user ? auth : authAdmin}
+                                userAdm={alumniUser ? auth : authAdmin}
                             />
                         </ModalHandler>
                     ) : null}
@@ -81,7 +81,7 @@ const Profile = () => {
                     <div className="pt-10 max-w-md bg-grey-100 flex flex-col items-center text-454545 text-sm font-notoSans border border-grey-200 shadow-lg">
                         <UserImage
                             imageUrl={
-                                auth.user
+                                alumniUser
                                     ? alumniUser && alumniUser.avatar
                                     : adminUser && adminUser.avatar
                             }
@@ -90,7 +90,7 @@ const Profile = () => {
                             {alumniUser ? (
                                 <AlumniData alumniUser={alumniUser} />
                             ) : adminUser ? (
-                                <AdminData adminUser={adminUser && adminUser} />
+                                <AdminData adminUser={adminUser} />
                             ) : (
                                 // <AdminData alumniUser={adminUser} />
                                 <h1>Loading</h1>

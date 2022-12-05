@@ -7,9 +7,9 @@ const AnnouncementCard = ({ announcementId, title, image }) => {
             <h1 className="font-montserrat lg:text-xl text-blue">
                 {title || "Lorem IpsuM Dolor Ismaet"}
             </h1>
-            <div className="aspect-video lg:w-112 overflow-hidden">
+            <div className="aspect-video lg:w-112 overflow-hidden flex justify-center">
                 <img
-                    className="w-full h-full object-cover"
+                    className="w-auto h-full object-cover"
                     src={image}
                     alt="announcement-img"
                 />

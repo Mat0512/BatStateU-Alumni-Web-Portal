@@ -1,24 +1,26 @@
 import React from "react";
 import { useState } from "react";
 
-const AvatarViewer = ({ url, handleChange, value, imageRef }) => {
-    const [editImage, setEditImage] = useState(false);
-    const [img, setImg] = useState(url);
+const AvatarViewer = ({ url, handleChange, value, defaultUrl }) => {
     console.log("updated: ", url);
 
     console.log("url: ", url);
     return (
         <div className="my-3 self-center text-center flex flex-col justify-center items-center">
-            <img className="w-32 h-32 text-white" src={url} alt="avatar" />
+            <img
+                className="w-32 h-32 text-white"
+                src={url || defaultUrl}
+                alt="avatar"
+            />
             <input
                 type="file"
-                className={`${editImage ? "inline-block" : "hidden"} max-w-md`}
+                className={`border border-grey-200 rounded text-xs`}
                 value={value}
-                onClick={handleChange}
-                ref={imageRef}
+                onChange={handleChange}
+                name="avatar"
             />
             <p
-                className="text-blue pointer hover:text-light-blue"
+                className="text-blue pointer hover:text-light-blue text-xs"
                 onClick={() => {
                     setEditImage(true);
                 }}

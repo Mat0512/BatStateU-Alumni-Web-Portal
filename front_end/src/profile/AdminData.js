@@ -10,8 +10,6 @@ const AdminData = ({ adminUser }) => {
                 <div>
                     <UserData label={"Username"} value={adminUser.username} />
                     <UserData label={"Phone"} value={adminUser.phone} />
-                </div>
-                <div>
                     <UserData label={"Address"} value={adminUser.address} />
                     <UserData label={"Email"} value={adminUser.email} />
                 </div>

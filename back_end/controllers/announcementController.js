@@ -89,10 +89,12 @@ const handleDeleteAnnouncement = asyncHandler(async (req, res) => {
 const handleGetAllAnnouncement = asyncHandler(async (req, res) => {
     const page = parseInt(req.query.page || "0");
     console.log("page: ", page);
-    const pageLimit = 4;
+    const pageLimit = 15;
     const total = await Announcement.countDocuments({});
     console.log("total page: ", total / pageLimit);
     const announcements = await Announcement.find({})
+        .sort("-created_at")
+
         .limit(pageLimit)
         .skip(pageLimit * page);
 

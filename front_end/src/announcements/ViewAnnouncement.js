@@ -62,7 +62,7 @@ const ViewAnnouncement = () => {
                             <h1 className="text-2xl">{announcement.title}</h1>
                             <p>{announcement.updatedAt}</p>
                         </div>
-                        <div className="aspect-video max-w-3xl overflow-hidden">
+                        <div className=" h-auto overflow-hidden">
                             <img
                                 className="object-cover w-full h-full"
                                 src={announcement.image}

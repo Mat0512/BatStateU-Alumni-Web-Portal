@@ -9,11 +9,13 @@ const useFectchAlumniInformation = (state, dispatch) => {
             state.srCode
                 ? { srCode: state.srCode }
                 : {
-                      batch: state.batch,
-                      program: state.program,
+                      "Batch/Year Graduated": state.batch,
+                      Program: state.program,
                       page: state.page,
                   }
         );
+
+        console.log("query:  ", queryString);
 
         const fetchAlumniInformations = async () => {
             console.log("state: ", state);

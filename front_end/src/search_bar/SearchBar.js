@@ -10,12 +10,14 @@ const SearchBar = ({ state, handleChange, placeholder, handleSubmit }) => {
                 value={state}
                 onChange={handleChange}
             />
-            <button
-                type="submit"
-                className="ml-2 bg-zinc-200 py-1.5 px-3 border rounded border-grey-300 text-grey-300 text-md font-poppins hover:border-blue hover:text-blue"
-            >
-                Search
-            </button>
+            {handleSubmit && (
+                <button
+                    type="submit"
+                    className="ml-2 bg-zinc-200 py-1.5 px-3 border rounded border-grey-300 text-grey-300 text-md font-poppins hover:border-blue hover:text-blue"
+                >
+                    Search
+                </button>
+            )}
         </form>
     );
 };

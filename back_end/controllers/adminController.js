@@ -4,6 +4,7 @@ const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 const controllersUtilities = require("../utilities/controllersUtilities");
+const { body } = require("express-validator");
 require("dotenv").config();
 
 const createAdmin = asyncHandler(async (req, res) => {
@@ -168,11 +169,19 @@ const authenticateAdmin = asyncHandler(async (req, res) => {
 });
 
 const editAdmin = asyncHandler(async (req, res) => {
+    console.log("req: at admin edit", req.body);
+
+    const updateObject = {
+        email: req.body.email,
+        avatar: req.file.location,
+        phone: req.body.phone,
+        address: req.body.address,
+    };
     const requiredKeys = ["avatar", "address", "phone", "email"];
 
     let missingProperty = controllersUtilities.findMissingProp(
         requiredKeys,
-        req.body
+        updateObject
     );
 
     // check if required properties are in request body
@@ -186,7 +195,10 @@ const editAdmin = asyncHandler(async (req, res) => {
     }
 
     //filtering out the properties with null values
-    const filteredUpdateObj = controllersUtilities.removeEmptyProp(req.body);
+    const filteredUpdateObj = controllersUtilities.removeEmptyProp({
+        ...req.body,
+        avatar: req.file.location,
+    });
 
     console.log("updated: ", filteredUpdateObj);
     console.log("user: ", req.user);

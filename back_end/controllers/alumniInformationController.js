@@ -10,20 +10,13 @@ const handleGetAlumniInformationDataset = async (req, res) => {
     const page = parseInt(req.query.page || "0");
     const total = await AlumniInformationDataset.countDocuments({});
 
-    const query = req.query.srCode
-        ? {
-              srCode: req.query.srCode,
-          }
-        : {
-              ...(req.query.program !== "all" && {
-                  Program: req.query.program,
-              }),
-              ...(req.query.batch !== "all" && { Program: req.query.program }),
-          };
+    console.log("query: ", req.query);
 
     const alumniInformations = req.query.srCode
-        ? await AlumniInformationDataset.find(query)
-        : await AlumniInformationDataset.find(query)
+        ? await AlumniInformationDataset.find({
+              "Sr-code": { $regex: req.query.srCode, $options: "i" },
+          })
+        : await AlumniInformationDataset.find(req.query)
               .sort("-created_at")
               .limit(pageSize)
               .skip(page * pageSize);

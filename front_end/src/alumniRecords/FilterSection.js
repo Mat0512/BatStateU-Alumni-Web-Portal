@@ -4,8 +4,21 @@ import { getUniqueVal } from "../table/utils/tableUtils";
 import { client } from "../api/api";
 
 const FilterSection = ({ state, dispatch, data }) => {
-    const batchOptions = ["all"].concat(getUniqueVal(data, "Batch"));
-    const programOptions = ["all"].concat(getUniqueVal(data, "Program"));
+    //gets unique values of each field in dataset to used in filter inputs
+    console.log(data);
+    const batchOptions = ["all", 2017, 2018, 2019, 2020, 2021];
+    // ["all"].concat(
+    //     getUniqueVal(data, "Batch/Year Graduated")
+    // );
+    const programOptions = [
+        "all",
+        "Bachelor of Science in Information Technology",
+        "Bachelor of Science in Computer Science",
+    ];
+    // ["all"].concat(getUniqueVal(data, "Program"));
+
+    console.log("prog", programOptions);
+    console.log("batch", batchOptions);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -53,7 +66,7 @@ const FilterSection = ({ state, dispatch, data }) => {
                     setValue={(e) => {
                         dispatch({
                             type: "field",
-                            field: "batch",
+                            field: "program",
                             value: e.target.value,
                         });
                     }}
@@ -61,9 +74,9 @@ const FilterSection = ({ state, dispatch, data }) => {
             </div>
             <div className="w-80 h-10">
                 <SearchBar
+                    placeholder="Search SR-Code Here"
                     value={state.srCode}
                     handleChange={handleSearch}
-                    handleSubmit={handleSubmit}
                 />
             </div>
         </form>

@@ -15,16 +15,15 @@ const EditProfile = ({ user }) => {
     const { auth } = useContext(AuthContext);
     const { authAdmin } = useContext(AdminAuthContext);
     const [objUrl, setObjUrl] = useState(null);
-    const imageRef = useRef(null);
 
     const endpoint = `/${auth.username ? "alumni/edit" : "admin/edit"}`;
     const token = auth.token ? auth.token : authAdmin.token;
 
     const handleChangeImage = (e) => {
+        console.log("eeeeeeeeeeee", e.target.files[0]);
         const [file] = e.target.files;
-        imageRef.current().srcObject(file);
-        setObjUrl(URL.createObjectURL(file));
         setImgData(e.target.files[0]);
+        setObjUrl(URL.createObjectURL(file));
     };
 
     const submit = (e) => {
@@ -35,7 +34,6 @@ const EditProfile = ({ user }) => {
         }
 
         const formData = new FormData();
-
         formData.append("avatar", imgData);
         formData.append("email", email);
         formData.append("phone", phone);
@@ -44,9 +42,10 @@ const EditProfile = ({ user }) => {
         const postEditData = async () => {
             try {
                 setIsLoading(true);
-                console.log("api called");
-
+                console.log("formData: ", formData);
+                console.log("endpoint: ", endpoint);
                 const res = await client.put(`${endpoint}`, formData, {
+                    withCredentials: true,
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 console.log("response: ", res);
@@ -75,8 +74,8 @@ const EditProfile = ({ user }) => {
                 <p className="mb-2 text-2xl text-grey mx-auto">Edit Profile</p>
                 <AvatarViewer
                     handleChange={handleChangeImage}
-                    url={objUrl || user.avatar}
-                    ref={imageRef}
+                    url={objUrl}
+                    defaultUrl={user.avatar}
                 />
                 <div className="my-2 flex flex-col gap-3">
                     <TextInput

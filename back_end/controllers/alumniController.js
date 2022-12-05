@@ -218,7 +218,10 @@ const editAlumni = asyncHandler(async (req, res) => {
     }
 
     //filtering out the properties with null values
-    const filteredUpdateObj = controllersUtilities.removeEmptyProp(req.body);
+    const filteredUpdateObj = controllersUtilities.removeEmptyProp({
+        ...req.body,
+        avatar: req.file.location,
+    });
 
     //formatting the objects for $set operator
     const formattedUpdateQuery =
