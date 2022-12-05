@@ -1,11 +1,11 @@
-const CheckboxInput = ({ label, inputs, value, handleChange }) => {
+const CheckboxInput = ({ label, inputs, value, handleChange, name }) => {
     return (
         <div className="text-sm">
             <p>{label.toUpperCase()}</p>
             <div className="mt-1 flex flex-col gap-1">
                 {inputs.map((input) => (
                     <div
-                        key={input}
+                        key={{ input }}
                         className="flex items-baseline leading-5 gap-1"
                     >
                         <input
@@ -13,9 +13,9 @@ const CheckboxInput = ({ label, inputs, value, handleChange }) => {
                             id={input}
                             checked={value[input]}
                             onChange={handleChange}
-                            name={label}
+                            name={name || label}
                         />
-                        <label htmlFor={input}>{input}</label>
+                        <label>{input}</label>
                     </div>
                 ))}
             </div>

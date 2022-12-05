@@ -3,13 +3,16 @@ import { FilterTab } from "../../components/FilterTab";
 import { CheckboxInput } from "../../components/CheckBoxInput";
 import { SelectionInput } from "../../components/SelectionInput";
 import { filterByProgramAndkey } from "../utils/rawDatasetFilter";
-import { useReducer, useEffect, useState } from "react";
 import { reasonsOfUnemployment } from "../../../dummy_data/cics2";
 import {
     INITIAL_STATE,
     programsAndFieldStateReducer,
 } from "../../../reducer/ProgramsAndFieldStateReducer";
 import { UnemploymentReasonsChart } from "./UnemploymentReasonsChart";
+import { CubeContext, useCubeQuery } from "@cubejs-client/react";
+import { useReducer, useEffect, useState, useContext } from "react";
+import { aggregateDataset } from "../utils/rawDatasetReducer";
+import { generateCareersAnalysisStatement } from "../utils/descriptiveUtililies";
 
 const UnemploymentReasonsAnalysis = () => {
     const [state, dispatch] = useReducer(
@@ -18,48 +21,93 @@ const UnemploymentReasonsAnalysis = () => {
     );
     const reasonsOfUnemploymentData = [...reasonsOfUnemployment];
     const [checkboxInputs, setCheckboxInputs] = useState([]);
+    const [data, setData] = useState([]);
+    const { cubejsApi } = useContext(CubeContext);
+    const [isLoading, setisLoading] = useState(false);
+    // const { resultSet, isLoading, error, progress } = useCubeQuery({
+    //     dimensions: [
+    //         "Trackingdatasets.currentNatureOfWorkProfessionField",
+    //         "Trackingdatasets.batchYearGraduated",
+    //         "Trackingdatasets.courseProgram",
+    //     ],
+    //     order: {
+    //         "Trackingdatasets.count": "desc",
+    //     },
+    //     measures: ["Trackingdatasets.count"],
+    // });
 
-    // preparing/dynamically loading state for controlled checkbox input with loaded dataset
     useEffect(() => {
-        const programsSelection = reasonsOfUnemploymentData.map(
-            (data) => data.program
-        );
+        setisLoading(true);
+        cubejsApi
+            .load({
+                measures: ["Trackingdatasets.count"],
+                dimensions: [
+                    "Trackingdatasets.courseProgram",
+                    "Trackingdatasets.batchYearGraduated",
+                    "Trackingdatasets.reasonsOfUnemployment",
+                ],
+                order: {
+                    "Trackingdatasets.count": "desc",
+                },
+            })
+            .then((res) => {
+                console.log("res: ", res.loadResponses[0].data);
+                const aggregatedDataset = aggregateDataset({
+                    fields: [
+                        "Further studies",
+                        "Family concerns",
+                        "Health related reasons",
+                        "No job opportunity",
+                        "Did not apply for a job yet",
+                        "Qualifications did not fit job",
+                        "Lack of work experience",
+                    ],
+                    dataset: res.loadResponses[0].data,
+                    fieldKey: "Trackingdatasets.reasonsOfUnemployment",
+                });
+                setData(aggregatedDataset);
+                const programsSelection = [
+                    "Information Technology",
+                    "Computer Science",
+                ];
 
-        const fieldsState = {};
-        for (let key in reasonsOfUnemploymentData[0].values) {
-            fieldsState[key] = true;
-        }
+                const fieldsState = {};
+                for (let key in aggregatedDataset[0].values) {
+                    fieldsState[key] = true;
+                }
 
-        setCheckboxInputs(Object.keys(reasonsOfUnemploymentData[0].values));
+                setCheckboxInputs(Object.keys(aggregatedDataset[0].values));
 
-        dispatch({
-            type: "loadInputs",
-            value: {
-                fields: fieldsState,
-                programs: programsSelection,
-                selectedProgram: programsSelection[0],
-            },
-        });
-        dispatch({ type: "success" });
+                dispatch({
+                    type: "loadInputs",
+                    value: {
+                        fields: fieldsState,
+                        programs: programsSelection,
+                        selectedProgram: programsSelection[0],
+                    },
+                });
+
+                setisLoading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                alert(err);
+                setisLoading(false);
+            });
     }, []);
 
-    //filtering dataset for chart
     const filteredData =
-        Object.keys(state.fields).length > 0
-            ? filterByProgramAndkey(reasonsOfUnemploymentData, state, "fields")
-            : [];
+        data.length > 0 ? filterByProgramAndkey(data, state, "fields") : [];
 
     return (
         <div className="flex flex-col gap-3">
             {/* <AnalysisHeader /> */}
-            <VisualizationLayout
-                name={state.isLoading ? " " : "Unemployment Reasons"}
-            >
-                <FilterTab>
-                    {Object.keys(state.fields).length === 0 ? (
-                        "loading"
-                    ) : (
-                        <>
+            {isLoading ? (
+                "Loading..."
+            ) : data.length !== 0 ? (
+                <>
+                    <VisualizationLayout name={"Unemployment Reasons"}>
+                        <FilterTab>
                             <SelectionInput
                                 label="program"
                                 inputs={state.programs}
@@ -84,20 +132,21 @@ const UnemploymentReasonsAnalysis = () => {
                                     })
                                 }
                             />
-                        </>
-                    )}
-                </FilterTab>
+                        </FilterTab>
 
-                {Object.keys(state.fields).length > 0 ? (
-                    <UnemploymentReasonsChart
-                        state={state}
-                        dispatch={dispatch}
-                        dataset={filteredData}
-                    />
-                ) : (
-                    "loading..."
-                )}
-            </VisualizationLayout>
+                        <UnemploymentReasonsChart
+                            state={state}
+                            dispatch={dispatch}
+                            dataset={filteredData}
+                        />
+                    </VisualizationLayout>
+                    <div className="mt-3 font-poppins text-justify text-sm text-grey-400 ">
+                        <hr className="text-grey-200 mb-2" />
+                        {filteredData.length &&
+                            generateCareersAnalysisStatement(filteredData)}
+                    </div>
+                </>
+            ) : null}
         </div>
     );
 };

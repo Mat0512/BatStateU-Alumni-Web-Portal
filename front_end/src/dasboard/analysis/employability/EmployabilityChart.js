@@ -30,7 +30,7 @@ const EmployabilityChart = ({ state, dispatch, dataset }) => {
         <div className="h-112 flex flex-col justify-between w-full lg:w-196">
             {Object.keys(dataset).length === 0 ? (
                 <div className="flex justify-center items-center h-full">
-                    Loading..
+                    No data
                 </div>
             ) : dataset.length === 0 ? (
                 <div className="flex justify-center items-center h-full">

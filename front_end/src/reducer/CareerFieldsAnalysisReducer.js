@@ -14,7 +14,7 @@ const INITIAL_STATE = {
         Business: true,
         Environment: true,
         "Science - Biological & Physical": true,
-        Communication: true,
+        Communications: true,
         Government: true,
         "Social Impact": true,
         "Health & Medicine": true,

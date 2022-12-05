@@ -22,7 +22,7 @@ const UnemploymentPeriodChart = ({ state, dispatch, dataset }) => {
         Legend
     );
 
-    // exclude this logic as utils or costum hooks
+    console.log("dataset: ", dataset);
 
     const fieldLabels = dataset.length && Object.keys(dataset[0].values);
     const fieldDataset =
@@ -33,10 +33,12 @@ const UnemploymentPeriodChart = ({ state, dispatch, dataset }) => {
             "Alumni's Career Fields Dataset"
         );
 
-    const wrapLabels = fieldLabels.map((label) => {
-        // return label.length > 40 ? label.slice(0, 32).concat("...") : label;
-        return label.replace("than", "than_").split("_");
-    });
+    const wrapLabels =
+        fieldLabels &&
+        fieldLabels.map((label) => {
+            // return label.length > 40 ? label.slice(0, 32).concat("...") : label;
+            return label.replace("than", "than_").split("_");
+        });
 
     return (
         <div className="h-112 flex flex-col justify-between w-full lg:w-196">
@@ -46,7 +48,7 @@ const UnemploymentPeriodChart = ({ state, dispatch, dataset }) => {
                 </div>
             ) : Object.keys(dataset).length === 0 ? (
                 <div className="flex justify-center items-center h-full">
-                    Loading..
+                    Loading...
                 </div>
             ) : (
                 <Bar

@@ -37,7 +37,7 @@ const LoginForm = ({ adminLogin }) => {
                 if (adminLogin) {
                     //Update the context payload to redirect the page
                     setAuthAdmin(res.data);
-                    navigate("/admin/account");
+                    navigate("/admin/");
                 } else {
                     setAuth(res.data);
                     navigate("/alumni");
