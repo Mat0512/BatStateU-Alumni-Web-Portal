@@ -19,12 +19,7 @@ const AvatarViewer = ({ url, handleChange, value, defaultUrl }) => {
                 onChange={handleChange}
                 name="avatar"
             />
-            <p
-                className="text-blue pointer hover:text-light-blue text-xs"
-                onClick={() => {
-                    setEditImage(true);
-                }}
-            >
+            <p className="text-blue pointer hover:text-light-blue text-xs">
                 Change Avatar
             </p>
         </div>
