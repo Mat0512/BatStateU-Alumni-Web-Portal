@@ -56,24 +56,28 @@ const Profile = () => {
         <div className="mt-10 self-center">
             {isLoading ? (
                 "Loading..."
-            ) : alumniUser !== null || adminUser !== null ? (
+            ) : alumniUser || adminUser ? (
                 <>
                     {editProfile ? (
-                        <ModalHandler
-                            displayModal={editProfile}
-                            setDisplayModal={setEditProfile}
-                        >
-                            <EditProfile
-                                user={alumniUser ? alumniUser : adminUser}
-                            />
-                        </ModalHandler>
+                        <>
+                            {" "}
+                            {/* {JSON.stringify(alumniUser || adminUser)} */}
+                            <ModalHandler
+                                displayModal={editProfile}
+                                setDisplayModal={setEditProfile}
+                            >
+                                <EditProfile
+                                    user={alumniUser ? alumniUser : adminUser}
+                                />
+                            </ModalHandler>
+                        </>
                     ) : editPass ? (
                         <ModalHandler
                             displayModal={editPass}
                             setDisplayModal={setEditPass}
                         >
                             <EditPassword
-                                userAdm={alumniUser ? auth : authAdmin}
+                                userAdm={auth.user ? auth : authAdmin}
                             />
                         </ModalHandler>
                     ) : null}
@@ -82,15 +86,15 @@ const Profile = () => {
                         <UserImage
                             imageUrl={
                                 alumniUser
-                                    ? alumniUser && alumniUser.avatar
-                                    : adminUser && adminUser.avatar
+                                    ? alumniUser.avatar
+                                    : adminUser.avatar
                             }
                         />
                         <div className="w-full px-7 py-6 flex flex-col justify-center gap-5 ">
                             {alumniUser ? (
                                 <AlumniData alumniUser={alumniUser} />
                             ) : adminUser ? (
-                                <AdminData adminUser={adminUser} />
+                                <AdminData adminUser={adminUser && adminUser} />
                             ) : (
                                 // <AdminData alumniUser={adminUser} />
                                 <h1>Loading</h1>
