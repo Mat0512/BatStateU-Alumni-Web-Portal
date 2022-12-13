@@ -12,9 +12,6 @@ const Nav = ({ backgroundColor, links, admin }) => {
     const { authAdmin } = useContext(AdminAuthContext);
     const logoutAdmin = useLogoutAdmin();
 
-    console.log("auth", auth);
-    console.log("auth admin", authAdmin);
-
     const handleLogout = async () => {
         if (auth.token) {
             await logout();

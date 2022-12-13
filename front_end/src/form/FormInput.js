@@ -65,6 +65,23 @@ const MultipleInputs = ({
     );
 };
 
+const DateInput = ({ label, register, field, validation }) => (
+    <div className="max-w-2xl w-full flex flex-col font-poppins text-sm">
+        <label className="" htmlFor={label}>
+            {label}
+        </label>
+        <input
+            className="p-1 text-sm border border-grey-200 rounded"
+            type="date"
+            onKeyDown={(e) => {
+                e.preventDefault();
+            }}
+            {...register(field || label, validation)}
+            id={label}
+        />
+    </div>
+);
+
 const SelectionsInput = ({
     question,
     register,
@@ -81,7 +98,6 @@ const SelectionsInput = ({
                 {...register(field, validation)}
             >
                 {selections.map((selection) => {
-                    console.log("selection: ", selection);
                     return (
                         <option key={selection} value={selection}>
                             {selection}
@@ -94,7 +110,7 @@ const SelectionsInput = ({
 };
 
 const ControlledSelectionsInput = ({ field, value, onChange, selections }) => {
-    console.log("hello");
+    console.log("value at rendered: ", value);
     return (
         <div className="flex flex-col">
             <label>{field}</label>
@@ -132,7 +148,6 @@ const PasswordInput = ({ label, register, field, validation }) => {
                         className="absolute z-30"
                         onClick={(e) => {
                             setDisplayPass(!displayPass);
-                            console.log("element: ", e.target);
                         }}
                     >
                         button
@@ -150,5 +165,6 @@ export {
     capitalizeHelper,
     MultipleInputs,
     SelectionsInput,
+    DateInput,
     ControlledSelectionsInput,
 };

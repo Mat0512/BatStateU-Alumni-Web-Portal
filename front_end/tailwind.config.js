@@ -4,6 +4,9 @@ module.exports = {
 
     theme: {
         extend: {
+            aspectRatio: {
+                portrait: "0.7",
+            },
             fontFamily: {
                 poppins: ["Poppins", "sans-serif"],
                 montserrat: ["Montserrat", "sans-serif"],

@@ -2,6 +2,8 @@ import { Table } from "../table/Table";
 import { Row } from "../table/Row";
 import { Columns } from "../table/Columns";
 import { Button } from "../table/Button";
+import { client } from "../api/api";
+import FileDownload from "js-file-download";
 
 const AlumniRecordsTable = ({ data, state, dispatch }) => {
     const columns = [
@@ -15,12 +17,12 @@ const AlumniRecordsTable = ({ data, state, dispatch }) => {
     ];
 
     const selectedKeys = [
-        "Sr-code",
-        "First Name",
-        "Middle Name",
-        "Last Name",
-        "Program",
-        "Batch/Year Graduated",
+        "srCode",
+        "firstName",
+        "middleName",
+        "lastName",
+        "program",
+        "yearGraduated",
     ];
 
     const downloadPdfColumn = (
@@ -28,8 +30,19 @@ const AlumniRecordsTable = ({ data, state, dispatch }) => {
             <Button
                 color="blue"
                 label="Download PDF"
-                handleClick={(e) => {
-                    console.log(e.target);
+                handleClick={async (e) => {
+                    try {
+                        const id = e.target.parentNode.parentNode.id;
+                        const res = await client.get(
+                            `alumni-records/file/${id}`,
+                            { responseType: "arraybuffer" }
+                        );
+                        FileDownload(res.data, `${id}-alumni-info.pdf`);
+                        console.log(res.data);
+                        alert(res.status);
+                    } catch (err) {
+                        alert(err);
+                    }
                 }}
                 contentSize
             />

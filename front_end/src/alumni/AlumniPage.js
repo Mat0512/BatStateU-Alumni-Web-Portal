@@ -7,7 +7,6 @@ import AuthContext from "../context/AuthContext";
 
 const AlumniPage = () => {
     const { auth } = useContext(AuthContext);
-    console.log("auth: ", auth);
     return (
         <>
             {auth.token ? (

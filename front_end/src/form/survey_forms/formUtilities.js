@@ -11,10 +11,6 @@ const matchCollegeProgramInputs = (college) => {
             "Bachelor of Industrial Technology: Major in Drafting Technology",
             "Bachelor of Industrial Technology: Major in Electrical Technology",
             "Bachelor of Industrial Technology: Major in Food Technology",
-            "Bachelor of Industrial Technology: Major in Computer Technology",
-            "Bachelor of Industrial Technology: Major in Drafting Technology",
-            "Bachelor of Industrial Technology: Major in Electrical Technology",
-            "Bachelor of Industrial Technology: Major in Food Technology",
             "Bachelor of Industrial Technology: Major in Control Technology",
             "Bachelor of Industrial Technology: Major in Mechanical Technology",
             "Bachelor of Industrial Technology: Major in Mechatronics Technology",
@@ -47,8 +43,6 @@ const matchCollegeProgramInputs = (college) => {
             "Bachelor of Science in Interior Design",
         ],
     };
-
-    console.log("programs: ", programs[college]);
 
     return programs[college];
 };

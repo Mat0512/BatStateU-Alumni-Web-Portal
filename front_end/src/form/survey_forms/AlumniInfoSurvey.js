@@ -1,29 +1,107 @@
-import { useContext } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import {
-    MultipleInputs,
     SelectionsInput,
     NumberInput,
     TextInput,
+    DateInput,
 } from "../FormInput";
-import { useState } from "react";
+import AuthContext from "../../context/AuthContext";
+import { useState, useContext } from "react";
+import { client } from "../../api/api";
 
 const AlumniInfoSurvey = () => {
+    const date = new Date();
+    const maxBatch = date.getFullYear();
+    const { auth } = useContext(AuthContext);
+    const [isLoading, setIsLoading] = useState(false);
+
     const {
         register,
         handleSubmit,
         formState: { errors },
+        control,
     } = useForm();
 
-    const [isLoading, setIsLoading] = useState(false);
-    console.log("error: ", errors.g);
+    const {
+        fields: educationalBackgroundFields,
+        append: appendEducationalBackground,
+        remove: removeEducationalBackground,
+    } = useFieldArray({
+        name: "educationalBackground",
+        control,
+        rules: {
+            minLength: 4,
+            required:
+                "Must include atleast 4 field: Elementary, Junior High, Senior High, College",
+        },
+    });
+
+    const {
+        fields: trainingProgramsFields,
+        append: appendTrainingPrograms,
+        remove: removeTrainingPrograms,
+    } = useFieldArray({
+        name: "trainingPrograms",
+        control,
+    });
+
+    const {
+        fields: skillsFields,
+        append: appendSkills,
+        remove: removeSkills,
+    } = useFieldArray({
+        name: "skills",
+        control,
+    });
+
+    const {
+        fields: organizationsFields,
+        append: appendOrganizations,
+        remove: removeOrganizations,
+    } = useFieldArray({
+        name: "organizations",
+        control,
+    });
+
+    const submit = (data) => {
+        // setIsLoading(true);
+        console.log("data:");
+        const completeData = { ...data, respondent: auth.username };
+        console.log(completeData);
+        const postData = async () => {
+            setIsLoading(true);
+            try {
+                const res = await client.post(
+                    "/alumni-records/post",
+                    completeData,
+                    {
+                        headers: { Authorization: `Bearer ${auth.token}` },
+                        withCredentials: true,
+                    }
+                );
+                if (res.status === 201) {
+                    alert("Posted Successfully");
+                }
+
+                if (res.status === 200) {
+                    alert("Updated!");
+                }
+                console.log("\n res: ", res.data);
+            } catch (err) {
+                console.log(err);
+                alert(err.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        postData();
+    };
+
     return (
         <div className="w-full py-8 flex flex-col items-center text-sm">
             <form
                 className="p-5 max-w-xl w-full bg-zinc-100 border border-grey-200 rounded font-poppins flex flex-col gap-4"
-                onSubmit={handleSubmit((data) => {
-                    console.log("data: ", data);
-                })}
+                onSubmit={handleSubmit(submit)}
             >
                 <h1 className="text-2xl">Alumni Information Form</h1>
                 <hr className="bg-grey-200" />
@@ -34,7 +112,7 @@ const AlumniInfoSurvey = () => {
                     label="First Name"
                     // value={state.middlename}
                     // handleChange={handleChange}
-                    field="First Name"
+                    field="firstName"
                     register={register}
                     validation={{
                         required: "First Name is required",
@@ -49,7 +127,7 @@ const AlumniInfoSurvey = () => {
                     label="Middle Name"
                     // value={state.middlename}
                     // handleChange={handleChange}
-                    field="Middle Name"
+                    field="middleName"
                     register={register}
                     validation={{
                         required: "First Name is required",
@@ -62,7 +140,7 @@ const AlumniInfoSurvey = () => {
                 />
                 <TextInput
                     label="Last Name"
-                    field="Last Name"
+                    field="lastName"
                     register={register}
                     validation={{
                         required: "Last Name is required",
@@ -77,6 +155,7 @@ const AlumniInfoSurvey = () => {
                     label="Age"
                     // value={state.batch}
                     // handleChange={handleChange}
+                    field="age"
                     register={register}
                     validation={{
                         required: "Age is required",
@@ -88,7 +167,8 @@ const AlumniInfoSurvey = () => {
                 />
 
                 <SelectionsInput
-                    field="Gender"
+                    label="Gender"
+                    field="gender"
                     selections={["Male", "Female", "Other"]}
                     register={register}
                     validation={{
@@ -96,8 +176,9 @@ const AlumniInfoSurvey = () => {
                     }}
                 />
 
-                <MultipleInputs
-                    field="Civil Status"
+                <SelectionsInput
+                    question="Civil Status"
+                    field="civilStatus"
                     selections={["Single", "Married", "Seperated", "Divorced"]}
                     register={register}
                     validation={{
@@ -106,7 +187,8 @@ const AlumniInfoSurvey = () => {
                 />
 
                 <TextInput
-                    field="Address"
+                    label="Address"
+                    field="address"
                     register={register}
                     validation={{
                         required: "Address is required",
@@ -114,7 +196,8 @@ const AlumniInfoSurvey = () => {
                 />
 
                 <TextInput
-                    field="Contact Number"
+                    label="Contact Number"
+                    field="contactNumber"
                     register={register}
                     validation={{
                         required: "Contact Number is required",
@@ -122,12 +205,97 @@ const AlumniInfoSurvey = () => {
                 />
 
                 <TextInput
-                    field="Email Address"
+                    label="Email"
+                    field="emailAddress"
                     register={register}
                     validation={{
-                        required: "Email Address is required",
+                        pattern: {
+                            value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                            message: "Email must be valid",
+                        },
                     }}
                 />
+
+                {/*Dynamic input fields*/}
+                <h1 className="text-lg">Educational Background</h1>
+                {educationalBackgroundFields.map((field, index) => (
+                    <div key={field.id} className="flex flex-col gap-1">
+                        <hr className="text-grey-300 my-2" />
+                        <TextInput
+                            label="Educational Level"
+                            field={`educationalBackground[${index}].educationalLevel`}
+                            register={register}
+                        />
+
+                        {/* <label className="flex flex-col gap-1">
+                            <span>Educational Level</span>
+                            <input
+                                className="w-full p-1 border border-grey-200 rounded"
+                                {...register(
+                                    `educationalBackground[${index}].educationalLevel`
+                                )}
+                                placeholder="i.e., Elementary."
+                            />
+                        </label> */}
+                        <TextInput
+                            label="Major Field"
+                            field={`educationalBackground[${index}].major`}
+                            register={register}
+                        />
+
+                        <TextInput
+                            label="Name of School"
+                            field={`educationalBackground[${index}].schoolName`}
+                            register={register}
+                            validation={{ required: "Required" }}
+                        />
+
+                        <NumberInput
+                            label="Year Graduated"
+                            field={`educationalBackground[${index}].yearGraduated`}
+                            register={register}
+                            validation={{
+                                required: "Batch is required",
+                            }}
+                        />
+
+                        <TextInput
+                            label="Honors/Awards"
+                            field={`educationalBackground[${index}].honors`}
+                            register={register}
+                            type="number"
+                        />
+
+                        <button
+                            className="bg-red w-content self-center text-white mt-2 py-2 px-5 rounded"
+                            type="button"
+                            onClick={() => {
+                                removeEducationalBackground(index);
+                            }}
+                        >
+                            Remove
+                        </button>
+                        {index === educationalBackgroundFields.length - 1 && (
+                            <hr className="text-grey-300 my-2" />
+                        )}
+                    </div>
+                ))}
+                <button
+                    className="bg-blue text-white px-4 py-2 rounded"
+                    type="button"
+                    onClick={() => {
+                        appendEducationalBackground({
+                            educationalLevel: "",
+                            major: "",
+                            schoolName: "",
+                            yearGraduated: 0,
+                            honors: "",
+                        });
+                    }}
+                >
+                    Add
+                </button>
+                {/*Dynamic input fields end*/}
 
                 <h1 className="text-lg">Family Background</h1>
 
@@ -180,47 +348,173 @@ const AlumniInfoSurvey = () => {
                     }}
                 />
 
-                <TextInput
-                    field="Seminar Attended"
-                    register={register}
-                    validation={{
-                        required: "Seminar Attended is required",
-                    }}
-                />
-                <TextInput
-                    field="Date Attended"
-                    register={register}
-                    validation={{
-                        required: "Date attended is required",
-                    }}
-                />
-                <TextInput
-                    field="Event Orgranizer"
-                    register={register}
-                    validation={{
-                        required: "Event organizer is required",
-                    }}
-                />
+                <h1 className="text-lg">Training Programs</h1>
 
-                <h1 className="text-lg">Other Information</h1>
+                {trainingProgramsFields.map((field, index) => (
+                    <div key={field.id} className="flex flex-col gap-1">
+                        <hr className="text-grey-300 my-2" />
 
-                <TextInput
-                    field="Special skills/Hobbies"
-                    register={register}
-                    validation={{
-                        required: "Special skills/hobbies is required",
-                    }}
-                />
-                <TextInput
-                    field="Membership in associations/organizations"
-                    register={register}
-                    validation={{
-                        required: "This field is required",
-                    }}
-                />
+                        <TextInput
+                            label="Title of Seminar/Conference/Workshop/Short Courses"
+                            field={`trainingPrograms[${index}].title`}
+                            register={register}
+                            validation={{ required: "Required" }}
+                        />
+                        <DateInput
+                            label="Date of Attendance/Completion"
+                            field={`trainingPrograms[${index}].date`}
+                            register={register}
+                            validation={{ required: "Required" }}
+                        />
+                        <TextInput
+                            label="Conducted/Sponsored by"
+                            field={`trainingPrograms[${index}].organizer`}
+                            register={register}
+                            validation={{ required: "Required" }}
+                        />
+                        <button
+                            className="bg-red w-content self-center text-white mt-2 py-2 px-5 rounded"
+                            type="button"
+                            onClick={() => {
+                                removeTrainingPrograms(index);
+                            }}
+                        >
+                            Remove
+                        </button>
+
+                        {index === trainingProgramsFields.length - 1 && (
+                            <hr className="text-grey-300 my-2" />
+                        )}
+                    </div>
+                ))}
 
                 <button
-                    className={`p-2 rounded w-full bg-green text-center text-lg text-white text-sm`}
+                    className="bg-blue text-white px-4 py-2 rounded"
+                    type="button"
+                    onClick={() => {
+                        appendTrainingPrograms({
+                            title: "",
+                            date: "",
+                            organizer: "",
+                        });
+                    }}
+                >
+                    Add
+                </button>
+
+                <h1 className="text-lg">Other Information</h1>
+                <h2 className="text-md">Special Skills / Hobbies</h2>
+
+                {skillsFields.map((field, index) => (
+                    <div key={field.id} className="flex flex-col gap-1">
+                        <div className="flex gap-2">
+                            <TextInput
+                                label="Skills / Hobbies"
+                                field={`skills[${index}]`}
+                                register={register}
+                                validation={{ required: "Required" }}
+                            />
+                            <button
+                                className="bg-red w-content self-end text-white mt-2 px-2 py-1 rounded"
+                                type="button"
+                                onClick={() => {
+                                    removeSkills(index);
+                                }}
+                            >
+                                &#x2715;
+                            </button>
+                        </div>
+                    </div>
+                ))}
+
+                <button
+                    className="bg-blue text-white px-4 py-2 rounded"
+                    type="button"
+                    onClick={() => {
+                        appendSkills("");
+                    }}
+                >
+                    Add
+                </button>
+
+                <h2 className="text-md">
+                    Membership in Association / Organizations
+                </h2>
+
+                {organizationsFields.map((field, index) => (
+                    <div key={field.id} className="flex flex-col gap-1">
+                        <div className="flex gap-2">
+                            <TextInput
+                                label="Association / Organization"
+                                field={`organizations[${index}]`}
+                                register={register}
+                                validation={{ required: "Required" }}
+                            />
+                            <button
+                                className="bg-red w-content self-end text-white mt-2 px-2 py-1 rounded"
+                                type="button"
+                                onClick={() => {
+                                    removeOrganizations(index);
+                                }}
+                            >
+                                &#x2715;
+                            </button>
+                        </div>
+                    </div>
+                ))}
+                <button
+                    className="bg-blue text-white px-4 py-2 rounded"
+                    type="button"
+                    onClick={() => {
+                        appendOrganizations("");
+                    }}
+                >
+                    Add
+                </button>
+
+                <SelectionsInput
+                    question="Bachelor's Degree"
+                    field="program"
+                    selections={["Information Technology", "Computer Science"]}
+                    register={register}
+                    validation={{ required: "Required" }}
+                />
+                <TextInput
+                    label="Sr-code"
+                    field="srCode"
+                    register={register}
+                    validation={{
+                        required: "SR-Code is required",
+
+                        pattern: {
+                            value: /[1-9]\d-[\d]{5}/,
+                            message: "SR-Code must be valid, e.g., 18-57307",
+                        },
+                    }}
+                />
+                <NumberInput
+                    label="Year Graduated"
+                    field="yearGraduated"
+                    register={register}
+                    validation={{
+                        required: "Batch is required",
+                        min: {
+                            value: 2017,
+                            message: "Batch must not be less than 2017",
+                        },
+                        max: {
+                            value: 2022,
+                            message: "Batch must not be greater than 2022",
+                        },
+                    }}
+                    min="2017"
+                    max={maxBatch.toString()}
+                />
+
+                <hr className="text-grey-200 mt-2" />
+
+                <button
+                    className={`px-4 py-2 rounded w-full bg-green text-center text-white text-sm`}
                     type="submit"
                     disabled={isLoading}
                 >

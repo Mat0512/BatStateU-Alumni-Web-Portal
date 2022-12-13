@@ -7,29 +7,25 @@ import { client } from "../api/api";
 import AuthContext from "../context/AuthContext";
 
 const Announcements = () => {
-    console.log("rendered");
+    const { auth } = useContext(AuthContext);
     const [announcements, setAnnouncements] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(0);
     const [totalPage, setTotalPage] = useState(0);
     const [searchValue, setSearchValue] = useState("");
 
-    console.log("at announcements");
-    console.log("\n\n !!!env var", process.env);
-
     useEffect(() => {
         const fetchAnnouncements = async () => {
             try {
-                console.log("mounted");
                 setIsLoading(true);
 
                 let query = searchValue
                     ? `/announcement/search?title=${page}`
                     : `/announcement?page=${page}`;
                 const res = await client.get(query, {
+                    headers: { Authorization: `Bearer ${auth.token}` },
                     withCredentials: true,
                 });
-                console.log("announcements: ", res.data.data);
                 setAnnouncements(res.data.data);
                 setTotalPage(searchValue ? totalPage : res.data.totalPage);
             } catch (error) {

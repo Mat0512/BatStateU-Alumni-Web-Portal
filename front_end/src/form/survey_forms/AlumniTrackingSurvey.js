@@ -24,12 +24,14 @@ const AlumniTrackingSurvey = () => {
         formState: { errors },
     } = useForm();
 
-    console.log("college", college);
+    console.log("errors: ", errors);
     return (
         <div className="w-full py-8 flex flex-col items-center text-sm">
             <form
                 className="p-5 max-w-xl w-full bg-zinc-100 border border-grey-200 rounded font-poppins flex flex-col gap-2"
                 onSubmit={handleSubmit((data) => {
+                    console.log("data: ");
+
                     console.log("data: ", data);
                 })}
             >
@@ -136,6 +138,7 @@ const AlumniTrackingSurvey = () => {
                     control={control}
                     name="College"
                     rules={{ required: "College is required" }}
+                    defaultValue="CICS"
                     render={({
                         field: { onChange, onBlur, value, name, ref },
                         // fieldState: { invalid, isTouched, isDirty, error },
@@ -252,30 +255,41 @@ const AlumniTrackingSurvey = () => {
                     conditionally rendered if isEmployed statement is false
                 */}
 
-                <h1 className="text-lg">Alumni Background</h1>
+                <h1 className="text-lg">Employability</h1>
                 <Controller
                     control={control}
                     name="Employability"
                     rules={{ required: "Employability is required" }}
+                    defaultValue="Employed"
                     render={({
                         field: { onChange, onBlur, value, name, ref },
                         // fieldState: { invalid, isTouched, isDirty, error },
                         // formState,
-                    }) => (
-                        <ControlledSelectionsInput
-                            field="Employability"
-                            selections={[
-                                "Employed",
-                                "Unemployed",
-                                "Self-Employed",
-                            ]}
-                            value={employmentStatus}
-                            onChange={(e) => {
-                                setEmploymentStatus(e.target.value);
-                                onChange(e.target.value);
-                            }}
-                        />
-                    )}
+                    }) => {
+                        return (
+                            <ControlledSelectionsInput
+                                field="Employability"
+                                selections={[
+                                    "Employed",
+                                    "Unemployed",
+                                    "Self-Employed",
+                                ]}
+                                value={value}
+                                onChange={(e) => {
+                                    console.log(
+                                        "e.target.value at render prop: ",
+                                        e.target.value
+                                    );
+                                    console.log(
+                                        "value at render prop: ",
+                                        value
+                                    );
+                                    setEmploymentStatus(e.target.value);
+                                    onChange(e.target.value);
+                                }}
+                            />
+                        );
+                    }}
                 />
 
                 {employmentStatus !== "Unemployed" ? (
@@ -322,11 +336,9 @@ const AlumniTrackingSurvey = () => {
                             question="Status of Professional Registration"
                             field="Employement Type"
                             selections={[
-                                "Regular/Permanent",
-                                "Temporary",
-                                "Casual",
-                                "Contractual",
-                                "Other",
+                                "Licensed",
+                                "Not Licensed",
+                                "Not Applicable",
                             ]}
                             register={register}
                             validation={{
@@ -353,26 +365,12 @@ const AlumniTrackingSurvey = () => {
                             question="Waiting Time Before Employment"
                             field="Unemployment Period"
                             selections={[
-                                "Regular/Permanent",
-                                "Temporary",
-                                "Casual",
-                                "Contractual",
-                                "Other",
-                            ]}
-                            register={register}
-                            validation={{
-                                required: "This field is required",
-                            }}
-                            radio
-                        />
-
-                        <MultipleInputs
-                            field="Job Satisfaction"
-                            selections={[
-                                "Very Satisfied",
-                                "Satisfied",
-                                "Fairly Satisfied",
-                                "Not Satisfied",
+                                "Less than 1 month",
+                                "1 - 6 months",
+                                "7 - 11 months",
+                                "1 year to less than 2 years",
+                                "2 years to less than 3 years",
+                                "3 years to less than 4 years",
                             ]}
                             register={register}
                             validation={{
@@ -566,7 +564,6 @@ const AlumniTrackingSurvey = () => {
                         "Leadership skills",
                         "Entertainment skills",
                         "Research skills",
-                        "Ethical skills",
                         "Ethical skills",
                     ]}
                     radio

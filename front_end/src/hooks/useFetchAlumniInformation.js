@@ -20,9 +20,7 @@ const useFectchAlumniInformation = (state, dispatch) => {
         const fetchAlumniInformations = async () => {
             console.log("state: ", state);
             try {
-                const res = await client.get(
-                    `/alumni-records/dummy${queryString}`
-                );
+                const res = await client.get(`/alumni-records/${queryString}`);
                 if (!res) {
                     alert("error");
                 }

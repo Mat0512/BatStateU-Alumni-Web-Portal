@@ -2,12 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const SurveyCard = ({ title, date, description, gLink, link }) => {
-    console.log("description: ", description);
-    console.log(
-        "!!!!!!description parsed new line: ",
-        description.replaceAll(/\n\n/gm, "-----------------")
-    );
-
     return (
         <div className="w-120 md:h-72 font-poppins text-grey-400 p-9 bg-grey-100 border rounded border-grey-200 flex flex-col gap-3">
             <div className="flex justify-between items-baseline">

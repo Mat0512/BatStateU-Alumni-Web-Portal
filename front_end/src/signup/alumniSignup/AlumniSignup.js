@@ -15,7 +15,8 @@ const AlumniSignup = () => {
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const maxBatch = new Date();
+    const date = new Date();
+    const maxBatch = date.getFullYear();
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 

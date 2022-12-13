@@ -5,8 +5,6 @@ import { client } from "../api/api";
 import { format, parseISO } from "date-fns";
 
 const Survey = () => {
-    console.log("rendered");
-    console.log("dummy: ", surveyDummy);
     const [surveys, setSurveys] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -25,21 +23,17 @@ const Survey = () => {
                     ),
                 }));
                 setSurveys(formattedDateSurveyData);
-                console.log("res: ", formattedDateSurveyData);
             } catch (err) {
                 console.log(err);
             } finally {
                 setIsLoading(false);
             }
         };
-        console.log("mounted");
         fetchAnnouncements();
         // setIsLoading(true);
         // setSurveys(surveyDummy);
         // setIsLoading(false);
     }, []);
-    console.log("surveys: ", surveys);
-    console.log("surey length: ", surveys.length);
 
     return (
         <div className="flex flex-col gap-4">
