@@ -18,7 +18,6 @@ import { SetUpAccount } from "./signup/alumniSignup/SetUpAccount";
 import { AlumniInfoSurvey } from "./form/survey_forms/AlumniInfoSurvey";
 import { AlumniTrackingSurvey } from "./form/survey_forms/AlumniTrackingSurvey";
 import { SurveyAdmin } from "./survey_admin/SurveyAdmin";
-import { ReactToPdf } from "./ReactToPdf";
 
 function App() {
     return (
@@ -38,7 +37,6 @@ function App() {
                         element={<SetUpAccount />}
                     />
                 </Route>
-                <Route path="pdf" element={<ReactToPdf />} />
             </Route>
             <Route path="alumni" element={<PersistLogin />}>
                 {/*the authorization of routes are located on AlumniPage and AdminPage component*/}

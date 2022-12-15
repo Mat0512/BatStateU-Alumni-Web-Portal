@@ -9,9 +9,13 @@ router.get(
     alumniInformationController.handleGetAlumniInformationDataset
 );
 router.get("/dummy:id");
-router.get("/");
-router.get("/");
-router.post("/:id");
-router.put("/:id");
+
+router.get(
+    "/file/:id",
+    alumniInformationController.handleGenerateAlumniInfoPdf
+);
+router.get("/", alumniInformationController.handleGetAlumniInformation);
+router.get("/:id", alumniInformationController.handleGetOneAlumniInformation);
+router.post("/post", alumniInformationController.handleCreateAlumniInformation);
 
 module.exports = router;
