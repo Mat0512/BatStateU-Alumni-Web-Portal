@@ -201,6 +201,7 @@ const handleGenerateAlumniInfoPdf = asyncHandler(async (req, res) => {
     };
 
     res.writeHead(200, {
+        "Access-Control-Allow-Origin": "https://batstateu-alumni.com",
         "Content-Type": "application/pdf",
         "Content-Disposition": "attachment;filename=alumni-info.pdf",
     });
