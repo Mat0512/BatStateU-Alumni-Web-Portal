@@ -16,7 +16,9 @@ const useFectchActivityLog = (state, dispatch) => {
 
         const fetchActivityLog = async () => {
             try {
-                const res = await client.get(`/activitylog/${queryString}`);
+                const res = await client.get(`/activitylog/${queryString}`, {
+                    withCredentials: true,
+                });
                 if (!res) {
                     alert("error");
                 }
