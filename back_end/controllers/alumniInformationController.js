@@ -1,12 +1,7 @@
 const AlumniInformation = require("../models/AlumniInformation.js");
 const AlumniInformationDataset = require("../models/AlumniInformationDataset.js");
-const { buildAlumniInformationPDF } = require("./service/pdfService");
 const asyncHandler = require("express-async-handler");
 const controllersUtilities = require("../utilities/controllersUtilities");
-const puppeteer = require("puppeteer");
-const path = require("path");
-const fs = require("fs-extra");
-const hbs = require("handlebars");
 
 // AlumniInforationDataset is dummy data, used only for demo on app and only read operation
 // AlumniInforation is production data model
@@ -72,8 +67,8 @@ const handleGetOneAlumniInformation = asyncHandler(async (req, res) => {
         throw new Error("No User ID");
     }
 
-    const alumniInformation = await AlumniInformation.findOne({
-        respondent: req.params.id,
+    const alumniInformation = await AlumniInformation.findById({
+        _id: req.params.id,
     }).exec();
     if (!alumniInformation) {
         res.status(200).json({ message: "Not Found" });
@@ -82,7 +77,6 @@ const handleGetOneAlumniInformation = asyncHandler(async (req, res) => {
 
     res.status(200).json(alumniInformation);
 });
-
 //create
 const handleCreateAlumniInformation = asyncHandler(async (req, res) => {
     if (!req.body) {
@@ -178,44 +172,6 @@ const handleUpdateAlumniInformation = asyncHandler(async (req, res) => {
     res.sendStatus(200);
 });
 
-const handleGenerateAlumniInfoPdf = asyncHandler(async (req, res) => {
-    if (!req.params.id) {
-        res.sendStatus(400);
-        return;
-    }
-    console.log("alumni username: ", req.params.id);
-    const foundAlumni = await AlumniInformation.findById({
-        _id: req.params.id,
-    }).lean();
-    if (!foundAlumni) {
-        res.status(404).json({ message: "Alumni record not found" });
-        return;
-    }
-
-    console.log("found alumni: ", foundAlumni);
-    const compile = async function (templateName, data) {
-        const filePath = path.join(__dirname, "service", `${templateName}.hbs`);
-
-        const html = await fs.readFile(filePath, "utf8");
-        return hbs.compile(html)(data);
-    };
-
-    res.writeHead(200, {
-        "Access-Control-Allow-Origin": "https://batstateu-alumni.com",
-        "Content-Type": "application/pdf",
-        "Content-Disposition": "attachment;filename=alumni-info.pdf",
-    });
-
-    const content = await compile("alumni-info-template", foundAlumni);
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.setContent(content);
-    const buffer = await page.pdf({ format: "A4", margin: { top: 60 } });
-    await browser.close();
-
-    res.end(buffer);
-});
-
 module.exports = {
     handleCreateAlumniInformation,
     handleGetAlumniInformation,
@@ -223,5 +179,4 @@ module.exports = {
     handleGetOneAlumniInformation,
     handleGetOneAlumniInformationDataset,
     handleUpdateAlumniInformation,
-    handleGenerateAlumniInfoPdf,
 };

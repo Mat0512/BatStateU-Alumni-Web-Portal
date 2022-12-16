@@ -2,10 +2,10 @@ import { Table } from "../table/Table";
 import { Row } from "../table/Row";
 import { Columns } from "../table/Columns";
 import { Button } from "../table/Button";
-import { client } from "../api/api";
-import FileDownload from "js-file-download";
+import { useNavigate } from "react-router-dom";
 
 const AlumniRecordsTable = ({ data, state, dispatch }) => {
+    const navigate = useNavigate();
     const columns = [
         "SR-Code",
         "First Name",
@@ -30,19 +30,9 @@ const AlumniRecordsTable = ({ data, state, dispatch }) => {
             <Button
                 color="blue"
                 label="Download PDF"
-                handleClick={async (e) => {
-                    try {
-                        const id = e.target.parentNode.parentNode.id;
-                        const res = await client.get(
-                            `alumni-records/file/${id}`,
-                            { responseType: "arraybuffer" }
-                        );
-                        FileDownload(res.data, `${id}-alumni-info.pdf`);
-                        console.log(res.data);
-                        alert(res.status);
-                    } catch (err) {
-                        alert(err);
-                    }
+                handleClick={(e) => {
+                    const id = e.target.parentNode.parentNode.id;
+                    navigate(`/pdf/${id}`);
                 }}
                 contentSize
             />

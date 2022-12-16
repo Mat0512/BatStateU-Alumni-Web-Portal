@@ -18,6 +18,7 @@ import { SetUpAccount } from "./signup/alumniSignup/SetUpAccount";
 import { AlumniInfoSurvey } from "./form/survey_forms/AlumniInfoSurvey";
 import { AlumniTrackingSurvey } from "./form/survey_forms/AlumniTrackingSurvey";
 import { SurveyAdmin } from "./survey_admin/SurveyAdmin";
+import { Pdf } from "./Pdf";
 
 function App() {
     return (
@@ -26,6 +27,8 @@ function App() {
                 <Route index element={<Login />} />
                 <Route path="admin/auth" element={<Login admin />} />
                 <Route path="*" element={<h1>Not Found</h1>} />
+                <Route path="pdf/:id" element={<Pdf />} />
+
                 <Route path="signup/" element={<Outlet />}>
                     <Route path="alumni" element={<AlumniSignup />} />
                     <Route
