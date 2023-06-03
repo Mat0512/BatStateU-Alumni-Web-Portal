@@ -97,6 +97,8 @@ const AlumniInfoSurvey = () => {
         postData();
     };
 
+    console.log("errors: ", errors);
+
     return (
         <div className="w-full py-8 flex flex-col items-center text-sm">
             <form

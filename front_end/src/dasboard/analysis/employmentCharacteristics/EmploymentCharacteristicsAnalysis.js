@@ -33,70 +33,82 @@ const EmploymentCharacteristicsAnalysis = () => {
         "Contractual",
         "N/A",
     ];
-    console.log("state: ", state);
     const programsSelection = ["Information Technology", "Computer Science"];
 
+    // useEffect(() => {
+    //     setisLoading(true);
+    //     cubejsApi
+    //         .load({
+    //             measures: ["Trackingdatasets.count"],
+    //             dimensions: [
+    //                 "Trackingdatasets.courseProgram",
+    //                 "Trackingdatasets.batchYearGraduated",
+    //                 "Trackingdatasets.employmentCharacteristic",
+    //             ],
+    //             order: {
+    //                 "Trackingdatasets.count": "desc",
+    //             },
+    //         })
+    //         .then((res) => {
+    //             setData(
+    //                 aggregateDataset({
+    //                     fields: stateFields,
+    //                     dataset: res.loadResponses[0].data,
+    //                     fieldKey: "Trackingdatasets.employmentCharacteristic",
+    //                 })
+    //             );
+    //             dispatch({
+    //                 type: "loadInputs",
+    //                 value: {
+    //                     fields: {
+    //                         "Regular/Permanent": true,
+    //                         Temporary: true,
+    //                         Casual: true,
+    //                         Contractual: true,
+    //                         "N/A": true,
+    //                     },
+    //                     programs: programsSelection,
+    //                     selectedProgram: programsSelection[0],
+    //                 },
+    //             });
+    //             setisLoading(false);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //             setisLoading(false);
+    //         });
+    // }, []);
     useEffect(() => {
-        setisLoading(true);
-        cubejsApi
-            .load({
-                measures: ["Trackingdatasets.count"],
-                dimensions: [
-                    "Trackingdatasets.courseProgram",
-                    "Trackingdatasets.batchYearGraduated",
-                    "Trackingdatasets.employmentCharacteristic",
-                ],
-                order: {
-                    "Trackingdatasets.count": "desc",
+        dispatch({
+            type: "loadInputs",
+            value: {
+                fields: {
+                    "Regular/Permanent": true,
+                    Temporary: true,
+                    Casual: true,
+                    Contractual: true,
+                    "N/A": true,
                 },
-            })
-            .then((res) => {
-                console.log("res: ", res.loadResponses[0].data);
-                console.log(
-                    "aggregated: ",
-                    aggregateDataset({
-                        fields: stateFields,
-                        dataset: res.loadResponses[0].data,
-                        fieldKey: "Trackingdatasets.employmentCharacteristic",
-                    })
-                );
-                setData(
-                    aggregateDataset({
-                        fields: stateFields,
-                        dataset: res.loadResponses[0].data,
-                        fieldKey: "Trackingdatasets.employmentCharacteristic",
-                    })
-                );
-                dispatch({
-                    type: "loadInputs",
-                    value: {
-                        fields: {
-                            "Regular/Permanent": true,
-                            Temporary: true,
-                            Casual: true,
-                            Contractual: true,
-                            "N/A": true,
-                        },
-                        programs: programsSelection,
-                        selectedProgram: programsSelection[0],
-                    },
-                });
-                setisLoading(false);
-            })
-            .catch((err) => {
-                console.log(err);
-                setisLoading(false);
-            });
+                programs: programsSelection,
+                selectedProgram: programsSelection[0],
+            },
+        });
     }, []);
 
     //filtering dataset for chart
     const filteredData =
-        data.length !== 0 ? filterByProgramAndkey(data, state, "fields") : [];
-
+        data.length !== 0
+            ? filterByProgramAndkey(data, state, "fields")
+            : filterByProgramAndkey(
+                  employmentCharacteristicsData,
+                  state,
+                  "fields"
+              );
     return (
         <div className="flex flex-col gap-3">
             {/* <AnalysisHeader /> */}
-            {isLoading ? (
+
+            {/* {isLoading ? (
                 "Loading..."
             ) : data.length !== 0 ? (
                 <>
@@ -152,7 +164,59 @@ const EmploymentCharacteristicsAnalysis = () => {
                             generateEmploymentTypeStatement(filteredData)}
                     </div>
                 </>
-            ) : null}
+            ) : null} */}
+
+            <>
+                <VisualizationLayout
+                    name={`Employment Types of ${
+                        !state.college ? "" : state.college
+                    } Alumni`}
+                >
+                    <FilterTab>
+                        {Object.keys(state.fields).length === 0 ? (
+                            "loading"
+                        ) : (
+                            <>
+                                <SelectionInput
+                                    label="program"
+                                    inputs={state.programs}
+                                    value={state.selectedProgram}
+                                    handleChange={(e) =>
+                                        dispatch({
+                                            type: "select",
+                                            field: "selectedProgram",
+                                            value: e.target.value,
+                                        })
+                                    }
+                                />
+                                <CheckboxInput
+                                    label="Employment Characteristics"
+                                    inputs={stateFields}
+                                    value={state.fields}
+                                    handleChange={(e) =>
+                                        dispatch({
+                                            type: "field",
+                                            field: e.target.id,
+                                            value: !state.fields[e.target.id],
+                                        })
+                                    }
+                                />
+                            </>
+                        )}
+                    </FilterTab>
+
+                    <EmploymentCharacteristicsChart
+                        state={state}
+                        dispatch={dispatch}
+                        dataset={filteredData}
+                    />
+                </VisualizationLayout>
+                <div className="mt-3 font-poppins text-justify text-sm text-grey-400 ">
+                    <hr className="text-grey-200 mb-2" />
+                    {filteredData.length &&
+                        generateEmploymentTypeStatement(filteredData)}
+                </div>
+            </>
         </div>
     );
 };

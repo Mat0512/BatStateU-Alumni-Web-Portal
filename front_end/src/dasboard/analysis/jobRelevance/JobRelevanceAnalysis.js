@@ -20,64 +20,57 @@ const JobRelevanceAnalysis = () => {
     const { cubejsApi } = useContext(CubeContext);
     const jobRelevanceData = [...jobRelevance];
 
-    // const { resultSet, isLoading, error, progress } = useCubeQuery({
-    //     measures: ["Trackingdatasets.count"],
-    //     dimensions: [
-    //         "Trackingdatasets.isYourCollegeDegreeRelevantToYourJob",
-    //         "Trackingdatasets.courseProgram",
-    //         "Trackingdatasets.batchYearGraduated",
-    //     ],
-    //     order: {
-    //         "Trackingdatasets.count": "desc",
-    //     },
-    // });
+    // useEffect(() => {
+    //     setisLoading(true);
+    //     cubejsApi
+    //         .load({
+    //             measures: ["Trackingdatasets.count"],
+    //             dimensions: [
+    //                 "Trackingdatasets.isYourCollegeDegreeRelevantToYourJob",
+    //                 "Trackingdatasets.courseProgram",
+    //                 "Trackingdatasets.batchYearGraduated",
+    //             ],
+    //             order: {
+    //                 "Trackingdatasets.count": "desc",
+    //             },
+    //         })
+    //         .then((res) => {
+    //             setisLoading(true);
+    //             console.log("res: ", res.loadResponses[0].data);
 
-    useEffect(() => {
-        setisLoading(true);
-        cubejsApi
-            .load({
-                measures: ["Trackingdatasets.count"],
-                dimensions: [
-                    "Trackingdatasets.isYourCollegeDegreeRelevantToYourJob",
-                    "Trackingdatasets.courseProgram",
-                    "Trackingdatasets.batchYearGraduated",
-                ],
-                order: {
-                    "Trackingdatasets.count": "desc",
-                },
-            })
-            .then((res) => {
-                setisLoading(true);
-                console.log("res: ", res.loadResponses[0].data);
+    //             setData(
+    //                 aggregateDataset({
+    //                     fields: ["Related", "Not Related"],
+    //                     dataset: res.loadResponses[0].data,
+    //                     fieldKey:
+    //                         "Trackingdatasets.isYourCollegeDegreeRelevantToYourJob",
+    //                 })
+    //             );
+    //             // const aggregatedEmployabilityData =
+    //             //     aggregateEmployabilityRawDataset(res.loadResponses[0].data);
+    //             // console.log("aggregated: ", aggregatedEmployabilityData);
+    //             // setData(aggregatedEmployabilityData);
+    //             setisLoading(false);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //             setisLoading(false);
+    //         });
+    // }, []);
 
-                setData(
-                    aggregateDataset({
-                        fields: ["Related", "Not Related"],
-                        dataset: res.loadResponses[0].data,
-                        fieldKey:
-                            "Trackingdatasets.isYourCollegeDegreeRelevantToYourJob",
-                    })
-                );
-                // const aggregatedEmployabilityData =
-                //     aggregateEmployabilityRawDataset(res.loadResponses[0].data);
-                // console.log("aggregated: ", aggregatedEmployabilityData);
-                // setData(aggregatedEmployabilityData);
-                setisLoading(false);
-            })
-            .catch((err) => {
-                console.log(err);
-                alert(err);
-                setisLoading(false);
-            });
-    }, []);
+    // const filteredData =
+    //     data.length !== 0 ? filterGroupedBarStackByProgram(data, state) : [];
 
-    const filteredData =
-        data.length !== 0 ? filterGroupedBarStackByProgram(data, state) : [];
+    const filteredData = filterGroupedBarStackByProgram(jobRelevance, state);
+    console.log("jobRelevance : ", jobRelevance);
+    console.log("jobRelevance state: ", state);
+
+    console.log("jobRelevance filtered: ", filteredData);
 
     return (
         <div className="flex flex-col gap-3">
             {/* <AnalysisHeader /> */}
-            {isLoading ? (
+            {/* {isLoading ? (
                 "Loading..."
             ) : data.length !== 0 ? (
                 <>
@@ -115,7 +108,42 @@ const JobRelevanceAnalysis = () => {
                         {generateJobRelevanceStatement(filteredData)}
                     </div>
                 </>
-            ) : null}
+            ) : null} */}
+            <>
+                <VisualizationLayout
+                    name={
+                        state.isLoading
+                            ? " "
+                            : `Relevance of ${state.college} Alumni's Degree to Job`
+                    }
+                >
+                    <FilterTab>
+                        <CheckboxInput
+                            label="program"
+                            inputs={Object.keys(state.programs)}
+                            value={state.programs}
+                            selectionState={state.programs}
+                            handleChange={(e) => {
+                                dispatch({
+                                    type: "program",
+                                    field: e.target.id,
+                                    value: !state.programs[e.target.id],
+                                });
+                            }}
+                        />
+                    </FilterTab>
+
+                    <JobRelevanceChart
+                        state={state}
+                        dispatch={dispatch}
+                        dataset={filteredData}
+                    />
+                </VisualizationLayout>
+                {/* <div className="mt-3 font-poppins text-justify text-sm text-grey-400 ">
+                    <hr className="text-grey-200 mb-2" />
+                    {generateJobRelevanceStatement(filteredData)}
+                </div> */}
+            </>
         </div>
     );
 };

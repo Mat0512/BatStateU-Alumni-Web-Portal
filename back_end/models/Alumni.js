@@ -7,7 +7,7 @@ const alumniSchema = new Schema({
         middleName: String,
         lastName: String,
     },
-    username: { type: String, default: null, unique: true },
+    username: { type: String, default: null, unique: true, sparse: true },
     password: { type: String, default: null },
     verified: Boolean,
     avatar: {

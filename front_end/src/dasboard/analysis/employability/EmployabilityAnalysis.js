@@ -21,57 +21,43 @@ const EmployabilityAnalysis = () => {
     const [data, setData] = useState([]);
     const { cubejsApi } = useContext(CubeContext);
 
-    useEffect(() => {
-        setisLoading(true);
-        cubejsApi
-            .load({
-                measures: ["Trackingdatasets.count"],
-                dimensions: [
-                    "Trackingdatasets.courseProgram",
-                    "Trackingdatasets.batchYearGraduated",
-                    "Trackingdatasets.employmentStatus",
-                ],
-                order: {
-                    "Trackingdatasets.count": "desc",
-                },
-            })
-            .then((res) => {
-                console.log("res: ", res.loadResponses[0].data);
-                const aggregatedEmployabilityData =
-                    aggregateEmployabilityRawDataset(res.loadResponses[0].data);
-                console.log("aggregated: ", aggregatedEmployabilityData);
-                setData(aggregatedEmployabilityData);
-                setisLoading(false);
-            })
-            .catch((err) => {
-                alert(err);
-                setisLoading(false);
-            });
-    }, []);
-
-    // if (resultSet) {
-    //     console.log("invoked");
-    //     console.log(
-    //         "filtered",
-    //         aggregateEmployabilityRawDataset(resultSet.loadResponses[0].data)
-    //     );
-    // }
-
-    // filters dataset every re-render caused by state reducer
-    console.log("has data?: ", data.length !== 0);
-    console.log("state: ", state);
-    console.log("data: ", data);
+    // useEffect(() => {
+    //     setisLoading(true);
+    //     cubejsApi
+    //         .load({
+    //             measures: ["Trackingdatasets.count"],
+    //             dimensions: [
+    //                 "Trackingdatasets.courseProgram",
+    //                 "Trackingdatasets.batchYearGraduated",
+    //                 "Trackingdatasets.employmentStatus",
+    //             ],
+    //             order: {
+    //                 "Trackingdatasets.count": "desc",
+    //             },
+    //         })
+    //         .then((res) => {
+    //             console.log("res: ", res.loadResponses[0].data);
+    //             const aggregatedEmployabilityData =
+    //                 aggregateEmployabilityRawDataset(res.loadResponses[0].data);
+    //             console.log("aggregated: ", aggregatedEmployabilityData);
+    //             setData(aggregatedEmployabilityData);
+    //             setisLoading(false);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //             setisLoading(false);
+    //         });
+    // }, []);
 
     const filteredData =
-        data.length !== 0 ? filterGroupedBarStackByProgram(data, state) : [];
-
-    console.log("datastet, ", data);
-    console.log("filtered: ", filteredData);
+        data.length !== 0
+            ? filterGroupedBarStackByProgram(data, state)
+            : filterGroupedBarStackByProgram(employabilityV2, state);
 
     return (
         <div className="flex flex-col gap-3">
             {/* <AnalysisHeader /> */}
-            {isLoading ? (
+            {/* {isLoading ? (
                 "Loading"
             ) : data.length === 0 ? null : (
                 <>
@@ -113,7 +99,46 @@ const EmployabilityAnalysis = () => {
                         )}
                     </div>
                 </>
-            )}
+            )} */}
+            <>
+                <VisualizationLayout
+                    name={
+                        state.isLoading
+                            ? " "
+                            : `Employability Status of ${state.college} Alumni`
+                    }
+                >
+                    <FilterTab>
+                        <CheckboxInput
+                            label="program"
+                            inputs={Object.keys(state.programs)}
+                            name="program-employability"
+                            value={state.programs}
+                            selectionState={state.programs}
+                            handleChange={(e) => {
+                                dispatch({
+                                    type: "program",
+                                    field: e.target.id,
+                                    value: !state.programs[e.target.id],
+                                });
+                            }}
+                        />
+                    </FilterTab>
+
+                    <EmployabilityChart
+                        state={state}
+                        dispatch={dispatch}
+                        dataset={filteredData}
+                    />
+                </VisualizationLayout>
+                <div className="mt-3 font-poppins text-justify text-sm text-grey-400 ">
+                    <hr className="text-grey-200 mb-2" />
+                    {generateEmployabilityStatement(
+                        filteredData,
+                        state.maxBatchYear
+                    )}
+                </div>
+            </>
         </div>
     );
 };

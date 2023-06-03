@@ -17,15 +17,18 @@ console.log(
 const spacesEndpoint = new aws.Endpoint(process.env.DO_SPACE_ENDPOINT);
 const s3 = new aws.S3({
     endpoint: spacesEndpoint,
-    region: "sgp1",
+    region: "nyc3",
     credentials: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     },
 });
 
-const upload = (name) =>
-    multer({
+const upload = (name) => {
+    console.log(
+        "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Multer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    );
+    return multer({
         storage: multerS3({
             s3: s3,
             bucket: process.env.DO_SPACE_BUCKET,
@@ -37,5 +40,6 @@ const upload = (name) =>
             },
         }),
     }).single(name);
+};
 
 module.exports = { upload, s3 };

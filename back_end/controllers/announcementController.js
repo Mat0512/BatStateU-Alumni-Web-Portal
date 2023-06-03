@@ -6,8 +6,10 @@ const path = require("path");
 const { body } = require("express-validator/check");
 
 const handlePostAnnouncement = asyncHandler(async (req, res) => {
+    console.log("file: ");
+
+    console.log("FILE: ", req.file);
     const announcement = { ...req.body };
-    console.log("announcement from controller : ", announcement);
 
     if (!(announcement.title && announcement.body)) {
         res.status(400);
@@ -30,7 +32,6 @@ const handlePostAnnouncement = asyncHandler(async (req, res) => {
     const alumniContacts = await Alumni.find({}, "contact.email -_id");
     const emailList = alumniContacts.map((data) => data.contact.email);
 
-    console.log("email list: ", emailList);
     await sendVerificationEmail({
         multipleUsers: emailList,
         announcementTitle: newAnnouncement.title,

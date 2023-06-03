@@ -81,7 +81,6 @@ const StudyUsefullnessAnalysis = () => {
             })
             .catch((err) => {
                 console.log(err);
-                alert(err);
                 setisLoading(false);
             });
     }, []);

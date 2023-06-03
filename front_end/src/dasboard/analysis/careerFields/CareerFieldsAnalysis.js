@@ -62,16 +62,20 @@ const CareerFieldsAnalysis = () => {
                 setisLoading(false);
             })
             .catch((err) => {
-                alert(err);
+                console.log(err);
                 setisLoading(false);
             });
     }, []);
 
-    const careerFieldsData = filterByProgramAndkey(data, state, "fields");
-    console.log("filter: ", careerFieldsData);
+    // const careerFieldsData = filterByProgramAndkey(data, state, "fields");
+    const careerFieldsData = filterByProgramAndkey(
+        careerFields,
+        state,
+        "fields"
+    );
     return (
         <>
-            {isLoading ? (
+            {/* {isLoading ? (
                 "Loading..."
             ) : data.length !== 0 ? (
                 <>
@@ -115,7 +119,49 @@ const CareerFieldsAnalysis = () => {
                             generateCareersAnalysisStatement(careerFieldsData)}
                     </div>
                 </>
-            ) : null}
+            ) : null} */}
+
+            <>
+                <VisualizationLayout name="Career Fields">
+                    <FilterTab>
+                        <SelectionInput
+                            label="program"
+                            inputs={programInputs}
+                            value={state.selectedProgram}
+                            handleChange={(e) =>
+                                dispatch({
+                                    type: "select",
+                                    field: "selectedProgram",
+                                    value: e.target.value,
+                                })
+                            }
+                        />
+                        <CheckboxInput
+                            label="Fields"
+                            inputs={checkboxInputs}
+                            value={state.fields}
+                            selectionState={state.fields}
+                            handleChange={(e) => {
+                                dispatch({
+                                    type: "field",
+                                    field: e.target.id,
+                                    value: !state.fields[e.target.id],
+                                });
+                            }}
+                        />
+                    </FilterTab>
+                    <CareerFieldsChart
+                        state={state}
+                        dispatch={dispatch}
+                        dataset={careerFieldsData}
+                    />
+                </VisualizationLayout>
+                <div className="mt-3 font-poppins text-justify text-sm text-grey-400 ">
+                    <hr className="text-grey-200 mb-2" />
+                    {careerFieldsData.length &&
+                        generateCareersAnalysisStatement(careerFieldsData)}
+                </div>
+            </>
         </>
     );
 };

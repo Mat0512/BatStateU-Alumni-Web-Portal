@@ -24,74 +24,98 @@ const UnemploymentPeriodAnalysis = () => {
     const { cubejsApi } = useContext(CubeContext);
     const [isLoading, setisLoading] = useState(false);
 
-    useEffect(() => {
-        setisLoading(true);
-        cubejsApi
-            .load({
-                measures: ["Trackingdatasets.count"],
-                dimensions: [
-                    "Trackingdatasets.courseProgram",
-                    "Trackingdatasets.batchYearGraduated",
-                    "Trackingdatasets.lengthOfTimeBeforeEmployment",
-                ],
-                order: {
-                    "Trackingdatasets.count": "desc",
-                },
-            })
-            .then((res) => {
-                console.log("res: ", res.loadResponses[0].data);
-                const aggregatedDataset = aggregateDataset({
-                    fields: [
-                        "Less than 1 month",
-                        "1 - 6 months",
-                        "7 - 11 months",
-                        "1 year to less than 2 years",
-                        "2 years to less than 3 years",
-                        "3 years to less than 4 years",
-                    ],
-                    dataset: res.loadResponses[0].data,
-                    fieldKey: "Trackingdatasets.lengthOfTimeBeforeEmployment",
-                });
+    // useEffect(() => {
+    //     setisLoading(true);
+    //     cubejsApi
+    //         .load({
+    //             measures: ["Trackingdatasets.count"],
+    //             dimensions: [
+    //                 "Trackingdatasets.courseProgram",
+    //                 "Trackingdatasets.batchYearGraduated",
+    //                 "Trackingdatasets.lengthOfTimeBeforeEmployment",
+    //             ],
+    //             order: {
+    //                 "Trackingdatasets.count": "desc",
+    //             },
+    //         })
+    //         .then((res) => {
+    //             console.log("res: ", res.loadResponses[0].data);
+    //             const aggregatedDataset = aggregateDataset({
+    //                 fields: [
+    //                     "Less than 1 month",
+    //                     "1 - 6 months",
+    //                     "7 - 11 months",
+    //                     "1 year to less than 2 years",
+    //                     "2 years to less than 3 years",
+    //                     "3 years to less than 4 years",
+    //                 ],
+    //                 dataset: res.loadResponses[0].data,
+    //                 fieldKey: "Trackingdatasets.lengthOfTimeBeforeEmployment",
+    //             });
 
-                setData(aggregatedDataset);
+    //             setData(aggregatedDataset);
 
-                const programsSelection = [
-                    "Information Technology",
-                    "Computer Science",
-                ];
-                const fieldsState = {};
-                for (let key in aggregatedDataset[0].values) {
-                    fieldsState[key] = true;
-                }
-                setCheckboxInputs(Object.keys(aggregatedDataset[0].values));
-                dispatch({
-                    type: "loadInputs",
-                    value: {
-                        fields: fieldsState,
-                        programs: programsSelection,
-                        selectedProgram: programsSelection[0],
-                    },
-                });
-                setisLoading(false);
-            })
-            .catch((err) => {
-                console.log(err);
-                alert(err);
-                setisLoading(false);
-            });
-    }, []);
+    //             const programsSelection = [
+    //                 "Information Technology",
+    //                 "Computer Science",
+    //             ];
+    //             const fieldsState = {};
+    //             for (let key in aggregatedDataset[0].values) {
+    //                 fieldsState[key] = true;
+    //             }
+    //             setCheckboxInputs(Object.keys(aggregatedDataset[0].values));
+    //             dispatch({
+    //                 type: "loadInputs",
+    //                 value: {
+    //                     fields: fieldsState,
+    //                     programs: programsSelection,
+    //                     selectedProgram: programsSelection[0],
+    //                 },
+    //             });
+    //             setisLoading(false);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //             setisLoading(false);
+    //         });
+    // }, []);
 
     //filtering dataset for chart
-    console.log("length: ", data.length);
-    console.log("state: ", state);
-    const filteredData =
-        data.length !== 0 ? filterByProgramAndkey(data, state, "fields") : [];
+
+    // const filteredData =
+    //     data.length !== 0 ? filterByProgramAndkey(data, state, "fields") : [];
+
+    useEffect(() => {
+        const programsSelection = [
+            "Information Technology",
+            "Computer Science",
+        ];
+        const fieldsState = {};
+        for (let key in waitingTimeBeforeEmployed[0].values) {
+            fieldsState[key] = true;
+        }
+        setCheckboxInputs(Object.keys(waitingTimeBeforeEmployed[0].values));
+        dispatch({
+            type: "loadInputs",
+            value: {
+                fields: fieldsState,
+                programs: programsSelection,
+                selectedProgram: programsSelection[0],
+            },
+        });
+    }, []);
+
+    const filteredData = filterByProgramAndkey(
+        waitingTimeBeforeEmployed,
+        state,
+        "fields"
+    );
 
     console.log("filteredData ", filteredData);
 
     return (
         <div className="flex flex-col gap-3">
-            {isLoading ? (
+            {/* {isLoading ? (
                 "Loading..."
             ) : data.length !== 0 ? (
                 <>
@@ -139,8 +163,52 @@ const UnemploymentPeriodAnalysis = () => {
                                 state.maxBatchYear
                             )}
                     </div>
+                  
+                  
                 </>
-            ) : null}
+            ) : null} */}
+            <VisualizationLayout name={`Waiting Time Before Employment`}>
+                <FilterTab>
+                    <SelectionInput
+                        label="program"
+                        inputs={state.programs}
+                        value={state.selectedProgram}
+                        handleChange={(e) =>
+                            dispatch({
+                                type: "select",
+                                field: "selectedProgram",
+                                value: e.target.value,
+                            })
+                        }
+                    />
+                    <CheckboxInput
+                        label="Unemployment Length"
+                        inputs={checkboxInputs}
+                        value={state.fields}
+                        handleChange={(e) =>
+                            dispatch({
+                                type: "field",
+                                field: e.target.id,
+                                value: !state.fields[e.target.id],
+                            })
+                        }
+                    />
+                </FilterTab>
+
+                <UnemploymentPeriodChart
+                    dataset={filteredData}
+                    state={state}
+                    dispatch={dispatch}
+                />
+            </VisualizationLayout>
+            <div className="mt-3 font-poppins text-justify text-sm text-grey-400 ">
+                <hr className="text-grey-200 mb-2" />
+                {filteredData.length &&
+                    generateUnemploymentPeriodStatement(
+                        filteredData,
+                        state.maxBatchYear
+                    )}
+            </div>
         </div>
     );
 };

@@ -244,14 +244,14 @@ const jobRelevance = [
         college: "CICS",
         program: "Computer Science",
         values: {
-            related: {
+            Related: {
                 2017: 20,
                 2018: 23,
                 2019: 26,
                 2020: 28,
                 2021: 40,
             },
-            unrelated: {
+            Unrelated: {
                 2017: 10,
                 2018: 13,
                 2019: 16,

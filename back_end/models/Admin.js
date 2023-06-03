@@ -6,7 +6,7 @@ const adminSchema = new Schema({
         firstName: String,
         lastName: String,
     },
-    username: String,
+    username: { type: String, default: null, unique: true, sparse: true },
     password: String,
     gender: String,
     avatar: String,

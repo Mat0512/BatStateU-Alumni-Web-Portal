@@ -4,7 +4,7 @@ const UserImage = ({ imageUrl }) => {
             {/*img*/}
             <div className=" w-48 h-48 bg-grey-200 sm:bg-fade-black xt-white flex justify-center items-center">
                 <img
-                    className="w-full h-full object-fit"
+                    className="w-full h-full object-cover"
                     src={imageUrl}
                     alt="user avatar"
                 />

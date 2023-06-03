@@ -77,6 +77,7 @@ const handleGetOneAlumniInformation = asyncHandler(async (req, res) => {
 
     res.status(200).json(alumniInformation);
 });
+
 //create
 const handleCreateAlumniInformation = asyncHandler(async (req, res) => {
     if (!req.body) {

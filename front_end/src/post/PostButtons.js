@@ -7,7 +7,9 @@ const PostButtons = ({
     setDisplayModalAddAnnouncement,
     setDisplayModalAddSurvey,
 }) => {
-    const { setAnnouncementInput } = useContext(AnnouncementInputContext);
+    const { setAnnouncementInput, announcementInput } = useContext(
+        AnnouncementInputContext
+    );
     const { setSurveyFormInput } = useContext(SurveyFormInputContext);
 
     const handleAddSurvey = () => {
@@ -33,9 +35,7 @@ const PostButtons = ({
         console.log("click add announcement");
 
         setAnnouncementInput({
-            title: "",
-            body: "",
-            image: "",
+            ...announcementInput,
             endpoint: "/announcement/add",
         });
 

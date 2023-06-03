@@ -85,9 +85,11 @@ const Profile = () => {
                     <div className="pt-10 max-w-md bg-grey-100 flex flex-col items-center text-454545 text-sm font-notoSans border border-grey-200 shadow-lg">
                         <UserImage
                             imageUrl={
-                                alumniUser
+                                alumniUser?.avatar
                                     ? alumniUser.avatar
-                                    : adminUser.avatar
+                                    : adminUser?.avatar
+                                    ? adminUser.avatar
+                                    : "https://batstateu-alumni-portal.nyc3.cdn.digitaloceanspaces.com/placeholder-img.jpg"
                             }
                         />
                         <div className="w-full px-7 py-6 flex flex-col justify-center gap-5 ">

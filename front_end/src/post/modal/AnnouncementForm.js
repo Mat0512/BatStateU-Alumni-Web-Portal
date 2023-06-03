@@ -7,16 +7,10 @@ const AnnouncementForm = ({ name }) => {
     const { announcementInput, setAnnouncementInput } = useContext(
         AnnouncementInputContext
     );
+    console.log("Annonucement input value at first load: ", announcementInput);
     const { authAdmin } = useContext(AdminAuthContext);
 
     const [isLoading, setIsLoading] = useState(false);
-    // const [announcementData, setAnnouncementData] = useState({
-    //     title: "",
-    //     body: "",
-    //     image: "",
-    // });
-
-    console.log("Annonucement input value at first load: ", announcementInput);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -38,6 +32,11 @@ const AnnouncementForm = ({ name }) => {
 
         const postAnnouncement = async () => {
             try {
+                console.log(
+                    "Annonucement input value at submt: ",
+                    announcementInput
+                );
+
                 await client.post(announcementInput.endpoint, formData, {
                     withCredentials: true,
                     headers: {
@@ -50,7 +49,12 @@ const AnnouncementForm = ({ name }) => {
                 console.log(err);
             } finally {
                 setIsLoading(false);
-                setAnnouncementInput({});
+                setAnnouncementInput({
+                    ...announcementInput,
+                    title: "",
+                    body: "",
+                    image: "",
+                });
             }
         };
 
