@@ -5,6 +5,8 @@ const corsAllowList = [
     "https://test-app-7mcje.ondigitalocean.app",
     "https://batstateu-alumni.com/",
     "https://batstateu-alumni.com",
+    "https://clownfish-app-mfc3q.ondigitalocean.app/",
+    "https://clownfish-app-mfc3q.ondigitalocean.app",
 ];
 
 module.exports = corsAllowList;
