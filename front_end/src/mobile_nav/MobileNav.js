@@ -44,7 +44,7 @@ const MobileNav = ({ links, admin }) => {
         <div className="md:hidden">
             <img
                 src={displayMenu ? closeMenu : hamburgerMenu}
-                className="h-8"
+                className="h-7"
                 onClick={() => {
                     setDisplayMenu(!displayMenu);
                 }}
@@ -52,7 +52,7 @@ const MobileNav = ({ links, admin }) => {
             />
 
             {displayMenu && (
-                <div className="absolute right-0 top-20 w-2/4 h-[20rem] bg-red text-white flex flex-col justify-center">
+                <div className="absolute right-0 top-20 w-2/4 h-[20rem] bg-red text-white flex flex-col justify-center transition-all">
                     <ul className="flex flex-col items-center gap-4">
                         {navLinks}
                         <li

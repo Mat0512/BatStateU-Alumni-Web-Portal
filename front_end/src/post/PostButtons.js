@@ -43,7 +43,7 @@ const PostButtons = ({
     };
 
     return (
-        <div className="flex gap-6">
+        <div className="flex gap-6 cursor-pointer">
             <div
                 className="px-5 py-4 flex gap-3 items-center border border-grey-200 shadow-sm shadow-grey-200"
                 onClick={handleAddAnnouncement}

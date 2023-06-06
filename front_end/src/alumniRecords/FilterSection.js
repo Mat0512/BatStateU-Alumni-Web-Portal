@@ -5,20 +5,8 @@ import { client } from "../api/api";
 
 const FilterSection = ({ state, dispatch, data }) => {
     //gets unique values of each field in dataset to used in filter inputs
-    console.log(data);
-    const batchOptions = ["all", 2017, 2018, 2019, 2020, 2021];
-    // ["all"].concat(
-    //     getUniqueVal(data, "Batch/Year Graduated")
-    // );
-    const programOptions = [
-        "all",
-        "Bachelor of Science in Information Technology",
-        "Bachelor of Science in Computer Science",
-    ];
-    // ["all"].concat(getUniqueVal(data, "Program"));
-
-    console.log("prog", programOptions);
-    console.log("batch", batchOptions);
+    const batchOptions = ["all"].concat(getUniqueVal(data, "yearGraduated"));
+    const programOptions = ["all"].concat(getUniqueVal(data, "program"));
 
     const handleSearch = (e) => {
         e.preventDefault();

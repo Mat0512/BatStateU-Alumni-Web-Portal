@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const SurveyCard = ({ title, date, description, gLink, link }) => {
     return (
-        <div className="w-120 md:h-72 font-poppins text-grey-400 p-9 bg-grey-100 border rounded border-grey-200 flex flex-col gap-3">
+        <div className="md:w-120 md:h-72 font-poppins text-grey-400 p-9 bg-grey-100 border rounded border-grey-200 flex flex-col gap-3">
             <div className="flex justify-between items-baseline">
                 <div>
                     <h1 className="text-lg">{title || "No title"}</h1>
@@ -11,7 +11,7 @@ const SurveyCard = ({ title, date, description, gLink, link }) => {
                 </div>
                 {gLink ? (
                     <a
-                        className="text-blue text-sm"
+                        className="mx-w-text-blue text-sm"
                         href={gLink}
                         target="_blank"
                     >

@@ -6,8 +6,6 @@ const FiltersSection = ({ data, state, dispatch }) => {
     const activityOptions = ["all"].concat(getUniqueVal(data, "activity"));
     const entryOptions = ["all"].concat(getUniqueVal(data, "entry"));
 
-    console.log("state at filter: ", state);
-
     return (
         <form className="w-full py-3 flex justify-between items-end gap-2">
             <div className="flex gap-3">
