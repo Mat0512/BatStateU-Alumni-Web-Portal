@@ -3,7 +3,7 @@ import { client } from "../api/api";
 import { queryStringParser } from "../api/utilities/queryStringParser";
 
 const useFectchAlumniInformation = (state, dispatch) => {
-    console.log("state at top: ", state);
+    console.log("sr code: ", state.srCode);
     useEffect(() => {
         const queryString = queryStringParser(
             state.srCode
@@ -15,20 +15,12 @@ const useFectchAlumniInformation = (state, dispatch) => {
                   }
         );
 
-        console.log("query:  ", queryString);
-
-        const fetchAlumniInformations = async () => {
-            console.log("state: ", state);
+        const fetchAlumniInformations = setTimeout(async () => {
             try {
                 const res = await client.get(`/alumni-records/${queryString}`);
                 if (!res) {
                     alert("error");
                 }
-
-                console.log("resonse: ", res.data);
-                console.log("resonse data: ", res.data.data);
-                console.log("resonse total: ", res.data.totalPages);
-
                 dispatch({
                     type: "field",
                     field: "totalPage",
@@ -46,10 +38,11 @@ const useFectchAlumniInformation = (state, dispatch) => {
             } finally {
                 dispatch({ type: "success" });
             }
-        };
+        }, 1700);
 
-        fetchAlumniInformations();
-    }, [state.isLoading]);
+        // fetchAlumniInformations();
+        return () => clearTimeout(fetchAlumniInformations);
+    }, [state.isLoading, state.srCode]);
 
     return state.data;
 };

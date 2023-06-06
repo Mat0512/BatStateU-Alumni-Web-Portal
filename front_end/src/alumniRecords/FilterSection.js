@@ -13,25 +13,25 @@ const FilterSection = ({ state, dispatch, data }) => {
         dispatch({ type: "field", field: "srCode", value: e.target.value });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const fetchAlumniInfo = async () => {
-            try {
-                const res = await client.get(
-                    `/alumi-records/dummy?srCode=${state.srCode}`
-                );
-                dispatch({
-                    type: "field",
-                    field: "data",
-                    value: res.data.data,
-                });
-            } catch (err) {
-                console.log(err);
-                alert(err.message);
-            }
-        };
-        fetchAlumniInfo();
-    };
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     const fetchAlumniInfo = async () => {
+    //         try {
+    //             const res = await client.get(
+    //                 `/alumi-records/dummy?srCode=${state.srCode}`
+    //             );
+    //             dispatch({
+    //                 type: "field",
+    //                 field: "data",
+    //                 value: res.data.data,
+    //             });
+    //         } catch (err) {
+    //             console.log(err);
+    //             alert(err.message);
+    //         }
+    //     };
+    //     fetchAlumniInfo();
+    // };
     return (
         <form className="flex justify-between items-end">
             <div className="flex gap-3">
