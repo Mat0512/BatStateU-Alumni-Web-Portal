@@ -50,7 +50,9 @@ const Announcements = () => {
                 "...loading"
             ) : (
                 <>
-                    <SearchBar />
+                    {/* <SearchBar /> */}
+                    <h1 className="text-xl font-poppins">Announcements </h1>
+
                     <ul className="w-full py-4 flex flex-wrap gap-x-10 gap-y-5 justify-start items-center">
                         {announcements.map((announcement) => (
                             <li key={announcement.annnouncementId}>

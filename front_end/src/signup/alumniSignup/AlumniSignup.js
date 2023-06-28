@@ -1,10 +1,7 @@
 import alumniLogo from "../../assets/logo/reg-logo.svg";
 import { TextInput, NumberInput } from "../../form/FormInput";
 import { useState } from "react";
-import {
-    alumniSignupReducer,
-    INITIAL_STATE,
-} from "../../reducer/SignupAlumniReducer";
+
 import { client } from "../../api/api";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -80,7 +77,7 @@ const AlumniSignup = () => {
                         }}
                     />
                     <p className="text-sm font-poppins text-red">
-                        {errors.firstname?.message}
+                        {errors.firstName?.message}
                     </p>
                     <TextInput
                         label="Middle Name"
@@ -98,7 +95,7 @@ const AlumniSignup = () => {
                         }}
                     />
                     <p className="text-sm font-poppins text-red">
-                        {errors.middlename?.message}
+                        {errors.middleName?.message}
                     </p>
 
                     <TextInput
@@ -117,7 +114,7 @@ const AlumniSignup = () => {
                         }}
                     />
                     <p className="text-sm font-poppins text-red">
-                        {errors.lastname?.message}
+                        {errors.lastName?.message}
                     </p>
 
                     <TextInput
@@ -135,7 +132,7 @@ const AlumniSignup = () => {
                 <div>
                     <p className="text-xl">Contact Information</p>
                     <p className="text-md text-grey-300">
-                        Use your active email to send you a verifacation
+                        Use your active email to send you a verification
                     </p>
                     <TextInput
                         label="Email Address"

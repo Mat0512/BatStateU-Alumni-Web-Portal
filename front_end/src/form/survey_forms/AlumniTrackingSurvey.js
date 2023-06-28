@@ -570,7 +570,7 @@ const AlumniTrackingSurvey = () => {
                 />
 
                 <button
-                    className={`p-2 rounded w-full bg-green text-center text-lg text-white text-sm`}
+                    className={`p-2 rounded w-full bg-green text-center  text-white text-sm`}
                     type="submit"
                     disabled={isLoading}
                 >

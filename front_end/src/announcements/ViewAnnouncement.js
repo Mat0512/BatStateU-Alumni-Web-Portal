@@ -57,14 +57,14 @@ const ViewAnnouncement = () => {
                     >
                         &#x3c; Back
                     </Link>
-                    <div className="ml-2 font-poppins text-grey-400 max-w-2xl flex flex-col gap-9 py-4 px-10">
+                    <div className="ml-2 font-poppins text-grey-400 max-w-5xl flex flex-col gap-9 py-4 px-10">
                         <div className="font-poppins">
                             <h1 className="text-2xl">{announcement.title}</h1>
                             <p>{announcement.updatedAt}</p>
                         </div>
-                        <div className=" h-auto overflow-hidden">
+                        <div className=" h-auto overflow-hidden bg-grey-100">
                             <img
-                                className="object-cover w-full h-full"
+                                className="mx-auto object-cover w-full h-full max-w-xl"
                                 src={announcement.image}
                                 alt="announcment image"
                             />

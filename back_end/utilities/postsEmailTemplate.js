@@ -100,15 +100,19 @@ const postsEmailTemplate = ({ announcementTitle, surveyTitle, glink }) => {
                     margin-bottom: 1rem;
 
                }
+               h1 {
+                    font-size: 16px,
+                    font-weight: 400
+               }
                </style>
 
           </head>
           <body>
-               <h1>New ${
+               <p class="title">New ${
                    announcementTitle
-                       ? `Announcement ${announcementTitle}`
-                       : `Survey ${surveyTitle}`
-               }</h1>
+                       ? `Announcement: ${announcementTitle}`
+                       : `Survey: ${surveyTitle}`
+               }</p>
                <p>
                     Good day CICS Alumni!
                     <br>

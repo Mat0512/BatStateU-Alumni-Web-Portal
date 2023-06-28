@@ -7,7 +7,15 @@ const alumniSchema = new Schema({
         middleName: String,
         lastName: String,
     },
-    username: { type: String, default: null, unique: true, sparse: true },
+    username: {
+        type: String,
+        index: {
+            unique: true,
+            partialFilterExpression: { username: { $type: "string" } },
+        },
+        default: null,
+        sparse: true,
+    },
     password: { type: String, default: null },
     verified: Boolean,
     avatar: {

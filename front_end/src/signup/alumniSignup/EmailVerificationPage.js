@@ -15,11 +15,11 @@ const EmailVerificationPage = () => {
                     }`}</span>
                     Please verify to continue your registration process.
                 </p>
-                <div>
+                {/* <div>
                     <button className="bg-blue hover:bg-white hover:text-blue text-white border border-blue rounded font-poppins py-3 px-5">
                         Resend Email
                     </button>
-                </div>
+                </div> */}
             </div>
         </div>
     );

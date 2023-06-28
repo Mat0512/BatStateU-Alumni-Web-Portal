@@ -9,6 +9,7 @@ const adminNavLinks = [
     "Activity Log",
     "Alumni Records",
     "Account",
+    "Add Admin",
 ];
 
 const AdminLayout = ({ children }) => {

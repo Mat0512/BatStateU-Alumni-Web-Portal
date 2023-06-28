@@ -42,11 +42,9 @@ const handleAlumniVerification = async (req, res) => {
             srCode: req.body.srCode,
             // batch: req.body.batch,
         };
-        console.log("query: ", query);
 
         //check if alumni information are recorded on alumni graduates
         const verifiedAlumni = await AlumniDummy.findOne(query).exec();
-        console.log("verifiedAlumni: ", verifiedAlumni);
 
         if (!verifiedAlumni) {
             res.status(401).send({
@@ -60,21 +58,20 @@ const handleAlumniVerification = async (req, res) => {
         //resend a new verification email to continue registration
 
         const alumniQuery = controllersUtilities.parseToNestedFieldQuery({
-            name: {
-                firstName: req.body.firstName,
-                middleName: req.body.middleName,
-                lastName: req.body.lastName,
-            },
+            // name: {
+            //     firstName: req.body.firstName,
+            //     middleName: req.body.middleName,
+            //     lastName: req.body.lastName,
+            // },
             alumniBackground: {
-                program: req.body.program,
-                batch: req.body.batch,
+                // program: req.body.program,
+                // batch: req.body.batch,
                 srCode: req.body.srCode,
             },
         });
 
+        console.log("query unverified: ", alumniQuery);
         const unverifiedAccount = await Alumni.findOne(alumniQuery).exec();
-        console.log("query: ", alumniQuery);
-        // verified: false,
 
         console.log("unverified Acc: ", unverifiedAccount);
         if (unverifiedAccount) {
@@ -87,7 +84,6 @@ const handleAlumniVerification = async (req, res) => {
         }
 
         //if verified and doesn't have existing unverified account, create alumni record/account with unverified status
-
         // verifying account will be handled on different controller(handleVerifiedAlumni)
 
         const newUnverifiedAlumni = await Alumni.create({

@@ -18,6 +18,7 @@ app.use(express.json());
 app.use("/alumni", require("./routes/alumni.js"));
 app.use("/admin", require("./routes/admin.js"));
 app.use("/alumni-records", require("./routes/trackings/alumniInformations.js"));
+app.use("/alumni-trcking", require("./routes/trackings/alumniTracking.js"));
 app.use("/announcement", require("./routes/announcement.js"));
 app.use("/survey", require("./routes/survey.js"));
 app.use("/activitylog", require("./routes/activityLog.js"));
